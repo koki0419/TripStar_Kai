@@ -102,6 +102,7 @@ public class PlayerMove : MonoBehaviour
     private int chargeCount = 0;
     //回転
     private float rot = 90;
+    private float nowAttackSpeed = 0;
     //攻撃時Speed
     public float attackSpeed
     {
@@ -112,6 +113,8 @@ public class PlayerMove : MonoBehaviour
     {
         get; private set;
     }
+    [Header("追加攻撃するときの残スピード量")]
+    [SerializeField] private float addAttackCheck = 0;
     [Header("スタン時ステータス")]
     //スタン状態からの復活時間
     [SerializeField] private float stunTime;
@@ -135,7 +138,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private int punchSeNum;
     [SerializeField] private int getStarSeNum;
     //-------------フラグ用変数------------------------------
-    //アタックフラグ
+    //アタックフラグ//ダメージをあたえられる
     public bool canDamage
     {
         get; private set;
@@ -156,32 +159,36 @@ public class PlayerMove : MonoBehaviour
     }
 
     //キャラクターの向き
-    private bool isRightDirection;
-    private bool isLeftDirection;
+    private bool isRightDirection;//右を向いている
+    private bool isLeftDirection;//左を向いている
 
-    private bool isUpAttack;
-    private bool isDownAttack;
-    private bool isAttack;
-    private bool canAttack;
-    private bool isStun;
-    private bool notKey;
+    private bool isUpAttack;//上攻撃
+    private bool isDownAttack;//下攻撃
+    private bool isAttack;//通常攻撃
+    private bool canAttack;//攻撃できるか
+    private bool isStun;//スタン状態か
+    private bool notKey;//キー入力制御
 
-    private bool rightNotKey;
-    private bool leftNotKey;
+    private bool rightNotKey;//右キー入力制御
+    private bool leftNotKey;//左キー入力制御
 
-    public bool isHit
+    public bool isHit//攻撃を当てることが出来る
     {
         get; private set;
     }
-
-    private const string groundLayerName = "Ground";
-    private const string gameOverLineLayerName = "GameOverObj";
-    private const string screenOutLineLayerName = "SceneRestrictionBar";
-    private const string enemyLayerName = "Obstacles";
-    private const string enemyHeadLayerName = "ObstaclesHead";
+    public bool enemyBreak//エネミーが破壊されたかどうか
+    {
+        set;get;
+    }
+    //各種レイヤーを設定
+    private const string groundLayerName = "Ground";//地面
+    private const string gameOverLineLayerName = "GameOverObj";//ゲームオーバーライン
+    private const string screenOutLineLayerName = "SceneRestrictionBar";//スクリーン右端制御用
+    private const string enemyLayerName = "Obstacles";//エネミー
+    private const string enemyHeadLayerName = "ObstaclesHead";//エネミーの頭
     //壁ずり対策
-    private const string rightProgressionControlLayerName = "RightProgressionControlObject";
-    private const string leftProgressionControlLayerName = "LeftProgressionControlObject";
+    private const string rightProgressionControlLayerName = "RightProgressionControlObject";//右入力規制用
+    private const string leftProgressionControlLayerName = "LeftProgressionControlObject";//左入力規制用
 
     //初期化
     public void Init()
@@ -199,19 +206,16 @@ public class PlayerMove : MonoBehaviour
         canDamage = false;
         isGround = false;
         isAcquisitionStar = false;
-
-
         SandEffectPlay(false);
         PunchEffectPlay(false);
-
         GetStarEffectPlay(false);
         ChargeEffectPlay(false, false);
-
         isUpAttack = false;
         isDownAttack = false;
         isAttack = false;
         canAttack = true;
         isStun = false;
+        //
     }
 
     // Update is called once per frame
@@ -219,30 +223,41 @@ public class PlayerMove : MonoBehaviour
     {
         switch (objState)
         {
-            //通常時
+                //通常状態
             case ObjState.Normal:
                 NormalModeUpdate(deltaTime);
                 break;
+                //スタン状態
             case ObjState.Stun:
                 StanUpdate();
                 break;
+                //攻撃ラグ状態
             case ObjState.NotAttackMode:
                 NotAttackModeUpdate(deltaTime);
                 break;
+                //チャージ状態
             case ObjState.OnCharge:
                 ChargeUpdate();
                 break;
+                //攻撃状態
             case ObjState.Attack:
                 AttackUpdate();
                 break;
+                //ゲームオーバー状態
             case ObjState.CharacterGameOver:
                 CharacterGameOver();
                 break;
         }
+        //☆獲得時のエフェクト発生
         if (isAcquisitionStar)
         {
             StartCoroutine(OnGetStar());
         }
+
+        //Test
+        //rigidbody.IsSleeping()で物体が動いているか停止しているか
+        //Debug.Log((int)rigidbody.velocity.magnitude);
+        //Debug.Log("enemyBreak : " + enemyBreak);
     }
 
     //--------------関数-----------------------------
@@ -302,9 +317,10 @@ public class PlayerMove : MonoBehaviour
             StartCoroutine(KnockBackIEnumerator());
         }
     }
-
+    //プレイヤーと対象が接触中の判定
     private void OnTriggerStay(Collider other)
     {
+        //地面とエネミー頭は同じ判定→ただし、エネミーの場合はダメージが入るのでレイヤー分け
         if (LayerMask.LayerToName(other.gameObject.layer) == groundLayerName || LayerMask.LayerToName(other.gameObject.layer) == enemyHeadLayerName)
         {
             isGround = true;
@@ -320,8 +336,10 @@ public class PlayerMove : MonoBehaviour
             leftNotKey = true;
         }
     }
+    //プレイヤーと対象が接触したときの判定
     private void OnTriggerEnter(Collider other)
     {
+        //地面とエネミー頭接触時の判定
         if (LayerMask.LayerToName(other.gameObject.layer) == groundLayerName || LayerMask.LayerToName(other.gameObject.layer) == enemyHeadLayerName)
         {
             isGround = true;
@@ -339,7 +357,7 @@ public class PlayerMove : MonoBehaviour
         }
 
     }
-    //この当たり判定から出たとき
+    //プレイヤーが対象との接触しなくなった時
     private void OnTriggerExit(Collider other)
     {
         //地面に設置しているとき
@@ -429,25 +447,27 @@ public class PlayerMove : MonoBehaviour
     /// <param name="deltaTime">GameSceneManagerから受け取ります</param>
     void CharacterMove(float horizontal, float deltaTime)
     {
-
-
+        //移動
         var velocity = rigidbody.velocity;
         velocity.x = horizontal * moveSpeed;
+        //地面に接触していない時
         if (!isGround)
         {
             velocity.x = horizontal * airUpMoveSpeed;
-
             // 下降中
+            //ジャンプの上りと降りでスピードが異なるため
+            //dragを下げている
             if (velocity.y < 0)
             {
                 rigidbody.drag = 0;
                 velocity.x = horizontal * airDownMoveSpeed;
             }
         }
-
+        //knockbackを受けたらキー入力を禁止する
         if (notKey)
         {
-            //キャラクターの向き
+            //キャラクターの向きに合わせて
+            //x軸にknockbackさせる
             if (horizontal > 0)
             {
                 velocity.x = -knockbackMoveSpeed;
@@ -457,7 +477,8 @@ public class PlayerMove : MonoBehaviour
                 velocity.x = knockbackMoveSpeed;
             }
         }
-
+        //左右入力規制が入った時
+        //入力を禁止する
         if (rightNotKey && horizontal > 0)
         {
             velocity.x = 0;
@@ -466,17 +487,19 @@ public class PlayerMove : MonoBehaviour
         {
             velocity.x = 0;
         }
-        rigidbody.velocity = velocity;
-
-        //キャラクターの向き
+        rigidbody.velocity = velocity;//velocityの更新
+        //キャラクターの向きを修正します
+        //入力キーの方向に向きを変えます
         if (horizontal > 0)
         {
+            //右向き
             transform.localRotation = Quaternion.AngleAxis(rot, new Vector3(0, 1, 0));
             isRightDirection = true;
             isLeftDirection = false;
         }
         else if (horizontal < 0)
         {
+            //左向き
             transform.localRotation = Quaternion.AngleAxis(-rot, new Vector3(0, 1, 0));
             isRightDirection = false;
             isLeftDirection = true;
@@ -491,58 +514,23 @@ public class PlayerMove : MonoBehaviour
     /// <param name="horizontal">左右キー入力値</param>
     void DirectionMove(float horizontal)
     {
-        //rigidbody.velocity = Vector3.zero.normalized;
-        //キャラクターの向き
+        //キャラクターの向きを修正します
+        //入力キーの方向に向きを変えます
         if (horizontal > 0)
         {
+            //右向き
             transform.rotation = Quaternion.AngleAxis(rot, new Vector3(0, 1, 0));
             isRightDirection = true;
             isLeftDirection = false;
         }
         else if (horizontal < 0)
         {
+            //左向き
             transform.rotation = Quaternion.AngleAxis(-rot, new Vector3(0, 1, 0));
             isRightDirection = false;
             isLeftDirection = true;
         }
 
-    }
-
-    //攻撃時の移動
-    /// <summary>
-    /// チャージ攻撃時のキャラクターの移動
-    /// 上下左右の動きを管理しています
-    /// </summary>
-    /// <param name="speedForce">チャージ攻撃時の移動量</param>
-    void MoveAttack()
-    {
-        var rig = rigidbody;
-        rig.drag = dragPower;
-        attackSpeed = (chargeCount * speedForce);
-        if (!isUpAttack && !isDownAttack)
-        {
-            //右向きの時
-            if (isRightDirection && !isLeftDirection)
-            {
-                rig.AddForce(Vector3.right * attackSpeed, ForceMode.Impulse);
-            }
-            //左向きの時
-            else
-            {
-                rig.AddForce(Vector3.left * attackSpeed, ForceMode.Impulse);
-            }
-        }
-        else if (isUpAttack)
-        {
-            attackSpeed = (chargeCount * speedForceUp);
-            rig.AddForce(Vector3.up * attackSpeed, ForceMode.Impulse);
-        }
-        else if (isDownAttack)
-        {
-            rig.AddForce(Vector3.down * attackSpeed, ForceMode.Impulse);
-        }
-
-        isChargeFlag = false;
     }
 
     /// <summary>
@@ -654,24 +642,7 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-    //アタック時
-    public IEnumerator OnAttack(float animationTime)
-    {
-        yield return new WaitForSeconds(animationTime);
-        canDamage = false;
-        chargeNowHand = 0.0f;
-        FreezePositionCancel();
-        PunchEffectPlay(false);
-        isUpAttack = false;
-        isDownAttack = false;
-        chargeCount = 0;
-        CharacterAnimation("ExitAnimation");
-        canAttack = true;
-        isHit = false;
-        if (isGround) objState = ObjState.Normal;
-        else objState = ObjState.NotAttackMode;
 
-    }
     /// <summary>
     /// ☆獲得時の獲得エフェクトを表示する為のコルーチン
     /// </summary>
@@ -1000,9 +971,73 @@ public class PlayerMove : MonoBehaviour
             StartCoroutine(OnAttack(animationTime));
             MoveAttack();
         }
+        if (enemyBreak && chargeCount == 5)
+        {
+            enemyBreak = false;
+            MoveAttack();
+        }
+    }
+    //攻撃時の移動
+    /// <summary>
+    /// チャージ攻撃時のキャラクターの移動
+    /// 上下左右の動きを管理しています
+    /// </summary>
+    /// <param name="speedForce">チャージ攻撃時の移動量</param>
+    void MoveAttack(bool onceAgainAttack = false)
+    {
+        var rig = rigidbody;
+        rig.drag = dragPower;
+        if (!onceAgainAttack)
+        {
+            attackSpeed = (chargeCount * speedForce);
+        }
+        else
+        {
+            attackSpeed = (chargeCount * (speedForce/2));
+        }
+        if (!isUpAttack && !isDownAttack)
+        {
+            //右向きの時
+            if (isRightDirection && !isLeftDirection)
+            {
+                rig.AddForce(Vector3.right * attackSpeed, ForceMode.Impulse);
+            }
+            //左向きの時
+            else
+            {
+                rig.AddForce(Vector3.left * attackSpeed, ForceMode.Impulse);
+            }
+        }
+        else if (isUpAttack)
+        {
+            attackSpeed = (chargeCount * speedForceUp);
+            rig.AddForce(Vector3.up * attackSpeed, ForceMode.Impulse);
+        }
+        else if (isDownAttack)
+        {
+            rig.AddForce(Vector3.down * attackSpeed, ForceMode.Impulse);
+        }
+
+        isChargeFlag = false;
+    }
+    //アタック時
+    public IEnumerator OnAttack(float animationTime)
+    {
+        yield return new WaitForSeconds(animationTime);
+        canDamage = false;
+        chargeNowHand = 0.0f;
+        FreezePositionCancel();
+        PunchEffectPlay(false);
+        isUpAttack = false;
+        isDownAttack = false;
+        chargeCount = 0;
+        CharacterAnimation("ExitAnimation");
+        canAttack = true;
+        isHit = false;
+        if (isGround) objState = ObjState.Normal;
+        else objState = ObjState.NotAttackMode;
 
     }
-
     void CharacterGameOver()
     {
         StartCoroutine(GameOverIEnumerator());

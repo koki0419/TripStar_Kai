@@ -107,6 +107,7 @@ public class ObstacleManager : MonoBehaviour
             //ObjHｐがOになった時
             if (foundationHP <= 0)
             {
+                playerMove.enemyBreak = true;
                 ObjectBreak();
                 playerMove.IsGround = false;
                 if (spawnStarNum != 0)
