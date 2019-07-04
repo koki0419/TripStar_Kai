@@ -82,7 +82,7 @@ public class ObstacleSpawn : MonoBehaviour
         csvInport.DateRead(fileName);
         //ポジション＆ポイントデータを代入
         int index = 2;
-        for (int i = 1; i < csvInport.csvDatas.Count-1; i++)
+        for (int i = 1; i < csvInport.csvDatas.Count - 1; i++)
         {
             index = 2;
             switch (csvInport.csvDatas[i][index])
@@ -115,8 +115,7 @@ public class ObstacleSpawn : MonoBehaviour
             amountOfMovement[i - 1].y = 0;
             amountOfMovement[i - 1].z = 0;
             // HPを取得
-            // obataclesHp[i - 1] = int.Parse(csvInport.csvDatas[i][index]);
-            Debug.Log(csvInport.csvDatas[i][index]);
+            obataclesHp[i - 1] = int.Parse(csvInport.csvDatas[i][index]);
             index++;
             // 徘徊速さ
             searchMoveSpeed[i - 1] = float.Parse(csvInport.csvDatas[i][index]);

@@ -193,6 +193,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   breakEffect: {fileID: 3707738628525626493}
   moaiRenderer: {fileID: 3757774616428309512}
+  tragetCamera: {fileID: 0}
   playerMove: {fileID: 0}
   obstacleSpawn: {fileID: 0}
   spawnStarNum: 0
@@ -215,7 +216,6 @@ MonoBehaviour:
   searchMoveSpeed: 6
   lockOnMoveSpeed: 5000
   attackUpOnMoveSpeed: 1000
-  removeMoveSpeed: 5
   defaultAttackTime: 1
   sandEffect: {fileID: 9055235505449671255}
   enemyAnimator: {fileID: 2543496756455730131}
@@ -397,7 +397,7 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 7922827525300995752, guid: 0b215b342ce601c4d96170c49bcf08db,
+    - target: {fileID: 7922827525022080599, guid: 0b215b342ce601c4d96170c49bcf08db,
         type: 3}
       propertyPath: m_Layer
       value: 13
@@ -407,7 +407,7 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 13
       objectReference: {fileID: 0}
-    - target: {fileID: 7922827525022080599, guid: 0b215b342ce601c4d96170c49bcf08db,
+    - target: {fileID: 7922827525300995752, guid: 0b215b342ce601c4d96170c49bcf08db,
         type: 3}
       propertyPath: m_Layer
       value: 13

@@ -1128,7 +1128,7 @@ MonoBehaviour:
   starSpawn: {fileID: 1231812596}
   damageTextSpawn: {fileID: 1921160815}
   obstacleSpawn: {fileID: 1531786342}
-  debug: 0
+  debug: 1
 --- !u!4 &185138400
 Transform:
   m_ObjectHideFlags: 0
@@ -11220,26 +11220,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 4017034652658340519, guid: aaa686a59c6e88843abd9426202be9c6,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7591038753852166544, guid: aaa686a59c6e88843abd9426202be9c6,
-        type: 3}
-      propertyPath: secondOffensivePower
-      value: 1000
-      objectReference: {fileID: 0}
-    - target: {fileID: 7591038753852166544, guid: aaa686a59c6e88843abd9426202be9c6,
-        type: 3}
-      propertyPath: stunAmountMovement
-      value: 250
-      objectReference: {fileID: 0}
-    - target: {fileID: 7591038753852166544, guid: aaa686a59c6e88843abd9426202be9c6,
-        type: 3}
-      propertyPath: stunAirAmountMovement
-      value: 250
       objectReference: {fileID: 0}
     - target: {fileID: 7591038753852166544, guid: aaa686a59c6e88843abd9426202be9c6,
         type: 3}
