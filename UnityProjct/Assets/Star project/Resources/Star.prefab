@@ -64,12 +64,9 @@ MonoBehaviour:
   silverStarMaterial: {fileID: 2100000, guid: d48ab881e5308184db31e2220bd0a7b6, type: 2}
   bronzeStarMaterial: {fileID: 2100000, guid: 4abda62a41f47a44299cf99889e0deb3, type: 2}
   starRenderer: {fileID: 369247713050440553}
-  starGenerator: {fileID: 0}
-  starPoint: 1
   goldStarPoint: 3
   silverStarPoint: 2
   bronzeStarPoint: 1
-  starSponType: 0
 --- !u!95 &8502124214705256432
 Animator:
   serializedVersion: 3

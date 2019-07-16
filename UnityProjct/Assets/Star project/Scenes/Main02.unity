@@ -1050,44 +1050,6 @@ MonoBehaviour:
   starDysplayCount: 18
   starPrefab: {fileID: 301987961005163294, guid: fe97a53f4f193f44f8109d35f09a11cc,
     type: 3}
-  cleatStarNumMax: 35
-  starSponPosition:
-  - {x: 3, y: 3.3, z: 0}
-  - {x: 3, y: 1, z: 0}
-  - {x: 4, y: 2.2, z: 0}
-  - {x: 6.5, y: 3.3, z: 0}
-  - {x: 6.5, y: 1, z: 0}
-  - {x: 7.5, y: 2.2, z: 0}
-  - {x: 15.3, y: 0.6, z: 0}
-  - {x: 15.3, y: 1.5, z: 0}
-  - {x: 15.3, y: 6, z: 0}
-  - {x: 19.5, y: 1.6, z: 0}
-  - {x: 20.5, y: 2.7, z: 0}
-  - {x: 22, y: 3.5, z: 0}
-  - {x: 23.5, y: 2.7, z: 0}
-  - {x: 24.5, y: 1.6, z: 0}
-  - {x: 36.1, y: 3, z: 0}
-  - {x: 36.8, y: 3.5, z: 0}
-  - {x: 37.5, y: 4, z: 0}
-  - {x: 37.5, y: 3, z: 0}
-  - {x: 37.5, y: 2, z: 0}
-  - {x: 37.5, y: 1, z: 0}
-  - {x: 38.2, y: 3.5, z: 0}
-  - {x: 38.9, y: 3, z: 0}
-  - {x: 49, y: 1.5, z: 0}
-  - {x: 49, y: 3, z: 0}
-  - {x: 49, y: 4.5, z: 0}
-  - {x: 50.5, y: 1.5, z: 0}
-  - {x: 50.5, y: 3, z: 0}
-  - {x: 50.5, y: 4.5, z: 0}
-  - {x: 52, y: 1.5, z: 0}
-  - {x: 52, y: 3, z: 0}
-  - {x: 52, y: 4.5, z: 0}
-  - {x: 69.3, y: 6, z: 0}
-  - {x: 86, y: 2.5, z: 0}
-  - {x: 87.5, y: 3, z: 0}
-  - {x: 89, y: 2.5, z: 0}
-  starPoint: 0100000001000000010000000100000001000000010000000300000003000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000010000000300000001000000010000000300000001000000010000000300000003000000010000000100000001000000
   fileName: TripStar_StarPos_Stage2
 --- !u!114 &183918048
 MonoBehaviour:
@@ -7606,85 +7568,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9479faa2cfe428a49ad175e328cfe18a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerMove: {fileID: 1555640408}
+  playerMove: {fileID: 0}
   playerObj: {fileID: 1555640410}
   tragetCamera: {fileID: 534669904}
   spawnMax: 5
   obstaclesDysplayCount: 4
   obstaclesPrefab: {fileID: 3757774616426377930, guid: 09737e884a9ba7344a2c858b64d9a824,
     type: 3}
-  cleatEnemyNumMax: 16
-  obataclesSponPosition:
-  - {x: 10, y: 2, z: 0}
-  - {x: 15.3, y: 2.85, z: 0}
-  - {x: 21.5, y: 0.7, z: 0}
-  - {x: 28, y: 2, z: 0}
-  - {x: 42, y: 7, z: 0}
-  - {x: 55, y: 7, z: 0}
-  - {x: 62.5, y: 7, z: 0}
-  - {x: 64, y: 2, z: 0}
-  - {x: 80, y: 2, z: 0}
-  - {x: 83, y: 2, z: 0}
-  - {x: 94, y: 2, z: 0}
-  - {x: 98.5, y: 7, z: 0}
-  - {x: 102, y: 7, z: 0}
-  - {x: 103, y: 2, z: 0}
-  - {x: 118, y: 2, z: 0}
-  - {x: 120, y: 2, z: 0}
-  obataclesHp: 40420f0080841e00c0c62d0080841e0040420f0060e3160040420f004016400080841e00a0252600a025260080841e0060e31600a0252600c0c62d0080841e00
-  spawnStarNum: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-  enemyTyp: 02000000010000000100000002000000030000000300000003000000020000000200000002000000020000000300000003000000020000000200000002000000
-  amountOfMovement:
-  - {x: -4, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: -2, y: 0, z: 0}
-  - {x: -3, y: 0, z: 0}
-  - {x: -6, y: 0, z: 0}
-  - {x: -6, y: 0, z: 0}
-  - {x: -3, y: 0, z: 0}
-  - {x: -4, y: 0, z: 0}
-  - {x: -4, y: 0, z: 0}
-  - {x: -3, y: 0, z: 0}
-  - {x: -8, y: 0, z: 0}
-  - {x: 8, y: 0, z: 0}
-  - {x: 5, y: 0, z: 0}
-  - {x: -3, y: 0, z: 0}
-  - {x: -6, y: 0, z: 0}
-  searchMoveSpeed:
-  - 4
-  - 0
-  - 0
-  - 2
-  - 3
-  - 3
-  - 3
-  - 4
-  - 6
-  - 2
-  - 4
-  - 2
-  - 4
-  - 3
-  - 6
-  - 6
-  defaultAttackTime:
-  - 3
-  - 0
-  - 0
-  - 2
-  - 1
-  - 1
-  - 0.5
-  - 2
-  - 3
-  - 1.5
-  - 3
-  - 1
-  - 1
-  - 2
-  - 1.5
-  - 0.5
   fileName: TripStar_EnemyPos_Stage2
 --- !u!1 &1533053994
 GameObject:
@@ -7827,6 +7717,41 @@ PrefabInstance:
       propertyPath: starChargeController
       value: 
       objectReference: {fileID: 1231812595}
+    - target: {fileID: 7591038753852166544, guid: aaa686a59c6e88843abd9426202be9c6,
+        type: 3}
+      propertyPath: attackJabTime
+      value: 0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 7591038753852166544, guid: aaa686a59c6e88843abd9426202be9c6,
+        type: 3}
+      propertyPath: chargeAttackTime
+      value: 0.85
+      objectReference: {fileID: 0}
+    - target: {fileID: 7591038753852166544, guid: aaa686a59c6e88843abd9426202be9c6,
+        type: 3}
+      propertyPath: chargeAttackUpTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7591038753852166544, guid: aaa686a59c6e88843abd9426202be9c6,
+        type: 3}
+      propertyPath: chargeAttackDownTime
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7591038753852166544, guid: aaa686a59c6e88843abd9426202be9c6,
+        type: 3}
+      propertyPath: stunAmountMovement
+      value: 250
+      objectReference: {fileID: 0}
+    - target: {fileID: 7591038753852166544, guid: aaa686a59c6e88843abd9426202be9c6,
+        type: 3}
+      propertyPath: stunAirAmountMovement
+      value: 250
+      objectReference: {fileID: 0}
+    - target: {fileID: 7591038753852166544, guid: aaa686a59c6e88843abd9426202be9c6,
+        type: 3}
+      propertyPath: jumpPower
+      value: 1000
+      objectReference: {fileID: 0}
     - target: {fileID: 7591038753852166573, guid: aaa686a59c6e88843abd9426202be9c6,
         type: 3}
       propertyPath: m_LocalPosition.x

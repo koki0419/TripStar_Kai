@@ -8,7 +8,6 @@ public abstract class SingletonMonoBehaviour<T> : MonoBehaviour where T : Single
         singletonにしたいスクリプト(Controller,Managerとか)のMonoBehaviourの部分をSingletonMonoBehaviour<スクリプト名>にする
         あとは他スクリプトからスクリプト名.Instance.呼び出したい変数,関数名(Public)で呼び出せる
     */
-
     protected static readonly string[] findTags =
     {
         "GameController",
@@ -35,10 +34,8 @@ public abstract class SingletonMonoBehaviour<T> : MonoBehaviour where T : Single
                             return instance;
                     }
                 }
-
                 Debug.LogWarning(string.Format("{0} is not found", type.Name));
             }
-
             return instance;
         }
     }
@@ -59,7 +56,6 @@ public abstract class SingletonMonoBehaviour<T> : MonoBehaviour where T : Single
         {
             return true;
         }
-
         Destroy(this);
         return false;
     }

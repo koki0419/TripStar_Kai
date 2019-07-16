@@ -12,9 +12,7 @@ public class GameOverLineController : MonoBehaviour
         Awakening,//覚醒状態
     }
     public GameOverLineState gameOverLineState = GameOverLineState.None;
-
     private Animator gameOverLineAnimator;
-
     [SerializeField] private　int awakeningSeNum;
 
     public void Init()
@@ -33,7 +31,6 @@ public class GameOverLineController : MonoBehaviour
                 break;
         }
     }
-
     public void PlayMoaiAwakeningSE()
     {
         Singleton.Instance.soundManager.StopPlayerSe();

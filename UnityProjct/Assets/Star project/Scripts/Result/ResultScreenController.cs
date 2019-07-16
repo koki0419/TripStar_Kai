@@ -17,7 +17,6 @@ namespace StarProject.Result
             GameEnd,//すべてのゲームが終了したとき
         }
         private ResultState resultState = ResultState.None;
-
         //ボタン選択のステータス
         private enum ResultRetryState
         {
@@ -27,7 +26,6 @@ namespace StarProject.Result
             Exit,//終了ダブルチェック選択時
         }
         private ResultRetryState resultRetryState = ResultRetryState.None;
-
         [SerializeField] private Animator resultAnimator = null;
         //フェード関係
         [Header("フェード関係")]
@@ -37,13 +35,11 @@ namespace StarProject.Result
         private Image fadeImage = null;
         [SerializeField] private Color fadeOutColor;
         [SerializeField] private float fadeOutTime;
-
         //ネクストステージダイアログ
         [SerializeField] private GameObject nextStageDiaLog = null;
         [SerializeField] private Image nextStageButton = null;
         [SerializeField] private Image exitTitleButton = null;
         [SerializeField] private Image retryButton = null;
-
         [Header("次のステージ選択ダイアログ用画像")]
         [SerializeField] private Sprite nextStageNormalSprite = null;
         [SerializeField] private Sprite nextStageSelectSprite = null;
@@ -51,7 +47,6 @@ namespace StarProject.Result
         [SerializeField] private Sprite exitTitleSelectSprite = null;
         [SerializeField] private Sprite retryNormalSprite = null;
         [SerializeField] private Sprite retrySelectSprite = null;
-
         //2重確認ダイアログ用画像
         [SerializeField] private GameObject exitDoubleCheckDialog = null;
         [SerializeField] private GameObject retryDoubleCheckDialog = null;
@@ -76,10 +71,8 @@ namespace StarProject.Result
         private int exitButtonSelectNumMax = 2;
         //選択ステージ番号を格納
         private int stageNum;
-
         private float resultAnimationTime;
         private float resultAnimationTimeMax = 10.0f;
-
         //総ダメージの表示
         static public int all_damage = 0;
         static public int allStar = 0;
@@ -97,19 +90,15 @@ namespace StarProject.Result
         [SerializeField] private Image rankUI = null;
         //クリアランク表示画像
         [SerializeField] Sprite[] rankSprite = null;
-
         private const int MaxScore = 99999999;
         [Header("ランク振り分けスコア")]
         [SerializeField] private int rankAScore;
         [SerializeField] private int rankBScore;
         [SerializeField] private int rankCScore;
-
         //全ステージ数
         private const int ollStageNum = 3;
-
         [SerializeField] private bool debug;
         [SerializeField] private int debugStage = 3;
-
         // Start is called before the first frame update
         IEnumerator Start()
         {
@@ -441,7 +430,6 @@ namespace StarProject.Result
                 fadeImage.color = color;
                 yield return null;
             }
-
             fadeImage.color = targetColor;
         }
         /// <summary>
@@ -543,9 +531,6 @@ namespace StarProject.Result
             else if (allDamage < 1000000) ScoreUIDysplay(6, true);
             else if (allDamage < 10000000) ScoreUIDysplay(7, true);
             else ScoreUIDysplay(scoreObj.Length, true);
-
-
-
         }
         /// <summary>
         /// スコアによって最大桁数以上の数値UIを非表示にするために使用します

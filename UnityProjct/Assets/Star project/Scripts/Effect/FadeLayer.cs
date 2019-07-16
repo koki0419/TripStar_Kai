@@ -54,13 +54,11 @@ public class FadeLayer : MonoBehaviour
         float t = 0;
         while (t < period)
         {
-
             t += Time.deltaTime;
             Color color = Color.Lerp(startColor, targetColor, t / period);
             image.color = color;
             yield return null;
         }
-
         image.color = targetColor;
     }
 

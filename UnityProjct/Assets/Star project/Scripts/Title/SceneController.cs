@@ -1,7 +1,5 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Video;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using StarProject.Gamemain;
@@ -18,7 +16,6 @@ namespace StarProject.Title
             Debug,
         }
         private TitleTyp titleTyp = TitleTyp.None;
-
         private enum DebugTyp
         {
             None,
@@ -27,7 +24,6 @@ namespace StarProject.Title
             SE,
         }
         private DebugTyp debugTyp = DebugTyp.None;
-
         //フェード関係
         [Header("フェード関係")]
         [SerializeField] private GameObject fadeImageObj = null;
@@ -36,7 +32,6 @@ namespace StarProject.Title
         private Image fadeImage;
         [SerializeField] private Color fadeOutColor;
         [SerializeField] private float fadeOutTime;
-
         //ボタン選択用ナンバー
         [Header("ボタン")]
         [SerializeField] private int stageMax = 0;
@@ -46,26 +41,21 @@ namespace StarProject.Title
         [SerializeField] private Sprite selectButtonSelectSprite = null;
         [SerializeField] private Sprite exitButtonNormalSprite = null;
         [SerializeField] private Sprite exitButtonSelectSprite = null;
-
         //タイトル終了ボタン選択ナンバー
         private int buttonNum;
-
         //EXITダイアログUI
         [Header("EXIT用テクスチャー")]
         [SerializeField] private GameObject exitDialogUI = null;
-
         [SerializeField] private Image yesButton = null;
         [SerializeField] private Image noButton = null;
         [SerializeField] private Sprite exitButtonYesNormalSprite = null;
         [SerializeField] private Sprite exitButtonYesSelectSprite = null;
         [SerializeField] private Sprite exitButtonNoNormalSprite = null;
         [SerializeField] private Sprite exitButtonNoSelectSprite = null;
-
         //EXITボタン選択用ナンバー
         private int exitSelectNum = 0;
         //ゲームパッドjoyコン制御用
         private int countNum;
-
         private bool debugFlag = false;
 
         // Start is called before the first frame update
@@ -108,7 +98,6 @@ namespace StarProject.Title
                     DebugUpdate();
                     break;
             }
-
         }
         int debugSelectIndex = 0;
         int debugJoyCount = 0;
@@ -125,7 +114,6 @@ namespace StarProject.Title
 
                 float dx = Input.GetAxis("Horizontal");
                 float dy = Input.GetAxis("Vertical");
-
                 if (dy < 0 && debugJoyCount == 0)
                 {
                     debugSelectIndex++;
@@ -165,7 +153,6 @@ namespace StarProject.Title
                             SoundManager.audioVolume += 0.01f;
                             if (SoundManager.audioVolume > 1) SoundManager.audioVolume = 1;
                         }
-
                         GUI.Label(new Rect(100, 150, 500, 500), "AudioVolume:", myLabelStyle);
                         SoundManager.audioVolume = GUI.HorizontalSlider(new Rect(100, 200, debugSelectWidhtGUISize, debugSelectHeightGUISize), SoundManager.audioVolume, 0.0F, 1.0F);
                         GUI.Label(new Rect(100, 250, 250, 250), "BGMVolume:", myLabelStyle);
@@ -185,15 +172,13 @@ namespace StarProject.Title
                             SoundManager.bgmVolume += 0.01f;
                             if (SoundManager.bgmVolume > 1) SoundManager.bgmVolume = 1;
                         }
-
                         GUI.Label(new Rect(100, 150, 250, 250), "AudioVolume:", myLabelStyle);
                         SoundManager.audioVolume = GUI.HorizontalSlider(new Rect(100, 200, debugNormalWidhtGUISize, debugNormalHeightGUISize), SoundManager.audioVolume, 0.0F, 1.0F);
                         GUI.Label(new Rect(100, 250, 500, 500), "BGMVolume:", myLabelStyle);
                         SoundManager.bgmVolume = GUI.HorizontalSlider(new Rect(100, 300, debugSelectWidhtGUISize, debugSelectHeightGUISize), SoundManager.bgmVolume, 0.0F, 1.0F);
                         GUI.Label(new Rect(100, 350, 250, 250), "SeVolume:", myLabelStyle);
                         SoundManager.seVolume = GUI.HorizontalSlider(new Rect(100, 400, debugNormalWidhtGUISize, debugNormalHeightGUISize), SoundManager.seVolume, 0.0F, 1.0F);
-
-                        if(SoundManager.bgmVolume != 0) SoundManager.audioVolume = 1.0f;
+                        if (SoundManager.bgmVolume != 0) SoundManager.audioVolume = 1.0f;
                         break;
                     case DebugTyp.SE:
                         // SEオーディオに影響します
@@ -256,7 +241,6 @@ namespace StarProject.Title
             {
                 countNum = 0;
             }
-
             if (Input.GetKeyDown(KeyCode.Return) || Input.GetButtonDown("SelectOk"))
             {
                 switch (buttonNum)
@@ -301,7 +285,6 @@ namespace StarProject.Title
             {
                 countNum = 0;
             }
-
             if (Input.GetKeyDown(KeyCode.Return) || Input.GetButtonDown("SelectOk"))
             {
                 switch (exitSelectNum)
@@ -386,13 +369,11 @@ namespace StarProject.Title
             float t = 0;
             while (t < period)
             {
-
                 t += Time.deltaTime;
                 Color color = Color.Lerp(startColor, targetColor, t / period);
                 fadeImage.color = color;
                 yield return null;
             }
-
             fadeImage.color = targetColor;
         }
         /// <summary>

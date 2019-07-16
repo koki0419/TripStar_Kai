@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -36,13 +35,10 @@ public class UiManager : MonoBehaviour
     [SerializeField] private float fadeOutTime;
     [SerializeField] private Color fadeInColor;
     [SerializeField] private float fadeInTime;
-
     //ゲームオーバー時表示UI
     [SerializeField] private GameObject gameOvreUI = null;
-
     //ゲームクリア時表示用UI
     [SerializeField] private GameObject gameClearUI = null;
-
     //ポーズ時ボタン
     //ポーズ時表示用UI
     [SerializeField] private GameObject pauseDiaLog = null;
@@ -54,14 +50,11 @@ public class UiManager : MonoBehaviour
     [SerializeField] private Sprite pauseSelectRetrySprite = null;
     [SerializeField] private Sprite pauseNormalTitleSprite = null;
     [SerializeField] private Sprite pauseSelectTitleSprite = null;
-
     private int countNum;
-
     //ダイアログキャンバス
     [SerializeField] private GameObject dialogUICanvas;
     //star関係canvas
     [SerializeField] private GameObject starUICanvas = null;
-
     private int pauseButtonSelectNum = 0;
     private int pauseButtonSelectNumMax = 2;
     private int gameOverButtonSelectNum = 0;
@@ -70,7 +63,6 @@ public class UiManager : MonoBehaviour
     private int exitButtonSelectNumMax = 2;
     private int retryButtonSelectNum = 0;
     private int retryButtonSelectNumMax = 2;
-
     //ゲームオーバーダイアログ
     [SerializeField] private GameObject gameOverDiaLog = null;
     [SerializeField] private Image gameOverRetryButton = null;
@@ -167,7 +159,6 @@ public class UiManager : MonoBehaviour
     {
         fadeLayer.ForceColor(fadeColor);
     }
-
     /// <summary>
     /// ポーズ時に操作できる
     /// ボーズボタンの選択を行います
@@ -251,8 +242,6 @@ public class UiManager : MonoBehaviour
                 break;
         }
     }
-
-
     /// <summary>
     /// ポーズ時のボタン選択
     /// 選択したボタンの色を変更します

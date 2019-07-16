@@ -710,30 +710,6 @@ MonoBehaviour:
   starDysplayCount: 10
   starPrefab: {fileID: 301987961005163294, guid: fe97a53f4f193f44f8109d35f09a11cc,
     type: 3}
-  cleatStarNumMax: 21
-  starSponPosition:
-  - {x: 3.1, y: 1, z: 0}
-  - {x: 3.1, y: 2, z: 0}
-  - {x: 3.1, y: 3, z: 0}
-  - {x: 14.8, y: 4.5, z: 0}
-  - {x: 15.7, y: 1, z: 0}
-  - {x: 16.4, y: 5, z: 0}
-  - {x: 17.1, y: 1, z: 0}
-  - {x: 18, y: 4.5, z: 0}
-  - {x: 27.8, y: 1.1, z: 0}
-  - {x: 30.3, y: 5, z: 0}
-  - {x: 32.3, y: 5, z: 0}
-  - {x: 34.2, y: 5, z: 0}
-  - {x: 36.2, y: 5, z: 0}
-  - {x: 44, y: 1.8, z: 0}
-  - {x: 45.5, y: 3.7, z: 0}
-  - {x: 47.3, y: 5, z: 0}
-  - {x: 54.2, y: 4, z: 0}
-  - {x: 56.9, y: 1.2, z: 0}
-  - {x: 58.6, y: 8.8, z: 0}
-  - {x: 60.5, y: 9.8, z: 0}
-  - {x: 62.1, y: 8, z: 0}
-  starPoint: 010000000100000001000000020000000300000003000000030000000200000001000000010000000100000001000000010000000100000001000000010000000200000003000000010000000300000001000000
   fileName: TripStar_StarPos_Stage3
 --- !u!114 &183918048
 MonoBehaviour:
@@ -7921,66 +7897,6 @@ MonoBehaviour:
   obstaclesDysplayCount: 4
   obstaclesPrefab: {fileID: 3757774616426377930, guid: 09737e884a9ba7344a2c858b64d9a824,
     type: 3}
-  cleatEnemyNumMax: 13
-  obataclesSponPosition:
-  - {x: 0, y: 2, z: 0}
-  - {x: 9, y: 2, z: 0}
-  - {x: 19.8, y: 7, z: 0}
-  - {x: 33, y: 7.5, z: 0}
-  - {x: 58.75, y: 2, z: 0}
-  - {x: 72, y: 2, z: 0}
-  - {x: 78, y: 7, z: 0}
-  - {x: 81.5, y: 2, z: 0}
-  - {x: 89, y: 2, z: 0}
-  - {x: 93.5, y: 7, z: 0}
-  - {x: 102, y: 7, z: 0}
-  - {x: 107, y: 2, z: 0}
-  - {x: 110, y: 2, z: 0}
-  obataclesHp: 40420f00804f120040420f0040420f00c0c62d0080841e0080841e00a0252600c0c62d00601823006018230000093d0040420f00
-  spawnStarNum: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-  enemyTyp: 01000000020000000300000003000000010000000200000003000000020000000200000003000000030000000100000002000000
-  amountOfMovement:
-  - {x: 0, y: 0, z: 0}
-  - {x: -5, y: 0, z: 0}
-  - {x: -4, y: 0, z: 0}
-  - {x: 6, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 3, y: 0, z: 0}
-  - {x: 8, y: 0, z: 0}
-  - {x: 9, y: 0, z: 0}
-  - {x: 9, y: 0, z: 0}
-  - {x: 7, y: 0, z: 0}
-  - {x: 6, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 3, y: 0, z: 0}
-  searchMoveSpeed:
-  - 0
-  - 4
-  - 4
-  - 3
-  - 0
-  - 2
-  - 2
-  - 3
-  - 3
-  - 4
-  - 3
-  - 0
-  - 2
-  defaultAttackTime:
-  - 0
-  - 2
-  - 1.5
-  - 3
-  - 0
-  - 3
-  - 1.5
-  - 2
-  - 4
-  - 1
-  - 1
-  - 0
-  - 1
   fileName: TripStar_EnemyPos_Stage3
 --- !u!1 &1533053994
 GameObject:
@@ -9456,6 +9372,41 @@ PrefabInstance:
       propertyPath: starChargeController
       value: 
       objectReference: {fileID: 1231812595}
+    - target: {fileID: 7591038753852166544, guid: aaa686a59c6e88843abd9426202be9c6,
+        type: 3}
+      propertyPath: jumpPower
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 7591038753852166544, guid: aaa686a59c6e88843abd9426202be9c6,
+        type: 3}
+      propertyPath: stunAmountMovement
+      value: 250
+      objectReference: {fileID: 0}
+    - target: {fileID: 7591038753852166544, guid: aaa686a59c6e88843abd9426202be9c6,
+        type: 3}
+      propertyPath: stunAirAmountMovement
+      value: 250
+      objectReference: {fileID: 0}
+    - target: {fileID: 7591038753852166544, guid: aaa686a59c6e88843abd9426202be9c6,
+        type: 3}
+      propertyPath: attackJabTime
+      value: 0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 7591038753852166544, guid: aaa686a59c6e88843abd9426202be9c6,
+        type: 3}
+      propertyPath: chargeAttackTime
+      value: 0.85
+      objectReference: {fileID: 0}
+    - target: {fileID: 7591038753852166544, guid: aaa686a59c6e88843abd9426202be9c6,
+        type: 3}
+      propertyPath: chargeAttackDownTime
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7591038753852166544, guid: aaa686a59c6e88843abd9426202be9c6,
+        type: 3}
+      propertyPath: chargeAttackUpTime
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7591038753852166573, guid: aaa686a59c6e88843abd9426202be9c6,
         type: 3}
       propertyPath: m_LocalPosition.x

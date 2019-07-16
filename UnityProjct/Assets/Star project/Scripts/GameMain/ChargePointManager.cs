@@ -7,22 +7,22 @@ using UnityEngine;
 public class ChargePointManager
 {
     //小さい☆の獲得状況
-    public int starChildCount
+    public int StarChildCount
     {
         get;set;
     }
-    public float starChildCountMax
+    public float StarChildCountMax
     {
         get;private set;
     }
     //小さい☆の獲得状況スキップ
-    public int starChildCountSkip
+    public int StarChildCountSkip
     {
         set; get;
     }
 
     //一気に沢山の星を獲得したかどうか
-    public bool isSkipStar
+    public bool IsSkipStar
     {
         set;get;
     }
@@ -31,10 +31,10 @@ public class ChargePointManager
     public void Init()
     {
         //チャージポイント
-        starChildCount = 0;
-        starChildCountSkip = 0;
-        starChildCountMax = 50;
-        isSkipStar = false;
+        StarChildCount = 0;
+        StarChildCountSkip = 0;
+        StarChildCountMax = 50;
+        IsSkipStar = false;
     }
 
     // Update is called once per frame
@@ -42,26 +42,26 @@ public class ChargePointManager
     {
         //一気に大量の☆を獲得したとき☆獲得数が現在の獲得数と足したときに最大獲得数を超えないか確認
         //越えなければ、現在の獲得数にプラスする
-        if (starChildCount < starChildCountMax)
+        if (StarChildCount < StarChildCountMax)
         {
-            if (isSkipStar)
+            if (IsSkipStar)
             {
-                isSkipStar = false;
-                for (int i = starChildCountSkip; i > 0; i--)
+                IsSkipStar = false;
+                for (int i = StarChildCountSkip; i > 0; i--)
                 {
-                    starChildCount++;
-                    starChildCountSkip--;
-                    Singleton.Instance.gameSceneController.StarChargeController.UpdateDisplayAcquisitionSpriteStar(starChildCount);
-                    if (starChildCount >= starChildCountMax)
+                    StarChildCount++;
+                    StarChildCountSkip--;
+                    Singleton.Instance.gameSceneController.StarChargeController.UpdateDisplayAcquisitionSpriteStar(StarChildCount);
+                    if (StarChildCount >= StarChildCountMax)
                     {
-                        starChildCountSkip = 0;
+                        StarChildCountSkip = 0;
                         break;
                     }
                 }
             }
             else
             {
-                Singleton.Instance.gameSceneController.StarChargeController.UpdateDisplayAcquisitionSpriteStar(starChildCount);
+                Singleton.Instance.gameSceneController.StarChargeController.UpdateDisplayAcquisitionSpriteStar(StarChildCount);
             }
         }
     }

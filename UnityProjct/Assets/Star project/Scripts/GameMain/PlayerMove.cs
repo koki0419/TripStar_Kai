@@ -13,7 +13,6 @@ public class PlayerMove : MonoBehaviour
         ChargeAttackUp = 1011,
     }
     private PlayerAttackIndex payerAttackIndex = PlayerAttackIndex.None;
-
     //オブジェクトステータス
     private enum ObjState
     {
@@ -26,7 +25,6 @@ public class PlayerMove : MonoBehaviour
         CharacterGameOver,//ゲームオーバー状態
     }
     private ObjState objState = ObjState.None;
-
     //オブジェクトステータス
     private enum AttackState
     {
@@ -37,18 +35,15 @@ public class PlayerMove : MonoBehaviour
         ChargeAttack,//チャージ攻撃状態
     }
     private AttackState attackState = AttackState.None;
-
     //-------------Unityコンポーネント関係-------------------
-    [SerializeField] private StarChargeController starChargeController;
+    [SerializeField] private StarChargeController starChargeController = null;
     // 自分のアニメーションコンポーネント
     [SerializeField] private Animator animatorComponent = null;
-    public Animator playerAnimator
+    public Animator PlayerAnimator
     {
         get { return animatorComponent; }
     }
-
     private new Rigidbody rigidbody;
-
     [Header("エフェクト関係")]
     //スター獲得エフェクト
     [SerializeField] private GameObject starAcquisitionEffect = null;
@@ -60,7 +55,6 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private GameObject sandEffect = null;
     //パンチエフェクト
     [SerializeField] private GameObject punchEffect = null;
-
     //-------------クラス関係--------------------------------
     //『Attack』をインスタンス
     Attack attack = new Attack();
@@ -78,18 +72,17 @@ public class PlayerMove : MonoBehaviour
     //キー入力制御
     [SerializeField] private float inputMoveKey = 0;
     //ジャンプ力
-    [SerializeField] private float jumpSpeed = 0;
-
+    [SerializeField] private float jumpPower = 0;
     //チャージポイント使用時のユーザーゲージ上昇量
     [SerializeField] private float userChargePonitUp;
-
     [Header("プレイヤー攻撃初期情報")]
     //初期攻撃力
     private const float foundationoffensivePower = 1000000;
 
     [Header("チャージ回数に掛け算される力")]
     //攻撃力
-    private const float fastOffensivePower = 700000;
+    //private const float fastOffensivePower = 700000;
+    private const float fastOffensivePower = 1;
     private const float secondOffensivePower = 800000;
     //移動量
     private const float speedForce = 300;
@@ -104,12 +97,12 @@ public class PlayerMove : MonoBehaviour
     private float rot = 90;
     private float nowAttackSpeed = 0;
     //攻撃時Speed
-    public float attackSpeed
+    public float AttackSpeed
     {
         get; private set;
     }
     //攻撃時パワー
-    public float attackPower
+    public float AttackPower
     {
         get; private set;
     }
@@ -125,10 +118,10 @@ public class PlayerMove : MonoBehaviour
     private Vector3 enemyPosition;
 
     [Header("攻撃時の攻撃時間")]
-    [SerializeField] private float attackJabTime;
-    [SerializeField] private float chargeAttackTime;
-    [SerializeField] private float chargeAttackUpTime;
-    [SerializeField] private float chargeAttackDownTime;
+    [SerializeField] private  float attackJabTime;
+    [SerializeField] private  float chargeAttackTime;
+    [SerializeField] private  float chargeAttackUpTime;
+    [SerializeField] private  float chargeAttackDownTime;
 
     [Header("キャラクターSEの種類番号")]
     [SerializeField] private int dashSeNum;
@@ -153,32 +146,28 @@ public class PlayerMove : MonoBehaviour
     //チャージ中かどうか
     private bool isChargeFlag;
     //☆獲得時フラグ
-    public bool isAcquisitionStar
+    public bool IsAcquisitionStar
     {
         set; get;
     }
-
     //キャラクターの向き
     private bool isRightDirection;//右を向いている
     private bool isLeftDirection;//左を向いている
-
     private bool isUpAttack;//上攻撃
     private bool isDownAttack;//下攻撃
     private bool isAttack;//通常攻撃
     private bool canAttack;//攻撃できるか
     private bool isStun;//スタン状態か
     private bool notKey;//キー入力制御
-
     private bool rightNotKey;//右キー入力制御
     private bool leftNotKey;//左キー入力制御
-
-    public bool isHit//攻撃を当てることが出来る
+    public bool IsHit//攻撃を当てることが出来る
     {
         get; private set;
     }
     public bool enemyBreak//エネミーが破壊されたかどうか
     {
-        set;get;
+        set; get;
     }
     //各種レイヤーを設定
     private const string groundLayerName = "Ground";//地面
@@ -189,7 +178,6 @@ public class PlayerMove : MonoBehaviour
     //壁ずり対策
     private const string rightProgressionControlLayerName = "RightProgressionControlObject";//右入力規制用
     private const string leftProgressionControlLayerName = "LeftProgressionControlObject";//左入力規制用
-
     //初期化
     public void Init()
     {
@@ -205,7 +193,7 @@ public class PlayerMove : MonoBehaviour
         //----初期化-----
         canDamage = false;
         isGround = false;
-        isAcquisitionStar = false;
+        IsAcquisitionStar = false;
         SandEffectPlay(false);
         PunchEffectPlay(false);
         GetStarEffectPlay(false);
@@ -215,51 +203,36 @@ public class PlayerMove : MonoBehaviour
         isAttack = false;
         canAttack = true;
         isStun = false;
-        //
     }
-
-    // Update is called once per frame
     public void OnUpdate(float deltaTime)
     {
         switch (objState)
         {
-                //通常状態
             case ObjState.Normal:
                 NormalModeUpdate(deltaTime);
                 break;
-                //スタン状態
             case ObjState.Stun:
                 StanUpdate();
                 break;
-                //攻撃ラグ状態
             case ObjState.NotAttackMode:
                 NotAttackModeUpdate(deltaTime);
                 break;
-                //チャージ状態
             case ObjState.OnCharge:
                 ChargeUpdate();
                 break;
-                //攻撃状態
             case ObjState.Attack:
                 AttackUpdate();
                 break;
-                //ゲームオーバー状態
             case ObjState.CharacterGameOver:
                 CharacterGameOver();
                 break;
         }
         //☆獲得時のエフェクト発生
-        if (isAcquisitionStar)
+        if (IsAcquisitionStar)
         {
             StartCoroutine(OnGetStar());
         }
-
-        //Test
-        //rigidbody.IsSleeping()で物体が動いているか停止しているか
-        //Debug.Log((int)rigidbody.velocity.magnitude);
-        //Debug.Log("enemyBreak : " + enemyBreak);
     }
-
     //--------------関数-----------------------------
     /// <summary>
     /// スタンアタックを食らったときにキャラクターがエネミーに接触状態だと「OnCollisionEnter」だけだと
@@ -271,7 +244,7 @@ public class PlayerMove : MonoBehaviour
         //エネミーとの当たり判定
         if (LayerMask.LayerToName(collision.gameObject.layer) == enemyLayerName)
         {
-            if (collision.gameObject.GetComponent<EnemyController>().enemyState == EnemyController.EnemyState.StunAttack && objState != ObjState.Stun)
+            if (collision.gameObject.GetComponent<EnemyController>().SetEnemyState == EnemyController.EnemyState.StunAttack && objState != ObjState.Stun)
             {
                 enemyPosition = collision.gameObject.GetComponent<Transform>().localPosition;
                 positiveDirection = false;
@@ -294,7 +267,7 @@ public class PlayerMove : MonoBehaviour
         //エネミーとの当たり判定
         else if (LayerMask.LayerToName(collision.gameObject.layer) == enemyLayerName)
         {
-            if (collision.gameObject.GetComponent<EnemyController>().enemyState == EnemyController.EnemyState.StunAttack)
+            if (collision.gameObject.GetComponent<EnemyController>().SetEnemyState == EnemyController.EnemyState.StunAttack)
             {
                 enemyPosition = collision.gameObject.GetComponent<Transform>().localPosition;
                 positiveDirection = false;
@@ -303,7 +276,7 @@ public class PlayerMove : MonoBehaviour
             }
             else if (isAttack)
             {
-                isHit = true;
+                IsHit = true;
             }
             else
             {
@@ -321,7 +294,7 @@ public class PlayerMove : MonoBehaviour
     private void OnTriggerStay(Collider other)
     {
         //地面とエネミー頭は同じ判定→ただし、エネミーの場合はダメージが入るのでレイヤー分け
-        if (LayerMask.LayerToName(other.gameObject.layer) == groundLayerName || LayerMask.LayerToName(other.gameObject.layer) == enemyHeadLayerName)
+        if (CheckHitOtherGround(other))
         {
             isGround = true;
         }
@@ -340,7 +313,7 @@ public class PlayerMove : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         //地面とエネミー頭接触時の判定
-        if (LayerMask.LayerToName(other.gameObject.layer) == groundLayerName || LayerMask.LayerToName(other.gameObject.layer) == enemyHeadLayerName)
+        if (CheckHitOtherGround(other))
         {
             isGround = true;
             rightNotKey = false;
@@ -355,18 +328,13 @@ public class PlayerMove : MonoBehaviour
                 notKey = false;
             }
         }
-
     }
     //プレイヤーが対象との接触しなくなった時
     private void OnTriggerExit(Collider other)
     {
-        //地面に設置しているとき
-
-        //通常のジャンプ
-        //空中に出たとき
         if (!rightNotKey && !leftNotKey)
         {
-            if (LayerMask.LayerToName(other.gameObject.layer) == groundLayerName || LayerMask.LayerToName(other.gameObject.layer) == enemyHeadLayerName)
+            if (CheckHitOtherGround(other))
             {
                 isGround = false;
                 if (!canDamage)
@@ -384,7 +352,7 @@ public class PlayerMove : MonoBehaviour
             {
                 rightNotKey = false;
             }
-            else if (LayerMask.LayerToName(other.gameObject.layer) == groundLayerName || rightNotKey && LayerMask.LayerToName(other.gameObject.layer) == enemyHeadLayerName)
+            else if (CheckHitOtherGround(other))
             {
                 if (isGround)
                 {
@@ -410,7 +378,7 @@ public class PlayerMove : MonoBehaviour
             {
                 leftNotKey = false;
             }
-            else if (LayerMask.LayerToName(other.gameObject.layer) == groundLayerName || rightNotKey && LayerMask.LayerToName(other.gameObject.layer) == enemyHeadLayerName)
+            else if (CheckHitOtherGround(other))
             {
                 if (isGround)
                 {
@@ -428,7 +396,6 @@ public class PlayerMove : MonoBehaviour
                     }
                 }
             }
-
         }
     }
     private IEnumerator KnockBackIEnumerator()
@@ -439,7 +406,12 @@ public class PlayerMove : MonoBehaviour
         knockbackMoveSpeed = 0;
         if (isGround) notKey = false;
     }
-
+    private bool CheckHitOtherGround(Collider other)
+    {
+        if (LayerMask.LayerToName(other.gameObject.layer) == groundLayerName || rightNotKey && LayerMask.LayerToName(other.gameObject.layer) == enemyHeadLayerName)
+            return true;
+        else return false;
+    }
     /// <summary>
     /// キャラクターの移動です
     /// </summary>
@@ -505,7 +477,6 @@ public class PlayerMove : MonoBehaviour
             isLeftDirection = true;
         }
     }
-
     /// <summary>
     /// キャラクターの向きを変更します
     /// 右向き左向きに変更します
@@ -532,7 +503,6 @@ public class PlayerMove : MonoBehaviour
         }
 
     }
-
     /// <summary>
     /// attack時の手の大きさを大きくする
     /// </summary>
@@ -540,7 +510,7 @@ public class PlayerMove : MonoBehaviour
     /// <returns></returns>
     void ChargeAttackHand(float charge)
     {
-        var chargeMax = Singleton.Instance.gameSceneController.ChargePointManager.starChildCountMax;
+        var chargeMax = Singleton.Instance.gameSceneController.ChargePointManager.StarChildCountMax;
         var charaHand = gameObject.GetComponentInChildren<SkinnedMeshRenderer>();
         //チャージ量の+-量
         float chargeProportion = userChargePonitUp * 10;
@@ -549,11 +519,8 @@ public class PlayerMove : MonoBehaviour
         {
             chargeNowHand += chargeProportion;
         }
-
         charaHand.SetBlendShapeWeight(0, chargeNowHand / chargeMax * 100);
-
     }
-
     /// <summary>
     /// チャージ時のチャージ量
     /// 何回チャージできるのか（Fillを何回0～1にできるのか）を返します
@@ -566,8 +533,6 @@ public class PlayerMove : MonoBehaviour
         var chargeMax = charge;
         //チャージ量の+-量
         float chargeProportion = userChargePonitUp;
-
-
         if (charge >= 1 && charge < 2)
         {
             charge = 1;
@@ -651,7 +616,7 @@ public class PlayerMove : MonoBehaviour
     {
         //Singleton.Instance.soundManager.StopPlayerSe();
         Singleton.Instance.soundManager.PlayPlayerSe(getStarSeNum);
-        isAcquisitionStar = false;
+        IsAcquisitionStar = false;
         GetStarEffectPlay(true);
         yield return new WaitForSeconds(1.5f);
         GetStarEffectPlay(false);
@@ -667,72 +632,120 @@ public class PlayerMove : MonoBehaviour
         switch (animationName)
         {
             case "gameStart":
-                animatorComponent.SetTrigger("isPlay");
+                GameStartAnimation();
                 break;
             case "idol"://待機状態
-                animatorComponent.SetBool("isKnockBack", false);
-                animatorComponent.SetBool("isDash", false);
-                animatorComponent.SetBool("isJump", false);
+                Attack_Idol();
                 break;
             case "dash"://走る
-                animatorComponent.SetBool("isKnockBack", false);
-                animatorComponent.SetBool("isDash", true);
-                animatorComponent.SetBool("isJump", false);
+                Attack_Dash();
                 break;
             case "jump"://ジャンプ
-                animatorComponent.SetBool("isKnockBack", false);
-                animatorComponent.SetBool("isDash", false);
-                animatorComponent.SetBool("isJump", true);
+                Attack_Jump();
                 break;
             case "knockback"://ノックバック
-                animatorComponent.SetBool("isDash", false);
-                animatorComponent.SetBool("isJump", false);
-                animatorComponent.SetBool("isCharge", false);
-                animatorComponent.SetInteger("setPunchNum", 0);
-                animatorComponent.SetBool("isKnockBack", true);
+                Attack_KnockBack();
                 break;
             case "charge"://チャージ
-                animatorComponent.SetBool("isKnockBack", false);
-                animatorComponent.SetBool("isDash", false);
-                animatorComponent.SetTrigger("isCharge");
-                animatorComponent.SetBool("isCharge", true);
-                animatorComponent.SetInteger("setPunchNum", 0);
+                Attack_Charge();
                 break;
             case "punch"://パンチ
-                animatorComponent.SetBool("isCharge", false);
-                animatorComponent.SetBool("ExitAnimation2", false);
-                animatorComponent.SetTrigger("isPunch");
-                animatorComponent.SetInteger("setPunchNum", 1000);
+                Attack_Punch();
                 break;
             case "chargepunch"://チャージパンチ
-                animatorComponent.SetBool("isCharge", false);
-                animatorComponent.SetBool("ExitAnimation2", false);
-                animatorComponent.SetTrigger("isPunch");
-                animatorComponent.SetInteger("setPunchNum", 1010);
+                Attack_Chargepunch();
                 break;
             case "chargepunchUp"://チャージアッパー
-                animatorComponent.SetBool("isCharge", false);
-                animatorComponent.SetBool("ExitAnimation2", false);
-                animatorComponent.SetTrigger("isPunch");
-                animatorComponent.SetInteger("setPunchNum", 1011);
+
                 break;
             case "chargepunchDown"://チャージダウン
-                animatorComponent.SetBool("isCharge", false);
-                animatorComponent.SetBool("ExitAnimation2", false);
-                animatorComponent.SetTrigger("isPunch");
-                animatorComponent.SetInteger("setPunchNum", 1001);
+                Attack_ChargepunchDown();
                 break;
             case "GameOver"://ゲームオーバー
-                animatorComponent.SetBool("isCharge", false);
-                animatorComponent.SetBool("ExitAnimation2", false);
-                animatorComponent.SetBool("isDash", false);
-                animatorComponent.SetBool("isJump", false);
-                animatorComponent.SetTrigger("isGameOver");
+                GameOverAnimation();
                 break;
             case "ExitAnimation":
-                animatorComponent.SetBool("ExitAnimation2", true);
+                ExitAnimation();
                 break;
         }
+    }
+    void GameStartAnimation()
+    {
+        animatorComponent.SetTrigger("isPlay");
+    }
+    void Attack_Idol()
+    {
+        animatorComponent.SetBool("isKnockBack", false);
+        animatorComponent.SetBool("isDash", false);
+        animatorComponent.SetBool("isJump", false);
+    }
+    void Attack_Dash()
+    {
+        animatorComponent.SetBool("isKnockBack", false);
+        animatorComponent.SetBool("isDash", true);
+        animatorComponent.SetBool("isJump", false);
+    }
+    void Attack_Jump()
+    {
+        animatorComponent.SetBool("isKnockBack", false);
+        animatorComponent.SetBool("isDash", false);
+        animatorComponent.SetBool("isJump", true);
+    }
+    void Attack_KnockBack()
+    {
+        animatorComponent.SetBool("isDash", false);
+        animatorComponent.SetBool("isJump", false);
+        animatorComponent.SetBool("isCharge", false);
+        animatorComponent.SetInteger("setPunchNum", 0);
+        animatorComponent.SetBool("isKnockBack", true);
+    }
+    void Attack_Charge()
+    {
+        animatorComponent.SetBool("isKnockBack", false);
+        animatorComponent.SetBool("isDash", false);
+        animatorComponent.SetTrigger("isCharge");
+        animatorComponent.SetBool("isCharge", true);
+        animatorComponent.SetInteger("setPunchNum", 0);
+    }
+    void Attack_Punch()
+    {
+        animatorComponent.SetBool("isCharge", false);
+        animatorComponent.SetBool("ExitAnimation2", false);
+        animatorComponent.SetTrigger("isPunch");
+        animatorComponent.SetInteger("setPunchNum", 1000);
+    }
+    void Attack_Chargepunch()
+    {
+        animatorComponent.SetBool("isCharge", false);
+        animatorComponent.SetBool("ExitAnimation2", false);
+        animatorComponent.SetTrigger("isPunch");
+        animatorComponent.SetInteger("setPunchNum", 1010);
+    }
+    void Attack_ChargepunchUp()
+    {
+        animatorComponent.SetBool("isCharge", false);
+        animatorComponent.SetBool("ExitAnimation2", false);
+        animatorComponent.SetTrigger("isPunch");
+        animatorComponent.SetInteger("setPunchNum", 1011);
+    }
+    void Attack_ChargepunchDown()
+    {
+        animatorComponent.SetBool("isCharge", false);
+        animatorComponent.SetBool("ExitAnimation2", false);
+        animatorComponent.SetTrigger("isPunch");
+        animatorComponent.SetInteger("setPunchNum", 1001);
+    }
+    void GameOverAnimation()
+    {
+        animatorComponent.SetBool("isCharge", false);
+        animatorComponent.SetBool("ExitAnimation2", false);
+        animatorComponent.SetBool("isDash", false);
+        animatorComponent.SetBool("isJump", false);
+        animatorComponent.SetTrigger("isGameOver");
+    }
+    void ExitAnimation()
+    {
+        animatorComponent.SetBool("ExitAnimation2", true);
     }
     /// <summary>
     /// 通常状態でのキャラクターの処理
@@ -747,7 +760,7 @@ public class PlayerMove : MonoBehaviour
         if (Input.GetButtonDown("Jump") && isGround)
         {
             CharacterAnimation("jump");
-            rigidbody.AddForce(Vector3.up * jumpSpeed, ForceMode.Impulse);
+            rigidbody.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
         }
 
         //アニメーション
@@ -806,7 +819,6 @@ public class PlayerMove : MonoBehaviour
             CharacterAnimation("jump");
             SandEffectPlay(false);
         }
-
         //移動
         CharacterMove(dx, deltaTime);
     }
@@ -827,7 +839,6 @@ public class PlayerMove : MonoBehaviour
             Singleton.Instance.gameSceneController.StarChargeController.UpdateBigStarUI(chargeCount);
             chargeCount = 0;
             chargeNow = 0.0f;
-
             var rig = rigidbody;
             if (isGround)
             {
@@ -880,9 +891,9 @@ public class PlayerMove : MonoBehaviour
         {
             Singleton.Instance.soundManager.PlayPlayerLoopSe(chargeSeNum);
             //チャージ中
-            Singleton.Instance.gameSceneController.StarChargeController.UpdateChargePoint(OnCharge(Singleton.Instance.gameSceneController.ChargePointManager.starChildCount / 10));
+            Singleton.Instance.gameSceneController.StarChargeController.UpdateChargePoint(OnCharge(Singleton.Instance.gameSceneController.ChargePointManager.StarChildCount / 10));
             Singleton.Instance.gameSceneController.StarChargeController.ChargeBigStar(chargeCount);
-            ChargeAttackHand(Singleton.Instance.gameSceneController.ChargePointManager.starChildCount);
+            ChargeAttackHand(Singleton.Instance.gameSceneController.ChargePointManager.StarChildCount);
             //チャージエフェクトデバック---------------------------
             if (chargeCount < 3)
             {
@@ -893,7 +904,7 @@ public class PlayerMove : MonoBehaviour
                 ChargeEffectPlay(false, true);
             }
             starChargeController.ChargeStarUIAnimationInt(chargeCount);
-            var chargeStarMax = Singleton.Instance.gameSceneController.ChargePointManager.starChildCount / 10;
+            var chargeStarMax = Singleton.Instance.gameSceneController.ChargePointManager.StarChildCount / 10;
             if (chargeCount == chargeStarMax)
             {
                 starChargeController.ChargeStarUIAnimationBool(true);
@@ -904,12 +915,12 @@ public class PlayerMove : MonoBehaviour
             if (chargeCount < 3)
             {
                 //チャージ終了（チャージゲージを0に戻す）
-                attackPower = chargeCount * fastOffensivePower + foundationoffensivePower;
+                AttackPower = chargeCount * fastOffensivePower + foundationoffensivePower;
             }
             else
             {
                 //チャージ終了（チャージゲージを0に戻す）
-                attackPower = chargeCount * secondOffensivePower + foundationoffensivePower;
+                AttackPower = chargeCount * secondOffensivePower + foundationoffensivePower;
             }
             //チャージゲージをリセットします
             Singleton.Instance.gameSceneController.StarChargeController.UpdateChargePoint(0);
@@ -989,35 +1000,34 @@ public class PlayerMove : MonoBehaviour
         rig.drag = dragPower;
         if (!onceAgainAttack)
         {
-            attackSpeed = (chargeCount * speedForce);
+            AttackSpeed = (chargeCount * speedForce);
         }
         else
         {
-            attackSpeed = (chargeCount * (speedForce/2));
+            AttackSpeed = (chargeCount * (speedForce / 2));
         }
         if (!isUpAttack && !isDownAttack)
         {
             //右向きの時
             if (isRightDirection && !isLeftDirection)
             {
-                rig.AddForce(Vector3.right * attackSpeed, ForceMode.Impulse);
+                rig.AddForce(Vector3.right * AttackSpeed, ForceMode.Impulse);
             }
             //左向きの時
             else
             {
-                rig.AddForce(Vector3.left * attackSpeed, ForceMode.Impulse);
+                rig.AddForce(Vector3.left * AttackSpeed, ForceMode.Impulse);
             }
         }
         else if (isUpAttack)
         {
-            attackSpeed = (chargeCount * speedForceUp);
-            rig.AddForce(Vector3.up * attackSpeed, ForceMode.Impulse);
+            AttackSpeed = (chargeCount * speedForceUp);
+            rig.AddForce(Vector3.up * AttackSpeed, ForceMode.Impulse);
         }
         else if (isDownAttack)
         {
-            rig.AddForce(Vector3.down * attackSpeed, ForceMode.Impulse);
+            rig.AddForce(Vector3.down * AttackSpeed, ForceMode.Impulse);
         }
-
         isChargeFlag = false;
     }
     //アタック時
@@ -1033,10 +1043,9 @@ public class PlayerMove : MonoBehaviour
         chargeCount = 0;
         CharacterAnimation("ExitAnimation");
         canAttack = true;
-        isHit = false;
+        IsHit = false;
         if (isGround) objState = ObjState.Normal;
         else objState = ObjState.NotAttackMode;
-
     }
     void CharacterGameOver()
     {

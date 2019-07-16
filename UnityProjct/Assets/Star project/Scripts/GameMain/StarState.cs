@@ -18,14 +18,11 @@ public class StarState : MonoBehaviour
     [SerializeField] private Sprite notAcquiredSprite = null;//使っていない
     [SerializeField] private Sprite normalSprite = null;//使っていない
     [SerializeField] private Sprite chageStarSprite = null;//チャージ中（大きい☆用）
-
     [SerializeField] private GameObject starImage = null;
-
     [SerializeField] private bool isBigStatUI;
 
     public void UpdateStarSprite(int starState)
     {
-
         switch (starState)
         {
             case (int)Star.None:
@@ -42,7 +39,6 @@ public class StarState : MonoBehaviour
             case (int)Star.Chage:
                 starImage.GetComponent<Image>().sprite = chageStarSprite;
                 break;
-
         }
     }
 }

@@ -150,6 +150,7 @@ namespace StarProject.Gamemain
             playerMove.Init();
             yield return null;
             obstacleSpawn.Init();
+            yield return null;
             Init();
             starChargeController.Init();
             cameraController.Init();
@@ -197,8 +198,6 @@ namespace StarProject.Gamemain
         {
             if (gameMainState == GameMainState.Play)//ゲームスタート
             {
-
-
                 if (isGetStar)
                 {
                     isGetStar = false;
@@ -220,7 +219,6 @@ namespace StarProject.Gamemain
             Destroy(safeHitGigMoaiObj);
             isMoveCamera = true;
             if(gameMainState != GameMainState.Pause) gameMainState = GameMainState.Play;
-
         }
 
         /// <summary>
@@ -230,7 +228,7 @@ namespace StarProject.Gamemain
         {
             if (!exitOpning)
             {
-                AnimatorStateInfo animInfo = playerMove.playerAnimator.GetCurrentAnimatorStateInfo(0);
+                AnimatorStateInfo animInfo = playerMove.PlayerAnimator.GetCurrentAnimatorStateInfo(0);
                 if (animInfo.normalizedTime < 1.0f)
                 {
                     return;
@@ -275,21 +273,9 @@ namespace StarProject.Gamemain
             if (isMoveCamera) cameraController.MoveUpdate(deltaTime);
             playerMove.OnUpdate(deltaTime);//PlayerのUpdate
                                            //☆エネミー子供オブジェクト初期化
-            if (enemysObj.transform.childCount != 0)
-            {
-                //for (int i = 0; enemysObj.transform.childCount > i; i++)
-                //{
-                //    enemyChilledObj[i] = enemysObj.transform.GetChild(i).gameObject;
-                //    enemyController[i] = enemyChilledObj[i].GetComponent<EnemyController>();
-                //    enemyController[i].EnemyControllerUpdate();
-                //    obstacleManager[i] = enemyChilledObj[i].GetComponent<ObstacleManager>();
-                //    obstacleManager[i].ObstacleControllerUpdate();
-                //    Debug.Log("objName : " + enemysObj.transform.GetChild(i).name);
-                //}
-            }
             if (!debug)
             {
-                if (fastTargetObj != null && fastTargetObj.GetComponent<ObstacleManager>().isDestroyed && stageNum == 1 && destroyCount == 0)
+                if (fastTargetObj != null && fastTargetObj.GetComponent<ObstacleManager>().IsDestroyed && stageNum == 1 && destroyCount == 0)
                 {
                     destroyCount++;
                     StartCoroutine(BigMoaiMoveStart());
@@ -297,7 +283,7 @@ namespace StarProject.Gamemain
             }
             else
             {
-                if (fastTargetObj != null && fastTargetObj.GetComponent<ObstacleManager>().isDestroyed && destroyCount == 0)
+                if (fastTargetObj != null && fastTargetObj.GetComponent<ObstacleManager>().IsDestroyed && destroyCount == 0)
                 {
                     destroyCount++;
                     StartCoroutine(BigMoaiMoveStart());
@@ -361,20 +347,17 @@ namespace StarProject.Gamemain
                 uiManager.GameOverButtonSelectUpdate();
             }
         }
-
         //クリア
         IEnumerator OnClear()
         {
             canCameraShake = true;
-            ResultScreenController.allStar = chargePointManager.starChildCount;
+            ResultScreenController.allStar = chargePointManager.StarChildCount;
             yield return new WaitForSeconds(0.5f);
             uiManager.GameClearUIDisplay(true);
             yield return new WaitForSeconds(3.0f);
             canCameraShake = false;
             SceneManager.LoadScene("ResultScene");
-
         }
-
         //ゲームオーバー
         IEnumerator OnGameOver()
         {
