@@ -13,7 +13,6 @@ public class StarChargeController : MonoBehaviour
         Chage = 1100,//チャージ中（大きい☆用）
     }
     public Star star = Star.None;
-
     [Header("チャージ用☆UI")]
     //大きい☆UIを取得します →5個
     [SerializeField] private StarState[] starChargeUI = null;
@@ -34,24 +33,20 @@ public class StarChargeController : MonoBehaviour
     [SerializeField] private GameObject AcquisitionSpriteStarCount1 = null;
     //小さい☆の獲得数画像
     [SerializeField] private Sprite[] smallStarAcquisitionSprite = null;
-
     //小さい☆獲得UI1/10のアニメーション
     [SerializeField] private Animator AcquisitionStarCount_1_10Animator = null;
     //小さい☆獲得UI10/10のアニメーション
     [SerializeField] private Animator AcquisitionStarCount_10_10Animator = null;
-
     [SerializeField] private Animator chargeStarUIAnimator = null;
 
     public void Init()
     {
         starChargeMaxFlag = false;
         bigStarCount = 0;
-
         for (int i = 0; i < starChargeUI.Length; i++)
         {
             starChargeUI[i].UpdateStarSprite((int)Star.None);
         }
-
         //小さい☆獲得UIの画像を0に設定します（1/10、10/10両方とも）
         AcquisitionSpriteStarCount0.GetComponent<Image>().sprite = smallStarAcquisitionSprite[0];
         AcquisitionSpriteStarCount1.GetComponent<Image>().sprite = smallStarAcquisitionSprite[0];

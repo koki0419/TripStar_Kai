@@ -196,6 +196,7 @@ MonoBehaviour:
   tragetCamera: {fileID: 0}
   playerMove: {fileID: 0}
   obstacleSpawn: {fileID: 0}
+  enemyController: {fileID: 1178009196650039374}
   spawnStarNum: 0
   foundationHP: 500000
   obstaclesHeadObj: {fileID: 9023732610215457915}

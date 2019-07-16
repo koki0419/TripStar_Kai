@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
@@ -8,19 +6,15 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private AudioSource playerSeAudio = null;
     [SerializeField] private AudioSource playerLoopSeAudio = null;
     [SerializeField] private AudioSource obstaclesSeAudio = null;
-
     [SerializeField] private AudioClip normalBgm = null;
     [SerializeField] private AudioClip bossBgm = null;
     [SerializeField] private AudioClip jingleClear = null;
     [SerializeField] private AudioClip jingleGameOver = null;
     [SerializeField] private AudioClip[] se = null;
-
     static public float audioVolume = 1.0f;
     static public float bgmVolume = 1.0f;
     static public float seVolume = 1.0f;
-
     private int previousSEIndex;
-
     /// <summary>
     /// 全てのオーディオの音量を管理します（音量0の時実装）
     /// </summary>

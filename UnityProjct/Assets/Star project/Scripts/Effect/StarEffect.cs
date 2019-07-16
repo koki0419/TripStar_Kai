@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class StarEffect : MonoBehaviour
 {
-
     private RectTransform target = null;
     private float moveSpeed = 15;
     private float errorPosition = 5.0f;
@@ -22,7 +21,6 @@ public class StarEffect : MonoBehaviour
         Vector3 targetVecE = targetVec.normalized;
         //長さを調節
         targetVecE.z = 0;
-
         var moveForce = targetVecE * moveSpeed;
 
         return moveForce;

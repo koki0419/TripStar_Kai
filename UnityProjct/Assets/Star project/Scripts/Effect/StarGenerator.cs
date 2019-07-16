@@ -17,14 +17,9 @@ public class StarGenerator : MonoBehaviour
     [Header("☆プレハブ")]
     [SerializeField] private GameObject starPrefab;
     private ObjectPool pool;
-    [Header("☆生成場所と各☆獲得ポイント")]
-    [SerializeField] private int cleatStarNumMax = 0;//いくつ星を作るのか
-    [SerializeField] private Vector3[] starSponPosition;
-    [SerializeField] private int[] starPoint;
-
     //☆現在の表示数
     [HideInInspector]
-    public int activeCount
+    public int ActiveCount
     {
         set; get;
     }
@@ -36,46 +31,43 @@ public class StarGenerator : MonoBehaviour
     //csvデータ
     private CsvlInport csvInport = new CsvlInport();
 
+    private List<StarDataEntiry> starDatas = new List<StarDataEntiry>();
+
     public void Init()
     {
         pool = GetComponent<ObjectPool>();
         pool.CreatePool(starPrefab, spawnMax);
-
-        //配列を初期化
-        starSponPosition = new Vector3[cleatStarNumMax];
-        starPoint = new int[cleatStarNumMax];
-
         //データファイルを読み込み
         csvInport.DateRead(fileName);
         //ポジション＆ポイントデータを代入
         for (int i = 1; i < csvInport.csvDatas.Count; i++)
         {
-            starSponPosition[i - 1].x = float.Parse(csvInport.csvDatas[i][1]);
-            starSponPosition[i - 1].y = float.Parse(csvInport.csvDatas[i][2]);
-            starSponPosition[i - 1].z = float.Parse(csvInport.csvDatas[i][3]);
-            starPoint[i - 1] = int.Parse(csvInport.csvDatas[i][4]);
+            int index = 0;
+            StarDataEntiry starData = new StarDataEntiry();
+            starData.SetStarDatas(int.Parse(csvInport.csvDatas[i][index++]), float.Parse(csvInport.csvDatas[i][index++]),
+                                  float.Parse(csvInport.csvDatas[i][index++]), float.Parse(csvInport.csvDatas[i][index++]), int.Parse(csvInport.csvDatas[i][index++]));
+            starDatas.Add(starData);
         }
-
         CreatStar();
-
     }
 
     public void CreatStar()
     {
-        if (spawnIndex < starSponPosition.Length - 1)
+        if (spawnIndex < starDatas.Count)
         {
-            while (activeCount < starDysplayCount)
+            while (ActiveCount < starDysplayCount)
             {
                 var star = pool.GetObject();
                 if (star != null)
                 {
                     //プレイヤーの位置座標をスクリーン座標に変換
-                    star.transform.localPosition = starSponPosition[spawnIndex];
-                    star.GetComponent<StarController>().Init(playerMove, starPoint[spawnIndex]);
-                    star.GetComponent<StarController>().starGenerator = this;
-                    star.GetComponent<StarController>().starSponType = StarController.StarSponType.SpecifiedSpon;
+                    var setData = starDatas[spawnIndex];
+                    star.transform.localPosition = setData.star_Position;
+                    var newStarObj = star.GetComponent<StarController>();
+                    newStarObj.SetStarDatas(this, playerMove,"SpecifiedSpawn", setData.star_Point);
+                    newStarObj.Init();
                     spawnIndex++;
-                    activeCount++;
+                    ActiveCount++;
                 }
             }
         }
@@ -95,22 +87,21 @@ public class StarGenerator : MonoBehaviour
     public void ObstaclesToStarSpon(Vector3 targetPos, int sponIndex)
     {
         var spon = 0;
-        var plusPosition = 0;
-        var randPoint = Random.RandomRange(1, 4);
+        var randPoint = Random.Range(1, 3);
         while (true)
         {
             var star = pool.GetObject();
-            if (star != null)
+            if (star == null)
             {
-                var randX = Random.Range(-1, 1);
-                var randY = Random.Range(1, 2);
-
-                star.transform.localPosition = new Vector3(targetPos.x + randX, targetPos.y + randY + targetPos.z);
-                star.GetComponent<StarController>().Init(playerMove, randPoint);
-                star.GetComponent<StarController>().starGenerator = this;
-                star.GetComponent<StarController>().starSponType = StarController.StarSponType.ObstacleSpon;
-                spon++;
+                break;
             }
+            var randX = Random.Range(-1, 1);
+            var randY = Random.Range(1, 2);
+            star.transform.localPosition = new Vector3(targetPos.x + randX, targetPos.y + randY + targetPos.z);
+            var newStarObj = star.GetComponent<StarController>();
+            newStarObj.SetStarDatas(this, playerMove, "ObstacleSpawn", randPoint);
+            newStarObj.Init();
+            spon++;
             if (spon >= sponIndex) break;
         }
     }

@@ -34,7 +34,6 @@ public class ObjectPool : MonoBehaviour
             if (!obj.activeSelf)
             {
                 obj.SetActive(true);
-
                 return obj;
             }
         }
@@ -42,8 +41,7 @@ public class ObjectPool : MonoBehaviour
         var newObj = CreatNewObject();
         newObj.SetActive(true);
         poolObjList.Add(newObj);
-        newObj.transform.parent = gameObject.transform;
-
+        newObj.transform.SetParent(transform);
         return newObj;
     }
 
@@ -52,7 +50,6 @@ public class ObjectPool : MonoBehaviour
     {
         var newObj = Instantiate(poolObj);
         newObj.name = poolObj.name + (poolObjList.Count + 1);
-
         return newObj;
     }
 }

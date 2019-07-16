@@ -12,9 +12,7 @@ public class Attack
         AttackNormal = 1010,
         AttackDown = 1001,
         AttackUp = 1011,
-
     }
-
     public PlayerAttackIndex payerAttackIndex = PlayerAttackIndex.None;
 
 
@@ -27,30 +25,23 @@ public class Attack
     public int OnAttack(Vector2 direction, GameObject obj)
     {
         int animationName;
-
         // 座標設定用変数
         float x;
-
         // キャラクタ管理のデータ取得
         // 回転量
         Vector3 objRot = obj.transform.eulerAngles;
         // 座標
         Vector3 objPos = obj.transform.position;
-
         // キャラクタの向いている方向ベクトル計算
         x = Mathf.Sin(objRot.y * Mathf.Deg2Rad);
-
         //単位ベクトル計算
         Vector2 firing = direction.normalized;
         // ラジアン
         float radian = Mathf.Atan2(firing.y, firing.x);
-
         // 角度
         float degree = radian * Mathf.Rad2Deg;
-
         if (firing.x == 0 && firing.y == 0)
         {
-
             animationName = (int)PlayerAttackIndex.AttackNormal;
         }
         else
