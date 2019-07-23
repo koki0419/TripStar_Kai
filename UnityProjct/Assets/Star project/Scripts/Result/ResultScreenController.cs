@@ -96,7 +96,7 @@ namespace StarProject.Result
         [SerializeField] private int rankBScore;
         [SerializeField] private int rankCScore;
         //全ステージ数
-        private const int ollStageNum = 3;
+        private const int ollStageNum = 4;
         [SerializeField] private bool debug;
         [SerializeField] private int debugStage = 3;
         // Start is called before the first frame update

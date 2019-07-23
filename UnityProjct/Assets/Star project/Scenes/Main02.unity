@@ -7568,7 +7568,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9479faa2cfe428a49ad175e328cfe18a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerMove: {fileID: 0}
+  playerMove: {fileID: 1555640408}
   playerObj: {fileID: 1555640410}
   tragetCamera: {fileID: 534669904}
   spawnMax: 5

@@ -503,8 +503,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 6e8d21b60ad573e48bf989d6baab8da1, type: 3}
   - {fileID: 21300000, guid: bd93e042d7e7e034aa031f56f57114ce, type: 3}
   - {fileID: 21300000, guid: 618863b8494224a4ca99127b42186887, type: 3}
-  rankAScore: 40000
-  rankBScore: 25000
+  rankAScore: 50000000
+  rankBScore: 10000000
   rankCScore: 0
   debug: 0
   debugStage: 3
@@ -538,6 +538,8 @@ MonoBehaviour:
   gameSceneController: {fileID: 0}
   cameraController: {fileID: 0}
   soundManager: {fileID: 1610440936}
+  starSpawn: {fileID: 0}
+  damageTextSpawn: {fileID: 0}
 --- !u!1 &186988177
 GameObject:
   m_ObjectHideFlags: 0
