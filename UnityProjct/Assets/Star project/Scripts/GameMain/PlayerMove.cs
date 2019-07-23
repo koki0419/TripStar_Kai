@@ -81,8 +81,7 @@ public class PlayerMove : MonoBehaviour
 
     [Header("チャージ回数に掛け算される力")]
     //攻撃力
-    //private const float fastOffensivePower = 700000;
-    private const float fastOffensivePower = 1;
+    private const float fastOffensivePower = 700000;
     private const float secondOffensivePower = 800000;
     //移動量
     private const float speedForce = 300;
@@ -296,6 +295,7 @@ public class PlayerMove : MonoBehaviour
         //地面とエネミー頭は同じ判定→ただし、エネミーの場合はダメージが入るのでレイヤー分け
         if (CheckHitOtherGround(other))
         {
+            Debug.Log("頭111]");
             isGround = true;
         }
         else if (LayerMask.LayerToName(other.gameObject.layer) == rightProgressionControlLayerName)
@@ -315,6 +315,7 @@ public class PlayerMove : MonoBehaviour
         //地面とエネミー頭接触時の判定
         if (CheckHitOtherGround(other))
         {
+            Debug.Log("頭");
             isGround = true;
             rightNotKey = false;
             leftNotKey = false;
@@ -408,7 +409,7 @@ public class PlayerMove : MonoBehaviour
     }
     private bool CheckHitOtherGround(Collider other)
     {
-        if (LayerMask.LayerToName(other.gameObject.layer) == groundLayerName || rightNotKey && LayerMask.LayerToName(other.gameObject.layer) == enemyHeadLayerName)
+        if (LayerMask.LayerToName(other.gameObject.layer) == groundLayerName || LayerMask.LayerToName(other.gameObject.layer) == enemyHeadLayerName)
             return true;
         else return false;
     }
@@ -656,7 +657,7 @@ public class PlayerMove : MonoBehaviour
                 Attack_Chargepunch();
                 break;
             case "chargepunchUp"://チャージアッパー
-
+                Attack_ChargepunchUp();
                 break;
             case "chargepunchDown"://チャージダウン
                 Attack_ChargepunchDown();
@@ -894,7 +895,7 @@ public class PlayerMove : MonoBehaviour
             Singleton.Instance.gameSceneController.StarChargeController.UpdateChargePoint(OnCharge(Singleton.Instance.gameSceneController.ChargePointManager.StarChildCount / 10));
             Singleton.Instance.gameSceneController.StarChargeController.ChargeBigStar(chargeCount);
             ChargeAttackHand(Singleton.Instance.gameSceneController.ChargePointManager.StarChildCount);
-            //チャージエフェクトデバック---------------------------
+            //チャージエフェクト
             if (chargeCount < 3)
             {
                 ChargeEffectPlay(true, false);

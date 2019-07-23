@@ -51,8 +51,6 @@ public class UiManager : MonoBehaviour
     [SerializeField] private Sprite pauseNormalTitleSprite = null;
     [SerializeField] private Sprite pauseSelectTitleSprite = null;
     private int countNum;
-    //ダイアログキャンバス
-    [SerializeField] private GameObject dialogUICanvas;
     //star関係canvas
     [SerializeField] private GameObject starUICanvas = null;
     private int pauseButtonSelectNum = 0;
@@ -504,14 +502,6 @@ public class UiManager : MonoBehaviour
     public void StarUICanvasDisplay(bool isDisplay)
     {
         starUICanvas.SetActive(isDisplay);
-    }
-    /// <summary>
-    /// starUICanvasを表示非表示します
-    /// </summary>
-    /// <param name="isDisplay">表示するかどうか</param>
-    public void dialogUICanvasDisplay(bool isDisplay)
-    {
-        dialogUICanvas.SetActive(isDisplay);
     }
     /// <summary>
     /// ポーズダイアログを表示非表示します

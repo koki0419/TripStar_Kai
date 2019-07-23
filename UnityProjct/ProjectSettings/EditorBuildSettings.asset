@@ -18,6 +18,9 @@ EditorBuildSettings:
     path: Assets/Star project/Scenes/Main03.unity
     guid: 760b659e743cc844396ba6b9776eb6a1
   - enabled: 1
+    path: Assets/Star project/Scenes/Main04.unity
+    guid: a9396ecc523d58d4c97263f286b2cbca
+  - enabled: 1
     path: Assets/Star project/Scenes/ResultScene.unity
     guid: 9adf6fe4010fd764dab6c0d4339706a3
   - enabled: 1
