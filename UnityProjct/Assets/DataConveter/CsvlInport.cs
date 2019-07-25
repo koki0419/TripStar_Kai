@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 /*
@@ -10,9 +11,8 @@ using System.IO;
  *                          呼び出しは二次元配列で呼び出してください
  */
 public class CsvlInport
-{
-    //ファイルデータを格納する
-    public List<string[]> csvDatas = new List<string[]>();
+{    public List<string[]> csvDatas = new List<string[]>();
+
     //ファイル読み込み処理//ファイル名を記述
     public bool DateRead(string fileName)
     {
@@ -27,4 +27,5 @@ public class CsvlInport
         }
         return true;
     }
+
 }

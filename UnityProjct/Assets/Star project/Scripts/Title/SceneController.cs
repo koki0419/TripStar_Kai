@@ -98,6 +98,23 @@ namespace StarProject.Title
                     DebugUpdate();
                     break;
             }
+            //デバック用
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                StartCoroutine(GameStartEnumerator(1));
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                StartCoroutine(GameStartEnumerator(2));
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                StartCoroutine(GameStartEnumerator(3));
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha4))
+            {
+                StartCoroutine(GameStartEnumerator(4));
+            }
         }
         int debugSelectIndex = 0;
         int debugJoyCount = 0;
@@ -246,7 +263,7 @@ namespace StarProject.Title
                 switch (buttonNum)
                 {
                     case 0:
-                        StartCoroutine(GameStartEnumerator());
+                        StartCoroutine(GameStartEnumerator(1));
                         titleTyp = TitleTyp.None;
                         break;
                     case 1:
@@ -340,12 +357,12 @@ namespace StarProject.Title
         /// ゲームスタート時に実行します
         /// </summary>
         /// <returns></returns>
-        private IEnumerator GameStartEnumerator()
+        private IEnumerator GameStartEnumerator(int stageNum)
         {
             ForceColor(Color.clear);
             yield return FadeEnumerator(Color.clear, fadeOutColor, fadeOutTime);
-            GameSceneController.stageNum = 1;
-            SceneManager.LoadScene("main01");
+            GameSceneController.stageNum = stageNum;
+            SceneManager.LoadScene(string.Format("Main0{0}", stageNum));
         }
         /// <summary>
         /// フェードアウト
