@@ -34,35 +34,18 @@ public class ObstacleSpawn : MonoBehaviour
     }
     //☆生成数（経過）→次生成する☆のインデックス
     private int spawnIndex = 0;
-    //データファイル名
-    [SerializeField] string fileName = "";
-    //csvデータ
-    private CsvlInport csvInport = new CsvlInport();
-    //エネミーデータ格納用リスト
-    public List<EnemyDataEntiry> enemyDatas = new List<EnemyDataEntiry>();
+    [SerializeField] private EnemyData enemyData = null;
     //エネミーobjectPoolの初期化
     public void Init()
     {
         pool = GetComponent<ObjectPool>();
         pool.CreatePool(obstaclesPrefab, spawnMax);
-        //データファイルを読み込み
-        csvInport.DateRead(fileName);
-        //エネミーの初期化とリストの追加
-        for (int i = 1; i < csvInport.csvDatas.Count - 2; i++)
-        {
-            int index = 0;
-            EnemyDataEntiry enemyData = new EnemyDataEntiry();
-            enemyData.SetEnemyDatas(int.Parse(csvInport.csvDatas[i][index++]), csvInport.csvDatas[i][index++], csvInport.csvDatas[i][index++], float.Parse(csvInport.csvDatas[i][index++]),
-                                           float.Parse(csvInport.csvDatas[i][index++]), float.Parse(csvInport.csvDatas[i][index++]), float.Parse(csvInport.csvDatas[i][index++]), int.Parse(csvInport.csvDatas[i][index++]),
-                                           float.Parse(csvInport.csvDatas[i][index++]), float.Parse(csvInport.csvDatas[i][index++]), int.Parse(csvInport.csvDatas[i][index++]));
-            enemyDatas.Add(enemyData);
-        }
         CreatObstacle();
     }
     //エネミーを生成する
     public void CreatObstacle()
     {
-        if (spawnIndex < enemyDatas.Count)
+        if (spawnIndex < enemyData.enemyDatas.Count)
         {
             while (ActiveCount < obstaclesDysplayCount)
             {
@@ -74,7 +57,7 @@ public class ObstacleSpawn : MonoBehaviour
                 //生成するときに「Rigidbody」がなければAddする
                 if (obstacle.GetComponent<Rigidbody>() == null) { obstacle.AddComponent<Rigidbody>(); }
                 //初期化
-                var setEnemyDatas = enemyDatas[spawnIndex];
+                var setEnemyDatas = enemyData.enemyDatas[spawnIndex];
                 var newObj_O = obstacle.GetComponent<ObstacleManager>();
                 obstacle.transform.localPosition = setEnemyDatas.enemy_Position;
                 newObj_O.SetObstacleDatas(this.tragetCamera, this.playerMove, this, setEnemyDatas.enemy_Hp, setEnemyDatas.enemy_AppearStarNum);

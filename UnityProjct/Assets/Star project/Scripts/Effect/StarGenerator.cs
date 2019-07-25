@@ -25,35 +25,19 @@ public class StarGenerator : MonoBehaviour
     }
     //☆生成数（経過）→次生成する☆のインデックス
     private int spawnIndex = 0;
-
-    //データファイル名
-    [SerializeField] string fileName = "";
-    //csvデータ
-    private CsvlInport csvInport = new CsvlInport();
-
-    private List<StarDataEntiry> starDatas = new List<StarDataEntiry>();
+    //星データを取得します（ScriptableObject）
+    [SerializeField] private StarData starData = null;
 
     public void Init()
     {
         pool = GetComponent<ObjectPool>();
         pool.CreatePool(starPrefab, spawnMax);
-        //データファイルを読み込み
-        csvInport.DateRead(fileName);
-        //ポジション＆ポイントデータを代入
-        for (int i = 1; i < csvInport.csvDatas.Count; i++)
-        {
-            int index = 0;
-            StarDataEntiry starData = new StarDataEntiry();
-            starData.SetStarDatas(int.Parse(csvInport.csvDatas[i][index++]), float.Parse(csvInport.csvDatas[i][index++]),
-                                  float.Parse(csvInport.csvDatas[i][index++]), float.Parse(csvInport.csvDatas[i][index++]), int.Parse(csvInport.csvDatas[i][index++]));
-            starDatas.Add(starData);
-        }
         CreatStar();
     }
 
     public void CreatStar()
     {
-        if (spawnIndex < starDatas.Count)
+        if (spawnIndex < starData.starDatas.Count)
         {
             while (ActiveCount < starDysplayCount)
             {
@@ -61,7 +45,7 @@ public class StarGenerator : MonoBehaviour
                 if (star != null)
                 {
                     //プレイヤーの位置座標をスクリーン座標に変換
-                    var setData = starDatas[spawnIndex];
+                    var setData = starData.starDatas[spawnIndex];
                     star.transform.localPosition = setData.star_Position;
                     var newStarObj = star.GetComponent<StarController>();
                     newStarObj.SetStarDatas(this, playerMove,"SpecifiedSpawn", setData.star_Point);

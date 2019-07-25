@@ -864,55 +864,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1250042575}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &157944531
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 157944532}
-  - component: {fileID: 157944533}
-  m_Layer: 0
-  m_Name: Light Probe Group
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &157944532
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 157944531}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1533053995}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!220 &157944533
-LightProbeGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 157944531}
-  m_Enabled: 1
-  m_SourcePositions:
-  - {x: 1, y: 1, z: 1}
-  - {x: 1, y: 1, z: -1}
-  - {x: 1, y: -1, z: 1}
-  - {x: 1, y: -1, z: -1}
-  - {x: -1, y: 1, z: 1}
-  - {x: -1, y: 1, z: -1}
-  - {x: -1, y: -1, z: 1}
-  - {x: -1, y: -1, z: -1}
-  m_Dering: 0
 --- !u!1 &170076733
 GameObject:
   m_ObjectHideFlags: 0
@@ -980,7 +931,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!4 &173160365 stripped
 Transform:
@@ -1018,7 +969,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &183918047
 MonoBehaviour:
@@ -1038,7 +989,7 @@ MonoBehaviour:
   starDysplayCount: 10
   starPrefab: {fileID: 301987961005163294, guid: fe97a53f4f193f44f8109d35f09a11cc,
     type: 3}
-  fileName: TripStar_StarPos_Stage1
+  starData: {fileID: 11400000, guid: 8e7838261e920a34ab04313b0ae98548, type: 2}
 --- !u!114 &183918048
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3009,7 +2960,7 @@ Transform:
   - {fileID: 1047188195}
   - {fileID: 1811750892}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 3.176, y: 0, z: 0}
 --- !u!114 &534669906
 MonoBehaviour:
@@ -3798,7 +3749,7 @@ Transform:
   m_Children:
   - {fileID: 1287114982}
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &707517435
 PrefabInstance:
@@ -4672,7 +4623,7 @@ Transform:
   - {fileID: 346227851}
   - {fileID: 960818803}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &960818802
 PrefabInstance:
@@ -4995,7 +4946,7 @@ PrefabInstance:
     - target: {fileID: 5045065919266579566, guid: f054e6ec6cb7d9a4c855f9c100035fe1,
         type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5045065919266579566, guid: f054e6ec6cb7d9a4c855f9c100035fe1,
         type: 3}
@@ -6033,7 +5984,7 @@ Transform:
   - {fileID: 1921160814}
   - {fileID: 99139791}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1219740086
 MonoBehaviour:
@@ -6067,7 +6018,6 @@ MonoBehaviour:
     type: 3}
   pauseSelectTitleSprite: {fileID: 21300000, guid: d3faf9d1511523240ab5edb58975fac0,
     type: 3}
-  dialogUICanvas: {fileID: 0}
   starUICanvas: {fileID: 1231812589}
   gameOverDiaLog: {fileID: 1843801079}
   gameOverRetryButton: {fileID: 251781283}
@@ -7365,7 +7315,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1505519648
 GameObject:
@@ -7627,10 +7577,10 @@ Transform:
   m_GameObject: {fileID: 1531786340}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.0000002, y: 1, z: 1.0000002}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1531786342
 MonoBehaviour:
@@ -7651,7 +7601,7 @@ MonoBehaviour:
   obstaclesDysplayCount: 4
   obstaclesPrefab: {fileID: 3757774616426377930, guid: 09737e884a9ba7344a2c858b64d9a824,
     type: 3}
-  fileName: TripStar_EnemyPos_Stage1
+  enemyData: {fileID: 11400000, guid: 5fb0a89021be5c74196e5ecc6cb3fdf5, type: 2}
 --- !u!114 &1531786343
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7664,37 +7614,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a37ec419258d714cb59cd1b08cf8ca7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1533053994
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1533053995}
-  m_Layer: 0
-  m_Name: LightProbeGroups
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1533053995
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1533053994}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 157944532}
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1540725090
 GameObject:
   m_ObjectHideFlags: 0
@@ -8340,7 +8259,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: b9fff36ab5c82a340a23814486257fe5, type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: b9fff36ab5c82a340a23814486257fe5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -11227,7 +11146,7 @@ PrefabInstance:
     - target: {fileID: 7591038753852166573, guid: aaa686a59c6e88843abd9426202be9c6,
         type: 3}
       propertyPath: m_RootOrder
-      value: 13
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 7591038753852166573, guid: aaa686a59c6e88843abd9426202be9c6,
         type: 3}
@@ -11380,7 +11299,7 @@ PrefabInstance:
     - target: {fileID: 8940496102489582401, guid: 59e30a1124c334044a0aae4d2491136c,
         type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8940496102489582401, guid: 59e30a1124c334044a0aae4d2491136c,
         type: 3}

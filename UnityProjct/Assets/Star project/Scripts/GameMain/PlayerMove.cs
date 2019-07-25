@@ -295,7 +295,6 @@ public class PlayerMove : MonoBehaviour
         //地面とエネミー頭は同じ判定→ただし、エネミーの場合はダメージが入るのでレイヤー分け
         if (CheckHitOtherGround(other))
         {
-            Debug.Log("頭111]");
             isGround = true;
         }
         else if (LayerMask.LayerToName(other.gameObject.layer) == rightProgressionControlLayerName)
@@ -315,7 +314,6 @@ public class PlayerMove : MonoBehaviour
         //地面とエネミー頭接触時の判定
         if (CheckHitOtherGround(other))
         {
-            Debug.Log("頭");
             isGround = true;
             rightNotKey = false;
             leftNotKey = false;

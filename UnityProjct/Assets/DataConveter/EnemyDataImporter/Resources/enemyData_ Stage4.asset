@@ -1,0 +1,177 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 060ab189574230540a8d5fb397798f76, type: 3}
+  m_Name: enemyData_ Stage4
+  m_EditorClassIdentifier: 
+  enemyDatas:
+  - enemy_id: 1
+    enemy_Name: moai
+    enemy_Type: NotMoveEnemy
+    enemy_Position: {x: 0, y: 2, z: 0}
+    enemy_MoveVector: {x: 0, y: 0, z: 0}
+    enemy_Hp: 1000000
+    enemy_MoveSpeed: 0
+    enemy_AttackRugTime: 0
+    enemy_AppearStarNum: 1
+  - enemy_id: 2
+    enemy_Name: moai
+    enemy_Type: MoveEnemy
+    enemy_Position: {x: 9, y: 2, z: 0}
+    enemy_MoveVector: {x: -5, y: 0, z: 0}
+    enemy_Hp: 1200000
+    enemy_MoveSpeed: 4
+    enemy_AttackRugTime: 2
+    enemy_AppearStarNum: 1
+  - enemy_id: 3
+    enemy_Name: moai
+    enemy_Type: NotMoveEnemy
+    enemy_Position: {x: 16.5, y: 2, z: 0}
+    enemy_MoveVector: {x: 0, y: 0, z: 0}
+    enemy_Hp: 1000000
+    enemy_MoveSpeed: 0
+    enemy_AttackRugTime: 0
+    enemy_AppearStarNum: 1
+  - enemy_id: 4
+    enemy_Name: moai
+    enemy_Type: NotMoveEnemy
+    enemy_Position: {x: 31.5, y: 4, z: 0}
+    enemy_MoveVector: {x: 0, y: 0, z: 0}
+    enemy_Hp: 2000000
+    enemy_MoveSpeed: 0
+    enemy_AttackRugTime: 0
+    enemy_AppearStarNum: 1
+  - enemy_id: 5
+    enemy_Name: moai
+    enemy_Type: NotMoveEnemy
+    enemy_Position: {x: 35.5, y: 4, z: 0}
+    enemy_MoveVector: {x: 0, y: 0, z: 0}
+    enemy_Hp: 2000000
+    enemy_MoveSpeed: 0
+    enemy_AttackRugTime: 0
+    enemy_AppearStarNum: 1
+  - enemy_id: 6
+    enemy_Name: moai
+    enemy_Type: MoveEnemy
+    enemy_Position: {x: 39, y: 2, z: 0}
+    enemy_MoveVector: {x: 3, y: 0, z: 0}
+    enemy_Hp: 2000000
+    enemy_MoveSpeed: 2
+    enemy_AttackRugTime: 3
+    enemy_AppearStarNum: 1
+  - enemy_id: 7
+    enemy_Name: moai
+    enemy_Type: AirMoveEnemy
+    enemy_Position: {x: 50, y: 10, z: 0}
+    enemy_MoveVector: {x: 8, y: 0, z: 0}
+    enemy_Hp: 2000000
+    enemy_MoveSpeed: 2
+    enemy_AttackRugTime: 1.5
+    enemy_AppearStarNum: 1
+  - enemy_id: 8
+    enemy_Name: moai
+    enemy_Type: AirMoveEnemy
+    enemy_Position: {x: 55, y: 8.5, z: 0}
+    enemy_MoveVector: {x: 9, y: 0, z: 0}
+    enemy_Hp: 2500000
+    enemy_MoveSpeed: 3
+    enemy_AttackRugTime: 2
+    enemy_AppearStarNum: 1
+  - enemy_id: 9
+    enemy_Name: moai
+    enemy_Type: AirMoveEnemy
+    enemy_Position: {x: 74, y: 2, z: 0}
+    enemy_MoveVector: {x: 9, y: 0, z: 0}
+    enemy_Hp: 3000000
+    enemy_MoveSpeed: 3
+    enemy_AttackRugTime: 2
+    enemy_AppearStarNum: 1
+  - enemy_id: 10
+    enemy_Name: moai
+    enemy_Type: MoveEnemy
+    enemy_Position: {x: 74, y: 6, z: 0}
+    enemy_MoveVector: {x: 7, y: 0, z: 0}
+    enemy_Hp: 2300000
+    enemy_MoveSpeed: 4
+    enemy_AttackRugTime: 1
+    enemy_AppearStarNum: 1
+  - enemy_id: 11
+    enemy_Name: moai
+    enemy_Type: NotMoveEnemy
+    enemy_Position: {x: 84.5, y: 2, z: 0}
+    enemy_MoveVector: {x: 0, y: 0, z: 0}
+    enemy_Hp: 4000000
+    enemy_MoveSpeed: 0
+    enemy_AttackRugTime: 0
+    enemy_AppearStarNum: 1
+  - enemy_id: 12
+    enemy_Name: moai
+    enemy_Type: NotMoveEnemy
+    enemy_Position: {x: 86.5, y: 2, z: 0}
+    enemy_MoveVector: {x: 0, y: 0, z: 0}
+    enemy_Hp: 4000000
+    enemy_MoveSpeed: 0
+    enemy_AttackRugTime: 0
+    enemy_AppearStarNum: 1
+  - enemy_id: 13
+    enemy_Name: moai
+    enemy_Type: NotMoveEnemy
+    enemy_Position: {x: 88.5, y: 2, z: 0}
+    enemy_MoveVector: {x: 0, y: 0, z: 0}
+    enemy_Hp: 4000000
+    enemy_MoveSpeed: 0
+    enemy_AttackRugTime: 0
+    enemy_AppearStarNum: 1
+  - enemy_id: 14
+    enemy_Name: moai
+    enemy_Type: NotMoveEnemy
+    enemy_Position: {x: 90.5, y: 2, z: 0}
+    enemy_MoveVector: {x: 0, y: 0, z: 0}
+    enemy_Hp: 4000000
+    enemy_MoveSpeed: 0
+    enemy_AttackRugTime: 0
+    enemy_AppearStarNum: 1
+  - enemy_id: 15
+    enemy_Name: moai
+    enemy_Type: NotMoveEnemy
+    enemy_Position: {x: 92.5, y: 2, z: 0}
+    enemy_MoveVector: {x: 0, y: 0, z: 0}
+    enemy_Hp: 4000000
+    enemy_MoveSpeed: 0
+    enemy_AttackRugTime: 0
+    enemy_AppearStarNum: 1
+  - enemy_id: 16
+    enemy_Name: moai
+    enemy_Type: NotMoveEnemy
+    enemy_Position: {x: 94.5, y: 2, z: 0}
+    enemy_MoveVector: {x: 0, y: 0, z: 0}
+    enemy_Hp: 4000000
+    enemy_MoveSpeed: 0
+    enemy_AttackRugTime: 0
+    enemy_AppearStarNum: 1
+  - enemy_id: 17
+    enemy_Name: moai
+    enemy_Type: NotMoveEnemy
+    enemy_Position: {x: 96.5, y: 2, z: 0}
+    enemy_MoveVector: {x: 0, y: 0, z: 0}
+    enemy_Hp: 4000000
+    enemy_MoveSpeed: 0
+    enemy_AttackRugTime: 0
+    enemy_AppearStarNum: 2
+  - enemy_id: 18
+    enemy_Name: boss
+    enemy_Type: None
+    enemy_Position: {x: 0, y: 0, z: 0}
+    enemy_MoveVector: {x: 0, y: 0, z: 0}
+    enemy_Hp: 0
+    enemy_MoveSpeed: 0
+    enemy_AttackRugTime: 0
+    enemy_AppearStarNum: 0
