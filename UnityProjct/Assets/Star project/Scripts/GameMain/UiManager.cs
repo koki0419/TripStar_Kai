@@ -84,7 +84,19 @@ public class UiManager : MonoBehaviour
     [SerializeField] private Sprite doubleCheckDialogNoNormalSprite = null;
     [SerializeField] private Sprite doubleCheckDialogNoSelectSprite = null;
 
-    // Start is called before the first frame update
+    //チュートリアル
+    [SerializeField] private GameObject tutorialUI = null;
+    private Image uiImage = null;
+    private Animator tutorialAnimator = null;
+    public void GetTutorialUiSprite(Sprite tutorialSprite)
+    {
+        uiImage.sprite = tutorialSprite;
+    }
+    public void ViewTutorialUI(bool isView)
+    {
+        tutorialUI.SetActive(isView);
+    }
+
     public void Init()
     {
         //初期化
@@ -106,6 +118,10 @@ public class UiManager : MonoBehaviour
         RetryButtonSelect(retryButtonSelectNum);
         pauseTyp = PauseTyp.Normal;
         gameOverTyp = GameOverTyp.Normal;
+
+        uiImage = tutorialUI.GetComponent<Image>();
+        tutorialAnimator = tutorialUI.GetComponent<Animator>();
+        ViewTutorialUI(false);
     }
     //スタート
     private IEnumerator OnTitle()

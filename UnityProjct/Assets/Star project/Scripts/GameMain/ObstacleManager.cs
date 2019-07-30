@@ -30,7 +30,6 @@ public class ObstacleManager : MonoBehaviour
     private const string breakLayer = "BreakObstacls";
     //-------------フラグ用変数------------------------------
     private bool onRemoveObjFlag = false;
-
     private bool isDamage;
     private bool canDamage = true;
     public bool IsDestroyed

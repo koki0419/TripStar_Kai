@@ -9,19 +9,33 @@ public class CameraController : MonoBehaviour
     [SerializeField] private Transform player = null;
     private float camaraPos = 6;
     private float camaraMove = 1.5f;
+
+    [SerializeField] private float zoomSpeed;
+    //初期位置
+    private Vector3 initialPosition;
+
+    public bool IsMove
+    {
+        get; set;
+    }
     public void Init()
     {
         var position = transform.position;
         position.x = player.position.x;
+        //初期位置を取得します。
+        initialPosition = transform.position;
     }
-
-    // Update is called once per frame
-    public void MoveUpdate(float deltaTime)
+    public void MoveUpdate(float deltaTime, bool cameraMove)
     {
-        var position = transform.position;
-        position.x += camaraMove * deltaTime;
-        position.y = camaraPos;
-        transform.position = position;
+        if (cameraMove)
+        {
+            var position = transform.position;
+            position.x += camaraMove * deltaTime;
+            position.y = camaraPos;
+            transform.position = position;
+        }
+        else
+            return;
     }
     /// <summary>
     /// カメラを振動させます
@@ -45,5 +59,27 @@ public class CameraController : MonoBehaviour
             yield return null;
         }
         transform.localPosition = pos;
+    }
+
+    public void CameraZoomUp()
+    {
+        var playerPos = player.position;
+        var vector3 = playerPos - transform.position;
+        var nVector3 = vector3.normalized;
+        if (transform.position.z <= -20.0f)
+        {
+            transform.position += nVector3 * zoomSpeed;
+        }
+    }
+
+    public void CameraZoomDown()
+    {
+        var playerPos = player.position;
+        var vector3 = playerPos - transform.position;
+        var nVector3 = vector3.normalized;
+        if (transform.position.z >= initialPosition.z)
+        {
+            transform.position -= nVector3 * zoomSpeed;
+        }
     }
 }

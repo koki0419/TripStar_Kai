@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using StarProject.Gamemain;
+
 public class EnemyController : MonoBehaviour
 {
     /// <summary>
@@ -160,48 +162,51 @@ public class EnemyController : MonoBehaviour
     /// </summary>
     private void Update()
     {
-        switch (enemyTyp)
+        if (GameSceneController.isPlaying)
         {
-            case EnemyTyp.AirMoveEnemy:
-                switch (SetEnemyState)
-                {
-                    case EnemyState.Search:
-                        SearchUpdate();
-                        break;
-                    case EnemyState.Discovery:
-                        DiscoveryUpdate("AirMoveEnemy");
-                        break;
-                    case EnemyState.StunAttack:
-                        StunAttackUpdate();
-                        break;
-                    case EnemyState.Stun:
-                        StanUpdate();
-                        break;
-                    case EnemyState.Died:
-                        break;
-                }
-                break;
-            case EnemyTyp.MoveEnemy:
-                switch (SetEnemyState)
-                {
-                    case EnemyState.Search:
-                        SearchUpdate();
-                        break;
-                    case EnemyState.Discovery:
-                        DiscoveryUpdate("MoveEnemy");
-                        break;
-                    case EnemyState.StunAttack:
-                        StunAttackUpdate();
-                        break;
-                    case EnemyState.Stun:
-                        StanUpdate();
-                        break;
-                    case EnemyState.Died:
-                        break;
-                }
-                break;
-            case EnemyTyp.NotMoveEnemy:
-                break;
+            switch (enemyTyp)
+            {
+                case EnemyTyp.AirMoveEnemy:
+                    switch (SetEnemyState)
+                    {
+                        case EnemyState.Search:
+                            SearchUpdate();
+                            break;
+                        case EnemyState.Discovery:
+                            DiscoveryUpdate("AirMoveEnemy");
+                            break;
+                        case EnemyState.StunAttack:
+                            StunAttackUpdate();
+                            break;
+                        case EnemyState.Stun:
+                            StanUpdate();
+                            break;
+                        case EnemyState.Died:
+                            break;
+                    }
+                    break;
+                case EnemyTyp.MoveEnemy:
+                    switch (SetEnemyState)
+                    {
+                        case EnemyState.Search:
+                            SearchUpdate();
+                            break;
+                        case EnemyState.Discovery:
+                            DiscoveryUpdate("MoveEnemy");
+                            break;
+                        case EnemyState.StunAttack:
+                            StunAttackUpdate();
+                            break;
+                        case EnemyState.Stun:
+                            StanUpdate();
+                            break;
+                        case EnemyState.Died:
+                            break;
+                    }
+                    break;
+                case EnemyTyp.NotMoveEnemy:
+                    break;
+            }
         }
     }
     /// <summary>
