@@ -19,6 +19,8 @@ namespace StarProject.Gamemain
             Opening,//オープニング
             Play,//ゲーム中
             Pause,//中断
+            Tutorial,//チュートリアル
+            BossMoaiAttack,//ボスモアイの攻撃
             GameClear,//ゲームクリア
             GameOver,//ゲームオーバー
         }
@@ -31,17 +33,15 @@ namespace StarProject.Gamemain
 
         //---------Unityコンポーネント宣言--------------
         [SerializeField] private GameObject playerObj = null;
-
         [SerializeField] private GameObject safeHitGigMoaiObj = null;
         //エネミーのスクリプト取得用
         [SerializeField] private GameObject enemysObj = null;
         private EnemyController[] enemyController = null;
         private GameObject[] enemyChilledObj = null;
         private ObstacleManager[] obstacleManager = null;
-
+        [SerializeField] private GameObject gameOverLineObj = null;
         [SerializeField] private GameObject mainCamera = null;
         [SerializeField] private GameObject openingCamera = null;
-
         private GameObject fastTargetObj = null;
         //------------クラスの宣言----------------------
         [SerializeField] private PlayerMove playerMove = null;
@@ -49,10 +49,8 @@ namespace StarProject.Gamemain
         {
             get { return playerMove; }
         }
-
         [SerializeField] private Boss[] boss = null;
         private CameraController cameraController = null;
-
         [SerializeField] private StarChargeController starChargeController = null;
         public StarChargeController StarChargeController
         {
@@ -66,13 +64,15 @@ namespace StarProject.Gamemain
         // 変数本体でInspectorにはこちらが表示される
         [SerializeField] private ChargePointManager chargePointManager = null;
         [SerializeField] private UiManager uiManager = null;
-        [SerializeField] private GameOverLineController gameOverLineController = null;
-
+        private GameOverLineController gameOverLineController = null;
         [SerializeField] private StarGenerator starGenerator = null;
         [SerializeField] private StarSpawn starSpawn = null;
         [SerializeField] private DamageTextSpawn damageTextSpawn = null;
         [SerializeField] private ObstacleSpawn obstacleSpawn = null;
 
+        [SerializeField] private Light light = null;
+        [SerializeField] private List<TutorialTask> tutorialTasks = new List<TutorialTask>();
+        private int checkTutorialTasksNum = 0;
         //------------数値変数の宣言--------------------
         //現在のステージ番号 // リザルトでリトライやNextステージで使用します
         //タイトルでstageNumを1に設定します。その後はリザルトシーンのみでしか使用しません
@@ -80,6 +80,9 @@ namespace StarProject.Gamemain
         //エネミーを何体倒したか
         //ステージ１のカメラ起動用に使用します
         private int destroyCount = 0;
+
+        private const float fastAttackBossMoaiScreenProgressRange = 5;
+        private const float secondAttackBossMoaiScreenProgressRange = 10;
         //------------フラグ変数の宣言------------------
         //ゲームクリア
         public bool isGameClear
@@ -105,8 +108,19 @@ namespace StarProject.Gamemain
         private bool isOperation;
         //登場演出が終了したかどうか
         private bool exitOpning;
+        //モアイのアタックコルーチン用
+        private bool bigMoaiAttack = false;
         //debug状態かどうか
         [SerializeField] private bool debug;
+
+        //ボス攻撃を解放する
+        [SerializeField] private bool release_BossAttack = false;
+        //チュートリアルを解放する
+        [SerializeField] private bool release_Tutorial = false;
+
+        [SerializeField] private bool release_CameraZoomUp = false;
+        [SerializeField] private bool release_CameraZoomDown = false;
+        public static bool isPlaying;
         //初期化
         public void Init()
         {
@@ -115,10 +129,7 @@ namespace StarProject.Gamemain
             {
                 boss[i].Init();
             }
-
             cameraController = Singleton.Instance.cameraController;
-
-
             ////エネミー子供オブジェクトを取得
             enemyChilledObj = new GameObject[obstacleSpawn.SpawnMax];
             enemyController = new EnemyController[obstacleSpawn.SpawnMax];
@@ -126,13 +137,15 @@ namespace StarProject.Gamemain
 
             fastTargetObj = enemysObj.transform.GetChild(0).gameObject;
 
+            gameOverLineController = gameOverLineObj.GetComponent<GameOverLineController>();
+            gameOverLineObj.SetActive(false);
             isGetStar = false;
             isGameClear = false;
             isGameOver = false;
             isOperation = false;
             canCameraShake = false;
             gameClearMovie = false;
-
+            isPlaying = false;
             ResultScreenController.all_damage = 0;
         }
 
@@ -180,6 +193,12 @@ namespace StarProject.Gamemain
                 case GameMainState.Pause:
                     GamePause();
                     break;
+                case GameMainState.Tutorial:
+                    TutorialUpdate();
+                    break;
+                case GameMainState.BossMoaiAttack:
+                    BossMoaiAttack();
+                    break;
                 case GameMainState.GameClear:
                     GameClear();
                     break;
@@ -205,7 +224,45 @@ namespace StarProject.Gamemain
                 }
             }
         }
-
+        private void TutorialCheck()
+        {
+            var starCount = chargePointManager.StarChildCount;
+            //星20個溜まった時
+            if (starCount >= 20 && !tutorialTasks[0].CheckTask)
+            {
+                uiManager.GetTutorialUiSprite(tutorialTasks[0].tutorialUiSprite);
+            }//星50個溜まった時
+            else if (starCount == 50 && !tutorialTasks[2].CheckTask)
+            {
+                uiManager.GetTutorialUiSprite(tutorialTasks[2].tutorialUiSprite);
+            }else
+            {
+                return;
+            }
+            isPlaying = false;
+            gameMainState = GameMainState.Tutorial;
+        }
+        //ステージ1のチュートリアル
+        private void TutorialUpdate()
+        {
+            uiManager.ViewTutorialUI(true);
+            if (Input.GetKeyDown(KeyCode.L))
+            {
+                tutorialTasks[checkTutorialTasksNum].CheckTask = true;
+                checkTutorialTasksNum++;
+                if (checkTutorialTasksNum == 1)
+                {
+                    
+                    uiManager.GetTutorialUiSprite(tutorialTasks[1].tutorialUiSprite);
+                }
+                else
+                {
+                    uiManager.ViewTutorialUI(false);
+                    isPlaying = true;
+                    gameMainState = GameMainState.Play;
+                }
+            }
+        }
         //モアイ動きスタート
         IEnumerator BigMoaiMoveStart()
         {
@@ -218,7 +275,7 @@ namespace StarProject.Gamemain
             canCameraShake = false;
             Destroy(safeHitGigMoaiObj);
             isMoveCamera = true;
-            if(gameMainState != GameMainState.Pause) gameMainState = GameMainState.Play;
+            if (gameMainState != GameMainState.Pause) gameMainState = GameMainState.Play;
         }
 
         /// <summary>
@@ -243,6 +300,7 @@ namespace StarProject.Gamemain
         IEnumerator OpeningEnumerator()
         {
             yield return uiManager.FadeOutEnumerator();
+            gameOverLineObj.SetActive(true);
             CameraChange();
             uiManager.StarUICanvasDisplay(true);
             starGenerator.Init();
@@ -263,6 +321,7 @@ namespace StarProject.Gamemain
             {
                 isMoveCamera = false;
             }
+            isPlaying = true;
             gameMainState = GameMainState.Play;
         }
         void GamePlay()
@@ -270,7 +329,8 @@ namespace StarProject.Gamemain
             starGenerator.StarSponUpdate();
             obstacleSpawn.ObstaclesSponUpdate();
             float deltaTime = Time.deltaTime;
-            if (isMoveCamera) cameraController.MoveUpdate(deltaTime);
+            cameraController.MoveUpdate(deltaTime, isMoveCamera);
+            gameOverLineController.MoveUpdate(deltaTime, isMoveCamera);
             playerMove.OnUpdate(deltaTime);//PlayerのUpdate
                                            //☆エネミー子供オブジェクト初期化
             if (!debug)
@@ -289,6 +349,42 @@ namespace StarProject.Gamemain
                     StartCoroutine(BigMoaiMoveStart());
                 }
             }
+            if (release_BossAttack)
+            {
+                //追ってモアイが攻撃をしてくるかどうかを確認する
+                var CheckCameraMoaiAttack = CheckThePositionOfPlayerAndCameraMoai(Camera.main.transform.position);
+                if (CheckCameraMoaiAttack != -1)
+                {
+                    if (light.intensity <= 0.7f)
+                    {
+                        if (!bigMoaiAttack)
+                        {
+                            StartCoroutine(BigMoaiAttackIEnumerator());
+                            bigMoaiAttack = true;
+                        }
+                    }
+                    else
+                    {
+                        light.intensity -= 0.01f;
+                    }
+                }
+            }
+            if (release_Tutorial)
+            {
+                //ステージ１の時チュートリアルを挟みます
+                if (stageNum == 1 || debug)
+                {
+                    TutorialCheck();
+                }
+            }
+            if (release_CameraZoomUp)
+            {
+                cameraController.CameraZoomUp();
+            }
+            if (release_CameraZoomDown)
+            {
+                cameraController.CameraZoomDown();
+            }
             //ゲームオーバー
             if (isGameOver)
             {
@@ -306,8 +402,16 @@ namespace StarProject.Gamemain
             if (Input.GetButtonDown("Pause") || Input.GetKeyDown(KeyCode.Escape))
             {
                 uiManager.PauseDiaLogDisplay(true);
+                isPlaying = false;
                 gameMainState = GameMainState.Pause;
             }
+        }
+        IEnumerator BigMoaiAttackIEnumerator()
+        {
+            yield return gameOverLineController.SpotLightOnOff();
+            isPlaying = false;
+            gameMainState = GameMainState.BossMoaiAttack;
+
         }
         /// <summary>
         /// Pause時の処理
@@ -319,7 +423,49 @@ namespace StarProject.Gamemain
             if (Input.GetButtonDown("Pause") || Input.GetKeyDown(KeyCode.Escape))
             {
                 uiManager.PauseDiaLogDisplay(false);
+                isPlaying = true;
                 gameMainState = GameMainState.Play;
+            }
+        }
+        bool returnPosition = false;
+        /// <summary>
+        /// 追ってくるモアイの攻撃update
+        /// </summary>
+        void BossMoaiAttack()
+        {
+            var checkAttack = true;
+            canCameraShake = true;
+            if (!fastBossAttack && !returnPosition)
+            {
+                checkAttack = gameOverLineController.BigMoaiAttack(fastAttackBossMoaiScreenProgressRange,0);
+                if (!checkAttack)
+                {
+                    fastBossAttack = true;
+                    returnPosition = true;
+                }
+            }
+            else if (!secondBossAttack && !returnPosition)
+            {
+                checkAttack = gameOverLineController.BigMoaiAttack(secondAttackBossMoaiScreenProgressRange,1);
+                if (!checkAttack)
+                {
+                    secondBossAttack = true;
+                    returnPosition = true;
+                }
+            }
+            if (returnPosition)
+            {
+                var checkReturn = gameOverLineController.ReturnPosipoin();
+                if (!checkReturn)
+                {
+                    canCameraShake = false;
+                    isMoveCamera = true;
+                    returnPosition = false;
+                    bigMoaiAttack = false;
+                    light.intensity = 1.0f;
+                    isPlaying = true;
+                    gameMainState = GameMainState.Play;
+                }
             }
         }
         /// <summary>
@@ -385,6 +531,23 @@ namespace StarProject.Gamemain
                 mainCamera.SetActive(true);
                 openingCamera.SetActive(false);
             }
+        }
+        bool fastBossAttack = false;
+        bool secondBossAttack = false;
+        //追ってモアイの攻撃範囲に入ったかどうか
+        private int CheckThePositionOfPlayerAndCameraMoai(Vector3 cameraPosition)
+        {
+            if (gameOverLineController.FastAttackPosition.x <= cameraPosition.x && !fastBossAttack)
+            {
+                isMoveCamera = false;
+                return 1;
+            }
+            else if (gameOverLineController.SecondAttackPosition.x <= cameraPosition.x && !secondBossAttack)
+            {
+                isMoveCamera = false;
+                return 2;
+            }
+            else return -1;
         }
     }
 }

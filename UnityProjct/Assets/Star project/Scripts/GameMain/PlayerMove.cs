@@ -22,6 +22,7 @@ public class PlayerMove : MonoBehaviour
         NotAttackMode,//スタン状態
         Attack,//攻撃状態
         OnCharge,//チャージ中状態
+        ChargeSpecial,
         CharacterGameOver,//ゲームオーバー状態
     }
     private ObjState objState = ObjState.None;
@@ -55,6 +56,10 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private GameObject sandEffect = null;
     //パンチエフェクト
     [SerializeField] private GameObject punchEffect = null;
+    //プレイヤーの拳オブジェクト
+    [SerializeField] private GameObject playerFistObj = null;
+    //星条旗ちゃんObj
+    [SerializeField] private GameObject seijoukityanObj = null;
     //-------------クラス関係--------------------------------
     //『Attack』をインスタンス
     Attack attack = new Attack();
@@ -73,8 +78,6 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private float inputMoveKey = 0;
     //ジャンプ力
     [SerializeField] private float jumpPower = 0;
-    //チャージポイント使用時のユーザーゲージ上昇量
-    [SerializeField] private float userChargePonitUp;
     [Header("プレイヤー攻撃初期情報")]
     //初期攻撃力
     private const float foundationoffensivePower = 1000000;
@@ -129,6 +132,16 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private int chargeAttackSeNum;
     [SerializeField] private int punchSeNum;
     [SerializeField] private int getStarSeNum;
+    //スペシャルアニメーション時攻撃モーション番号を一時保管
+    private int specialAttackNum;
+
+    //チャージポイント使用時のユーザーゲージ上昇量
+    private const int starPointNormalization = 10;
+    private const float fastChargeAmountOfIncrease = 0.1f;
+    private const float secondChargeAmountOfIncrease = 0.05f;
+    private const float thirdChargeAmountOfIncrease = 0.025f;
+    private const float fourthChargeAmountOfIncrease = 0.01f;
+    private const float fifthChargeAmountOfIncrease = 0.005f;
     //-------------フラグ用変数------------------------------
     //アタックフラグ//ダメージをあたえられる
     public bool canDamage
@@ -168,6 +181,10 @@ public class PlayerMove : MonoBehaviour
     {
         set; get;
     }
+    //攻撃をキャンセルするか
+    public bool attackCancel = false;
+    //チャージスペシャルアップデートの進行確認
+    private bool checkSpecial = false;
     //各種レイヤーを設定
     private const string groundLayerName = "Ground";//地面
     private const string gameOverLineLayerName = "GameOverObj";//ゲームオーバーライン
@@ -221,6 +238,9 @@ public class PlayerMove : MonoBehaviour
                 break;
             case ObjState.Attack:
                 AttackUpdate();
+                break;
+            case ObjState.ChargeSpecial:
+                ChargeSpecialUpdate();
                 break;
             case ObjState.CharacterGameOver:
                 CharacterGameOver();
@@ -512,7 +532,7 @@ public class PlayerMove : MonoBehaviour
         var chargeMax = Singleton.Instance.gameSceneController.ChargePointManager.StarChildCountMax;
         var charaHand = gameObject.GetComponentInChildren<SkinnedMeshRenderer>();
         //チャージ量の+-量
-        float chargeProportion = userChargePonitUp * 10;
+        float chargeProportion = fastChargeAmountOfIncrease * 10;
 
         if (chargeNowHand <= charge)
         {
@@ -530,8 +550,6 @@ public class PlayerMove : MonoBehaviour
     {
         //マックスのチャージ量
         var chargeMax = charge;
-        //チャージ量の+-量
-        float chargeProportion = userChargePonitUp;
         if (charge >= 1 && charge < 2)
         {
             charge = 1;
@@ -560,7 +578,29 @@ public class PlayerMove : MonoBehaviour
 
         if (charge != 0 && chargeNow <= chargeMax && chargeCount < charge)
         {
-            chargeNow += chargeProportion;
+            switch (chargeCount)
+            {
+                case 0:
+                    chargeNow += fastChargeAmountOfIncrease;
+                    Debug.Log("1回目");
+                    break;
+                case 1:
+                    chargeNow += secondChargeAmountOfIncrease;
+                    Debug.Log("2回目");
+                    break;
+                case 2:
+                    chargeNow += thirdChargeAmountOfIncrease;
+                    Debug.Log("3回目");
+                    break;
+                case 3:
+                    chargeNow += fourthChargeAmountOfIncrease;
+                    Debug.Log("4回目");
+                    break;
+                case 4:
+                    chargeNow += fifthChargeAmountOfIncrease;
+                    Debug.Log("5回目");
+                    break;
+            }
             if (chargeNow >= 1)
             {
                 chargeCount++;
@@ -660,6 +700,9 @@ public class PlayerMove : MonoBehaviour
             case "chargepunchDown"://チャージダウン
                 Attack_ChargepunchDown();
                 break;
+            case "chargeSpecial":
+                Charge5SpecialAnimation();
+                break;
             case "GameOver"://ゲームオーバー
                 GameOverAnimation();
                 break;
@@ -712,6 +755,7 @@ public class PlayerMove : MonoBehaviour
         animatorComponent.SetBool("ExitAnimation2", false);
         animatorComponent.SetTrigger("isPunch");
         animatorComponent.SetInteger("setPunchNum", 1000);
+        animatorComponent.SetInteger("ChargeNum", chargeCount);
     }
     void Attack_Chargepunch()
     {
@@ -719,6 +763,7 @@ public class PlayerMove : MonoBehaviour
         animatorComponent.SetBool("ExitAnimation2", false);
         animatorComponent.SetTrigger("isPunch");
         animatorComponent.SetInteger("setPunchNum", 1010);
+        animatorComponent.SetInteger("ChargeNum", chargeCount);
     }
     void Attack_ChargepunchUp()
     {
@@ -726,6 +771,7 @@ public class PlayerMove : MonoBehaviour
         animatorComponent.SetBool("ExitAnimation2", false);
         animatorComponent.SetTrigger("isPunch");
         animatorComponent.SetInteger("setPunchNum", 1011);
+        animatorComponent.SetInteger("ChargeNum", chargeCount);
     }
     void Attack_ChargepunchDown()
     {
@@ -733,6 +779,7 @@ public class PlayerMove : MonoBehaviour
         animatorComponent.SetBool("ExitAnimation2", false);
         animatorComponent.SetTrigger("isPunch");
         animatorComponent.SetInteger("setPunchNum", 1001);
+        animatorComponent.SetInteger("ChargeNum", chargeCount);
     }
     void GameOverAnimation()
     {
@@ -745,6 +792,13 @@ public class PlayerMove : MonoBehaviour
     void ExitAnimation()
     {
         animatorComponent.SetBool("ExitAnimation2", true);
+    }
+    void Charge5SpecialAnimation()
+    {
+        animatorComponent.SetBool("isCharge", false);
+        animatorComponent.SetTrigger("isPunch");
+        animatorComponent.SetBool("ExitAnimation2", false);
+        animatorComponent.SetInteger("ChargeNum", chargeCount);
     }
     /// <summary>
     /// 通常状態でのキャラクターの処理
@@ -890,7 +944,11 @@ public class PlayerMove : MonoBehaviour
         {
             Singleton.Instance.soundManager.PlayPlayerLoopSe(chargeSeNum);
             //チャージ中
-            Singleton.Instance.gameSceneController.StarChargeController.UpdateChargePoint(OnCharge(Singleton.Instance.gameSceneController.ChargePointManager.StarChildCount / 10));
+            //if(chargeCount == 0) {
+            //Singleton.Instance.gameSceneController.StarChargeController.UpdateChargePoint(OnCharge(Singleton.Instance.gameSceneController.ChargePointManager.StarChildCount / 10));
+            //}
+            ChargeUp(starPointNormalization);
+            Debug.Log("OnCharge : " + OnCharge(Singleton.Instance.gameSceneController.ChargePointManager.StarChildCount / 10));
             Singleton.Instance.gameSceneController.StarChargeController.ChargeBigStar(chargeCount);
             ChargeAttackHand(Singleton.Instance.gameSceneController.ChargePointManager.StarChildCount);
             //チャージエフェクト
@@ -934,6 +992,16 @@ public class PlayerMove : MonoBehaviour
                 Singleton.Instance.soundManager.StopPlayerSe();
                 Singleton.Instance.soundManager.PlayPlayerSe(punchSeNum);
 
+            }else if(chargeCount >= 5)
+            {
+                //ここにSpecialついか
+                Charge5SpecialAnimation();
+                specialAttackNum = attack.OnAttack(new Vector2(dx, dy), this.gameObject);
+                ChargeReset(false,true);
+                objState = ObjState.ChargeSpecial;
+                return;
+                //Singleton.Instance.soundManager.StopPlayerSe();
+                //Singleton.Instance.soundManager.PlayPlayerSe(punchSeNum);
             }
             else
             {
@@ -941,17 +1009,44 @@ public class PlayerMove : MonoBehaviour
                 Singleton.Instance.soundManager.StopPlayerSe();
                 Singleton.Instance.soundManager.PlayPlayerSe(chargeAttackSeNum);
             }
-            //チャージ時の☆アニメーションを戻す
-            //starChargeController.ChargeStarUIAnimationInt(0);
-            starChargeController.ChargeStarUIAnimationBool(false);
-
-            ChargeEffectPlay(false, false);
-            PunchEffectPlay(true);
-            chargeNow = 0.0f;
-            canDamage = true;
-            isAttack = true;
+            ChargeReset(false,false);
             objState = ObjState.Attack;
         }
+
+        if (attackCancel)
+        {
+            attackCancel = false;
+            ChargeEffectPlay(false, false);
+            chargeNow = 0.0f;
+            isAttack = false;
+            canDamage = false;
+            chargeNowHand = 0.0f;
+            FreezePositionCancel();
+            PunchEffectPlay(false);
+            isUpAttack = false;
+            isDownAttack = false;
+            chargeCount = 0;
+            CharacterAnimation("ExitAnimation");
+            canAttack = true;
+            IsHit = false;
+            if (isGround) objState = ObjState.Normal;
+            else objState = ObjState.NotAttackMode;
+        }
+    }
+    void ChargeReset(bool chargeEfect1,bool chargeEfect2)
+    {
+        //チャージ時の☆アニメーションを戻す
+        //starChargeController.ChargeStarUIAnimationInt(0);
+        starChargeController.ChargeStarUIAnimationBool(false);
+        ChargeEffectPlay(chargeEfect1, chargeEfect2);
+        PunchEffectPlay(true);
+        chargeNow = 0.0f;
+        canDamage = true;
+        isAttack = true;
+    }
+    void ChargeUp(float ChargeAmountOfIncrease)
+    {
+        Singleton.Instance.gameSceneController.StarChargeController.UpdateChargePoint(OnCharge(Singleton.Instance.gameSceneController.ChargePointManager.StarChildCount / ChargeAmountOfIncrease));
     }
     /// <summary>
     /// 攻撃時のキャラクター更新
@@ -1033,6 +1128,8 @@ public class PlayerMove : MonoBehaviour
     public IEnumerator OnAttack(float animationTime)
     {
         yield return new WaitForSeconds(animationTime);
+        ChargeEffectPlay(false, false);
+        ReSetSpecal();
         canDamage = false;
         chargeNowHand = 0.0f;
         FreezePositionCancel();
@@ -1040,6 +1137,7 @@ public class PlayerMove : MonoBehaviour
         isUpAttack = false;
         isDownAttack = false;
         chargeCount = 0;
+        specialAttackNum = 0;
         CharacterAnimation("ExitAnimation");
         canAttack = true;
         IsHit = false;
@@ -1114,5 +1212,35 @@ public class PlayerMove : MonoBehaviour
     {
         chargeEffect1.SetActive(effect1_isPlay);
         chargeEffect2.SetActive(effect2_isPlay);
+    }
+    //チャージ5スペシャルのUpdate
+    void ChargeSpecialUpdate()
+    {
+        if (!checkSpecial)
+        {
+            checkSpecial = true;
+            StartCoroutine(SpecialUpdateEnumerator());
+        }
+    }
+    IEnumerator SpecialUpdateEnumerator()
+    {
+        yield return new WaitForSeconds(2.0f);
+        SetSpecal();
+        checkSpecial = false;
+        OnAttackMotion(specialAttackNum);
+        Singleton.Instance.soundManager.StopPlayerSe();
+        Singleton.Instance.soundManager.PlayPlayerSe(chargeAttackSeNum);
+        objState = ObjState.Attack;
+    }
+    void SetSpecal()
+    {
+        chargeEffect2.transform.parent = playerFistObj.transform;
+        chargeEffect2.transform.position = Vector3.zero;
+    }
+    void ReSetSpecal()
+    {
+        chargeEffect2.transform.parent = seijoukityanObj.transform;
+        chargeEffect2.transform.position = Vector3.zero;
+        chargeEffect2.transform.rotation = Quaternion.Euler(-90, 0, 0);
     }
 }
