@@ -24,7 +24,7 @@ namespace StarProject.Title
             SE,
         }
         private DebugTyp debugTyp = DebugTyp.None;
-        //フェード関係
+        // フェード関係
         [Header("フェード関係")]
         [SerializeField] private GameObject fadeImageObj = null;
         [SerializeField] private GameObject fadeText = null;
@@ -32,7 +32,7 @@ namespace StarProject.Title
         private Image fadeImage;
         [SerializeField] private Color fadeOutColor;
         [SerializeField] private float fadeOutTime;
-        //ボタン選択用ナンバー
+        // ボタン選択用ナンバー
         [Header("ボタン")]
         [SerializeField] private int stageMax = 0;
         [SerializeField] private Image selectButton = null;
@@ -41,9 +41,9 @@ namespace StarProject.Title
         [SerializeField] private Sprite selectButtonSelectSprite = null;
         [SerializeField] private Sprite exitButtonNormalSprite = null;
         [SerializeField] private Sprite exitButtonSelectSprite = null;
-        //タイトル終了ボタン選択ナンバー
+        // タイトル終了ボタン選択ナンバー
         private int buttonNum;
-        //EXITダイアログUI
+        // EXITダイアログUI
         [Header("EXIT用テクスチャー")]
         [SerializeField] private GameObject exitDialogUI = null;
         [SerializeField] private Image yesButton = null;
@@ -52,13 +52,14 @@ namespace StarProject.Title
         [SerializeField] private Sprite exitButtonYesSelectSprite = null;
         [SerializeField] private Sprite exitButtonNoNormalSprite = null;
         [SerializeField] private Sprite exitButtonNoSelectSprite = null;
-        //EXITボタン選択用ナンバー
+        // EXITボタン選択用ナンバー
         private int exitSelectNum = 0;
-        //ゲームパッドjoyコン制御用
+        // ゲームパッドjoyコン制御用
         private int countNum;
         private bool debugFlag = false;
-
-        // Start is called before the first frame update
+        /// <summary>
+        /// 初期化
+        /// </summary>
         void Init()
         {
             buttonNum = 0;
@@ -69,7 +70,7 @@ namespace StarProject.Title
             TitleSelectButton(buttonNum);
         }
 
-        //スタート
+        // スタート
         IEnumerator Start()
         {
             Init();
@@ -83,7 +84,6 @@ namespace StarProject.Title
         {
             FadeImageDysplay(false);
         }
-        // Update is called once per frame
         void Update()
         {
             switch (titleTyp)
@@ -98,7 +98,7 @@ namespace StarProject.Title
                     DebugUpdate();
                     break;
             }
-            //デバック用
+            // デバック用
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
                 StartCoroutine(GameStartEnumerator(1));
@@ -225,14 +225,14 @@ namespace StarProject.Title
         {
             if (SoundManager.audioVolume != 0) Singleton.Instance.soundManager.AudioVolume();
             else Singleton.Instance.soundManager.AllAudioVolume();
-            //debugupdateへ
+            // debugupdateへ
             if (Input.GetKey(KeyCode.Q) && Input.GetKey(KeyCode.W))
             {
                 debugFlag = false;
                 titleTyp = TitleTyp.TitleSelect;
             }
         }
-        //アプリ終了関数
+        // アプリ終了関数
         private void OnExit()
         {
             Application.Quit();
@@ -241,13 +241,13 @@ namespace StarProject.Title
         private void TitleSeletUpdate()
         {
             float dx = Input.GetAxis("Horizontal");
-            //左
+            // 左
             if (dx < 0 && countNum == 0)
             {
                 countNum++;
                 if (buttonNum > 0) buttonNum--;
                 TitleSelectButton(buttonNum);
-            }//右
+            }// 右
             else if (dx > 0 && countNum == 0)
             {
                 countNum++;
@@ -274,7 +274,7 @@ namespace StarProject.Title
                         break;
                 }
             }
-            //debugupdateへ
+            // debugupdateへ
             if (Input.GetKey(KeyCode.R) && Input.GetKey(KeyCode.E))
             {
                 debugFlag = true;
@@ -285,13 +285,13 @@ namespace StarProject.Title
         private void ExitSelectUpdate()
         {
             float dx = Input.GetAxis("Horizontal");
-            //左
+            // 左
             if (dx < 0 && countNum == 0)
             {
                 countNum++;
                 if (exitSelectNum > 0) exitSelectNum--;
                 ExitSelectButton(exitSelectNum);
-            }//右
+            }// 右
             else if (dx > 0 && countNum == 0)
             {
                 countNum++;
@@ -403,7 +403,6 @@ namespace StarProject.Title
             fadeImageObj.transform.SetAsLastSibling();
             fadeImage.color = color;
         }
-
         /// <summary>
         /// フェード時フェードキャラクターを表示非表示します
         /// </summary>

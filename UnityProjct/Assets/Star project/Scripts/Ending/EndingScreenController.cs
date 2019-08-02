@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class EndingScreenController : MonoBehaviour
 {
-    //フェード関係
+    // フェード関係
     [Header("フェード関係")]
     [SerializeField] private GameObject fadeImageObj = null;
     [SerializeField] private GameObject fadeText = null;
@@ -16,13 +16,13 @@ public class EndingScreenController : MonoBehaviour
     [SerializeField] private float fadeOutTime;
     [SerializeField] private Color fadeInColor;
     [SerializeField] private float fadeInTime;
-    // Start is called before the first frame update
+
     void Start()
     {
         StartCoroutine(EndingStartEnumerator());
     }
 
-    // Update is called once per frame
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Return) || Input.GetButtonDown("SelectOk"))

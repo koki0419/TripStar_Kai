@@ -3,29 +3,29 @@
 [RequireComponent(typeof(ObjectPool))]
 public class StarSpawn : MonoBehaviour
 {
-    //プレイヤーオブジェクト
     [SerializeField] private RectTransform target = null;
     [Header("☆プール生成数")]
     [SerializeField] private int spawnMax;
     [Header("☆プレハブ")]
     [SerializeField] private GameObject starEffectPrefab;
     private ObjectPool pool;
-
     [SerializeField] private Camera mainCamera = null;
-
+    /// <summary>
+    /// 初期化
+    /// </summary>
     public void Init()
     {
         pool = GetComponent<ObjectPool>();
         pool.CreatePool(starEffectPrefab, spawnMax);
     }
-
-    public Vector3 debugVector = Vector3.zero;
-
+    /// <summary>
+    /// 対象オブジェクトを生成します
+    /// </summary>
+    /// <param name="sponPos"></param>
     public void CreatStarEffect(Vector3 sponPos)
     {
         //sponPosはワールド座標で取得するのでスクリーン座標に変換
         var screenPos = RectTransformUtility.WorldToScreenPoint(mainCamera, sponPos);
-
         var starEffect = pool.GetObject();
         if (starEffect != null)
         {

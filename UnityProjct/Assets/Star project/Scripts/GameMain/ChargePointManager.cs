@@ -6,7 +6,7 @@ using UnityEngine;
 [Serializable]
 public class ChargePointManager
 {
-    //小さい☆の獲得状況
+    // 小さい☆の獲得状況
     public int StarChildCount
     {
         get;set;
@@ -15,19 +15,18 @@ public class ChargePointManager
     {
         get;private set;
     }
-    //小さい☆の獲得状況スキップ
+    // 小さい☆の獲得状況スキップ
     public int StarChildCountSkip
     {
         set; get;
     }
 
-    //一気に沢山の星を獲得したかどうか
+    // 一気に沢山の星を獲得したかどうか
     public bool IsSkipStar
     {
         set;get;
     }
 
-    // Start is called before the first frame update
     public void Init()
     {
         //チャージポイント
@@ -37,7 +36,6 @@ public class ChargePointManager
         IsSkipStar = false;
     }
 
-    // Update is called once per frame
     public void OnUpdate()
     {
         //一気に大量の☆を獲得したとき☆獲得数が現在の獲得数と足したときに最大獲得数を超えないか確認

@@ -5,11 +5,10 @@ using UnityEngine;
 [RequireComponent(typeof(RectTransformObjectPool))]
 public class StarGenerator : MonoBehaviour
 {
-    //プレイヤーオブジェクト
+    // プレイヤーオブジェクト
     [SerializeField] private GameObject playerObj = null;
-    //プレイヤースクリプト
+    // プレイヤースクリプト
     [SerializeField] private PlayerMove playerMove = null;
-
     [Header("☆プール生成数")]
     [SerializeField] private int spawnMax;
     [Header("画面内に最大何個☆を表示するか")]
@@ -17,24 +16,28 @@ public class StarGenerator : MonoBehaviour
     [Header("☆プレハブ")]
     [SerializeField] private GameObject starPrefab;
     private ObjectPool pool;
-    //☆現在の表示数
+    // ☆現在の表示数
     [HideInInspector]
     public int ActiveCount
     {
         set; get;
     }
-    //☆生成数（経過）→次生成する☆のインデックス
+    // ☆生成数（経過）→次生成する☆のインデックス
     private int spawnIndex = 0;
-    //星データを取得します（ScriptableObject）
+    // 星データを取得します（ScriptableObject）
     [SerializeField] private StarData starData = null;
-
+    /// <summary>
+    /// 初期化
+    /// </summary>
     public void Init()
     {
         pool = GetComponent<ObjectPool>();
         pool.CreatePool(starPrefab, spawnMax);
         CreatStar();
     }
-
+    /// <summary>
+    /// 対象オブジェクトを生成します
+    /// </summary>
     public void CreatStar()
     {
         if (spawnIndex < starData.starDatas.Count)
@@ -62,7 +65,6 @@ public class StarGenerator : MonoBehaviour
     {
         CreatStar();
     }
-
     /// <summary>
     /// 障害物を壊した際に☆生成時に使用します
     /// </summary>

@@ -5,9 +5,9 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "MyScriprable/Create Star CSV Importer")]
 public class StarCsvImporter : ScriptableObject
 {
-    //CSVファイルを設定
+    // CSVファイルを設定
     public TextAsset csvFile;
-    //生成するScriptableObjectの名前
+    // 生成するScriptableObjectの名前
     public string StageName;
 }
 

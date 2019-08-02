@@ -16,25 +16,23 @@ namespace StarProject.Gamemain
         public enum GameMainState
         {
             None,
-            Opening,//オープニング
-            Play,//ゲーム中
-            Pause,//中断
-            Tutorial,//チュートリアル
-            BossMoaiAttack,//ボスモアイの攻撃
-            GameClear,//ゲームクリア
-            GameOver,//ゲームオーバー
+            Opening,// オープニング
+            Play,// ゲーム中
+            Pause,// 中断
+            Tutorial,// チュートリアル
+            SpecialProduction,// スペシャル演出
+            BossMoaiAttack,// ボスモアイの攻撃
+            GameClear,// ゲームクリア
+            GameOver,// ゲームオーバー
         }
         public GameMainState gameMainState
         {
-            private set;
-            get;
+            private set; get;
         }
-
-
-        //---------Unityコンポーネント宣言--------------
+        // ---------Unityコンポーネント宣言--------------
         [SerializeField] private GameObject playerObj = null;
         [SerializeField] private GameObject safeHitGigMoaiObj = null;
-        //エネミーのスクリプト取得用
+        // エネミーのスクリプト取得用
         [SerializeField] private GameObject enemysObj = null;
         private EnemyController[] enemyController = null;
         private GameObject[] enemyChilledObj = null;
@@ -43,7 +41,7 @@ namespace StarProject.Gamemain
         [SerializeField] private GameObject mainCamera = null;
         [SerializeField] private GameObject openingCamera = null;
         private GameObject fastTargetObj = null;
-        //------------クラスの宣言----------------------
+        // ------------クラスの宣言----------------------
         [SerializeField] private PlayerMove playerMove = null;
         public PlayerMove PlayerMove
         {
@@ -73,70 +71,74 @@ namespace StarProject.Gamemain
         [SerializeField] private Light light = null;
         [SerializeField] private List<TutorialTask> tutorialTasks = new List<TutorialTask>();
         private int checkTutorialTasksNum = 0;
-        //------------数値変数の宣言--------------------
-        //現在のステージ番号 // リザルトでリトライやNextステージで使用します
-        //タイトルでstageNumを1に設定します。その後はリザルトシーンのみでしか使用しません
+        // ------------数値変数の宣言--------------------
+        // 現在のステージ番号 // リザルトでリトライやNextステージで使用します
+        // タイトルでstageNumを1に設定します。その後はリザルトシーンのみでしか使用しません
         static public int stageNum;
-        //エネミーを何体倒したか
-        //ステージ１のカメラ起動用に使用します
+        // エネミーを何体倒したか
+        // ステージ１のカメラ起動用に使用します
         private int destroyCount = 0;
-
+        // モアイの攻撃範囲
         private const float fastAttackBossMoaiScreenProgressRange = 5;
-        private const float secondAttackBossMoaiScreenProgressRange = 10;
-        //------------フラグ変数の宣言------------------
-        //ゲームクリア
+        private const float secondAttackBossMoaiScreenProgressRange = 5;
+        // ------------フラグ変数の宣言------------------
+        // ゲームクリア
         public bool isGameClear
         {
             set; private get;
         }
         private bool gameClearMovie;
-        //ゲームオーバー
+        // ゲームオーバー
         public bool isGameOver
         {
             set; get;
         }
-        //☆獲得したかどうか
+        // ☆獲得したかどうか
         public bool isGetStar
         {
             get; set;
         }
-        //カメラを振動出せるかどうか
+        // カメラを振動出せるかどうか
         private bool canCameraShake;
-        //カメラを動かすかどうか
+        // カメラを動かすかどうか
         private bool isMoveCamera;
-        //ゲームオーバー時にボタンを操作できるかどうか
+        // ゲームオーバー時にボタンを操作できるかどうか
         private bool isOperation;
-        //登場演出が終了したかどうか
+        // 登場演出が終了したかどうか
         private bool exitOpning;
-        //モアイのアタックコルーチン用
+        // モアイのアタックコルーチン用
         private bool bigMoaiAttack = false;
-        //debug状態かどうか
+        // debug状態かどうか
         [SerializeField] private bool debug;
-
-        //ボス攻撃を解放する
+        // ボス攻撃を解放する
         [SerializeField] private bool release_BossAttack = false;
-        //チュートリアルを解放する
+        // チュートリアルを解放する
         [SerializeField] private bool release_Tutorial = false;
-
+        // カメラのズームアップ/ダウン
         [SerializeField] private bool release_CameraZoomUp = false;
         [SerializeField] private bool release_CameraZoomDown = false;
+        // プレイ中かどうか // 基本gameMainStateで管理しているが管理できない部分用
         public static bool isPlaying;
-        //初期化
+        // ビックモアイの攻撃
+        bool isBigMoaiAttack = false;
+        [SerializeField] private bool oldSystem;
+        [SerializeField] private bool newSystem;
+        /// <summary>
+        /// 初期化
+        /// </summary>
         public void Init()
         {
-            //gaugeDroportion = (float)PlayerMove.PlayerBeastModeState.StarCost / 100;//StarCostを『0.01』にする
+            // gaugeDroportion = (float)PlayerMove.PlayerBeastModeState.StarCost / 100;//StarCostを『0.01』にする
             for (int i = 0; i < boss.Length; i++)
             {
                 boss[i].Init();
             }
             cameraController = Singleton.Instance.cameraController;
-            ////エネミー子供オブジェクトを取得
+            // エネミー子供オブジェクトを取得
             enemyChilledObj = new GameObject[obstacleSpawn.SpawnMax];
             enemyController = new EnemyController[obstacleSpawn.SpawnMax];
             obstacleManager = new ObstacleManager[obstacleSpawn.SpawnMax];
-
             fastTargetObj = enemysObj.transform.GetChild(0).gameObject;
-
             gameOverLineController = gameOverLineObj.GetComponent<GameOverLineController>();
             gameOverLineObj.SetActive(false);
             isGetStar = false;
@@ -148,15 +150,13 @@ namespace StarProject.Gamemain
             isPlaying = false;
             ResultScreenController.all_damage = 0;
         }
-
-        //Start()より早く処理する
+        // Start()より早く処理する
         private void Awake()
         {
             uiManager.Init();
             CameraSelect(false, true);
         }
-
-        //スタート
+        // スタート
         IEnumerator Start()
         {
             exitOpning = false;
@@ -178,8 +178,7 @@ namespace StarProject.Gamemain
             else Singleton.Instance.soundManager.AllAudioVolume();
             Singleton.Instance.soundManager.PlayBgm("NormalBGM");
         }
-
-        // Update is called once per frame
+        // 本体のアップデート
         void Update()
         {
             switch (gameMainState)
@@ -196,6 +195,9 @@ namespace StarProject.Gamemain
                 case GameMainState.Tutorial:
                     TutorialUpdate();
                     break;
+                case GameMainState.SpecialProduction:
+                    SpecialProductionUpdate();
+                    break;
                 case GameMainState.BossMoaiAttack:
                     BossMoaiAttack();
                     break;
@@ -206,7 +208,7 @@ namespace StarProject.Gamemain
                     GameOver();
                     break;
             }
-            //カメラShake
+            // カメラShake
             if (canCameraShake)
             {
                 cameraController.Shake(0.25f, 0.1f);
@@ -215,7 +217,7 @@ namespace StarProject.Gamemain
 
         private void LateUpdate()
         {
-            if (gameMainState == GameMainState.Play)//ゲームスタート
+            if (gameMainState == GameMainState.Play)// ゲームスタート
             {
                 if (isGetStar)
                 {
@@ -224,46 +226,89 @@ namespace StarProject.Gamemain
                 }
             }
         }
-        private void TutorialCheck()
+        /// <summary>
+        /// チュートリアルの各フラグの確認
+        /// </summary>
+        private bool TutorialCheck()
         {
             var starCount = chargePointManager.StarChildCount;
-            //星20個溜まった時
+            // 星20個溜まった時
             if (starCount >= 20 && !tutorialTasks[0].CheckTask)
             {
-                uiManager.GetTutorialUiSprite(tutorialTasks[0].tutorialUiSprite);
-            }//星50個溜まった時
+                // uiManager.GetTutorialUiSprite(tutorialTasks[0].tutorialUiSprite);
+                return true;
+            }// 星50個溜まった時
             else if (starCount == 50 && !tutorialTasks[2].CheckTask)
             {
-                uiManager.GetTutorialUiSprite(tutorialTasks[2].tutorialUiSprite);
-            }else
-            {
-                return;
+                // uiManager.GetTutorialUiSprite(tutorialTasks[2].tutorialUiSprite);
+                return true;
             }
-            isPlaying = false;
-            gameMainState = GameMainState.Tutorial;
+            else
+            {
+                return false;
+            }
+            //isPlaying = false;
         }
-        //ステージ1のチュートリアル
+        private bool checkTutorial = false;
+        private bool checkRunAgain = false; // もう一度実行するか
+        /// <summary>
+        /// ステージ1のチュートリアル
+        /// </summary>
         private void TutorialUpdate()
         {
-            uiManager.ViewTutorialUI(true);
-            if (Input.GetKeyDown(KeyCode.L))
+            if (oldSystem)
             {
-                tutorialTasks[checkTutorialTasksNum].CheckTask = true;
-                checkTutorialTasksNum++;
-                if (checkTutorialTasksNum == 1)
+                uiManager.ViewTutorialUI(true);
+                if (Input.GetKeyDown(KeyCode.L))
                 {
-                    
-                    uiManager.GetTutorialUiSprite(tutorialTasks[1].tutorialUiSprite);
+                    tutorialTasks[checkTutorialTasksNum].CheckTask = true;
+                    checkTutorialTasksNum++;
+                    if (checkTutorialTasksNum == 1)
+                    {
+
+                        uiManager.GetTutorialUiSprite(tutorialTasks[1].tutorialUiSprite);
+                    }
+                    else
+                    {
+                        uiManager.ViewTutorialUI(false);
+                        isPlaying = true;
+                        gameMainState = GameMainState.Play;
+                    }
                 }
-                else
+            }
+            if (newSystem)
+            {
+                if (!checkTutorial)
                 {
-                    uiManager.ViewTutorialUI(false);
-                    isPlaying = true;
-                    gameMainState = GameMainState.Play;
+                    checkTutorial = true;
+                    StartCoroutine(TutorialIEnumerator());
                 }
             }
         }
-        //モアイ動きスタート
+        private IEnumerator TutorialIEnumerator()
+        {
+            tutorialTasks[checkTutorialTasksNum].CheckTask = true;
+            uiManager.GetTutorialUiSprite(tutorialTasks[checkTutorialTasksNum].tutorialUiSprite);
+            if (checkTutorialTasksNum == 0)
+                checkRunAgain = true;
+            else
+                checkRunAgain = false;
+            checkTutorialTasksNum++;
+            uiManager.ViewTutorialUI(true);
+            uiManager.TutorialStartAnimation();
+            yield return new WaitForSeconds(3.0f);
+            uiManager.TutorialComeBackAnimation();
+            yield return new WaitForSeconds(3.0f);
+            uiManager.ViewTutorialUI(false);
+            checkTutorial = false;
+            // ここから下必要か検討
+            //isPlaying = true;
+            if (!checkRunAgain)
+                gameMainState = GameMainState.Play;
+        }
+        /// <summary>
+        /// モアイ動きスタート
+        /// </summary>
         IEnumerator BigMoaiMoveStart()
         {
             gameOverLineController.PlayMoaiAwakeningSE();
@@ -277,7 +322,6 @@ namespace StarProject.Gamemain
             isMoveCamera = true;
             if (gameMainState != GameMainState.Pause) gameMainState = GameMainState.Play;
         }
-
         /// <summary>
         /// ゲーム開始時登場演出
         /// </summary>
@@ -297,6 +341,10 @@ namespace StarProject.Gamemain
                 }
             }
         }
+        /// <summary>
+        /// オープニングが終了した際に残りのオブジェクトを設定する
+        /// </summary>
+        /// <returns></returns>
         IEnumerator OpeningEnumerator()
         {
             yield return uiManager.FadeOutEnumerator();
@@ -324,6 +372,9 @@ namespace StarProject.Gamemain
             isPlaying = true;
             gameMainState = GameMainState.Play;
         }
+        /// <summary>
+        /// ゲーム本体のメインアップデート
+        /// </summary>
         void GamePlay()
         {
             starGenerator.StarSponUpdate();
@@ -331,8 +382,9 @@ namespace StarProject.Gamemain
             float deltaTime = Time.deltaTime;
             cameraController.MoveUpdate(deltaTime, isMoveCamera);
             gameOverLineController.MoveUpdate(deltaTime, isMoveCamera);
-            playerMove.OnUpdate(deltaTime);//PlayerのUpdate
-                                           //☆エネミー子供オブジェクト初期化
+            playerMove.OnUpdate(deltaTime);// PlayerのUpdate
+                                           // ☆エネミー子供オブジェクト初期化
+                                           // debugモードOnOff
             if (!debug)
             {
                 if (fastTargetObj != null && fastTargetObj.GetComponent<ObstacleManager>().IsDestroyed && stageNum == 1 && destroyCount == 0)
@@ -349,9 +401,10 @@ namespace StarProject.Gamemain
                     StartCoroutine(BigMoaiMoveStart());
                 }
             }
+            // デカいモアイ攻撃
             if (release_BossAttack)
             {
-                //追ってモアイが攻撃をしてくるかどうかを確認する
+                // 追ってモアイが攻撃をしてくるかどうかを確認する
                 var CheckCameraMoaiAttack = CheckThePositionOfPlayerAndCameraMoai(Camera.main.transform.position);
                 if (CheckCameraMoaiAttack != -1)
                 {
@@ -368,15 +421,25 @@ namespace StarProject.Gamemain
                         light.intensity -= 0.01f;
                     }
                 }
-            }
-            if (release_Tutorial)
-            {
-                //ステージ１の時チュートリアルを挟みます
-                if (stageNum == 1 || debug)
+                if (isBigMoaiAttack)
                 {
-                    TutorialCheck();
+                    BossMoaiAttack();
                 }
             }
+            // チュートリアル
+            if (release_Tutorial)
+            {
+                // ステージ１の時チュートリアルを挟みます
+                if (stageNum == 1 || debug)
+                {
+                    if (TutorialCheck() || checkRunAgain)
+                    {
+                        TutorialUpdate();
+                        //gameMainState = GameMainState.Tutorial;
+                    }
+                }
+            }
+            // カメラ演出
             if (release_CameraZoomUp)
             {
                 cameraController.CameraZoomUp();
@@ -385,20 +448,25 @@ namespace StarProject.Gamemain
             {
                 cameraController.CameraZoomDown();
             }
-            //ゲームオーバー
+            // チャージ5の時のスペシャル演出
+            if (playerMove.IsSpecialProduction)
+            {
+                gameMainState = GameMainState.SpecialProduction;
+            }
+            // ゲームオーバー
             if (isGameOver)
             {
                 Singleton.Instance.soundManager.PlayJingle("GameOver");
                 gameMainState = GameMainState.GameOver;
             }
-            //ゲームクリア
+            // ゲームクリア
             if (isGameClear)
             {
                 Singleton.Instance.soundManager.PlayJingle("GameClear");
                 gameClearMovie = true;
                 gameMainState = GameMainState.GameClear;
             }
-            //ポーズ
+            // ポーズ
             if (Input.GetButtonDown("Pause") || Input.GetKeyDown(KeyCode.Escape))
             {
                 uiManager.PauseDiaLogDisplay(true);
@@ -406,11 +474,17 @@ namespace StarProject.Gamemain
                 gameMainState = GameMainState.Pause;
             }
         }
+        /// <summary>
+        /// ポイントライトを光らせて攻撃開始
+        /// </summary>
+        /// <returns></returns>
         IEnumerator BigMoaiAttackIEnumerator()
         {
             yield return gameOverLineController.SpotLightOnOff();
-            isPlaying = false;
-            gameMainState = GameMainState.BossMoaiAttack;
+            isBigMoaiAttack = true;
+            // TODO: 攻撃時にカメラを止めず、且つプレイヤーも止めないようにする
+            //isPlaying = false;
+            //gameMainState = GameMainState.BossMoaiAttack;
 
         }
         /// <summary>
@@ -427,6 +501,20 @@ namespace StarProject.Gamemain
                 gameMainState = GameMainState.Play;
             }
         }
+        /// <summary>
+        /// メインキャラクターチャージ5の時の
+        /// スペシャル演出アップデート
+        /// </summary>
+        float specialProductionTime = 2.0f;
+        void SpecialProductionUpdate()
+        {
+            specialProductionTime -= Time.deltaTime;
+            if (specialProductionTime <= 0)
+            {
+                specialProductionTime = 2.0f;
+                gameMainState = GameMainState.Play;
+            }
+        }
         bool returnPosition = false;
         /// <summary>
         /// 追ってくるモアイの攻撃update
@@ -437,7 +525,7 @@ namespace StarProject.Gamemain
             canCameraShake = true;
             if (!fastBossAttack && !returnPosition)
             {
-                checkAttack = gameOverLineController.BigMoaiAttack(fastAttackBossMoaiScreenProgressRange,0);
+                checkAttack = gameOverLineController.BigMoaiAttack(fastAttackBossMoaiScreenProgressRange, 0);
                 if (!checkAttack)
                 {
                     fastBossAttack = true;
@@ -446,25 +534,28 @@ namespace StarProject.Gamemain
             }
             else if (!secondBossAttack && !returnPosition)
             {
-                checkAttack = gameOverLineController.BigMoaiAttack(secondAttackBossMoaiScreenProgressRange,1);
+                checkAttack = gameOverLineController.BigMoaiAttack(secondAttackBossMoaiScreenProgressRange, 1);
                 if (!checkAttack)
                 {
                     secondBossAttack = true;
                     returnPosition = true;
                 }
             }
+            // 攻撃終了時元のポジションまで帰る
             if (returnPosition)
             {
                 var checkReturn = gameOverLineController.ReturnPosipoin();
                 if (!checkReturn)
                 {
+                    // TODO: 書くコメントアウトしたものが必要不必要を確認
                     canCameraShake = false;
-                    isMoveCamera = true;
+                    // isMoveCamera = true;
                     returnPosition = false;
                     bigMoaiAttack = false;
                     light.intensity = 1.0f;
-                    isPlaying = true;
-                    gameMainState = GameMainState.Play;
+                    // isPlaying = true;
+                    isBigMoaiAttack = false;
+                    // gameMainState = GameMainState.Play;
                 }
             }
         }
@@ -493,7 +584,7 @@ namespace StarProject.Gamemain
                 uiManager.GameOverButtonSelectUpdate();
             }
         }
-        //クリア
+        // クリア
         IEnumerator OnClear()
         {
             canCameraShake = true;
@@ -504,7 +595,7 @@ namespace StarProject.Gamemain
             canCameraShake = false;
             SceneManager.LoadScene("ResultScene");
         }
-        //ゲームオーバー
+        // ゲームオーバー
         IEnumerator OnGameOver()
         {
             yield return new WaitForSeconds(0.5f);
@@ -513,12 +604,19 @@ namespace StarProject.Gamemain
             uiManager.GameOverDiaLogDisplay(true);
             isOperation = true;
         }
+        /// <summary>
+        /// カメラの種類を選択します
+        /// </summary>
+        /// <param name="mainCameraActive">メインカメラ</param>
+        /// <param name="openingCameraActive">オープニング用カメラ</param>
         void CameraSelect(bool mainCameraActive, bool openingCameraActive)
         {
             mainCamera.SetActive(mainCameraActive);
             openingCamera.SetActive(openingCameraActive);
         }
-
+        /// <summary>
+        /// カメラを入れ替えます
+        /// </summary>
         void CameraChange()
         {
             if (mainCamera.activeSelf)
@@ -532,19 +630,21 @@ namespace StarProject.Gamemain
                 openingCamera.SetActive(false);
             }
         }
+        // 1度目の攻撃フラグ
         bool fastBossAttack = false;
+        // 2度目の攻撃フラグ
         bool secondBossAttack = false;
-        //追ってモアイの攻撃範囲に入ったかどうか
+        // 追ってモアイの攻撃範囲に入ったかどうか
         private int CheckThePositionOfPlayerAndCameraMoai(Vector3 cameraPosition)
         {
             if (gameOverLineController.FastAttackPosition.x <= cameraPosition.x && !fastBossAttack)
             {
-                isMoveCamera = false;
+                // isMoveCamera = false;
                 return 1;
             }
             else if (gameOverLineController.SecondAttackPosition.x <= cameraPosition.x && !secondBossAttack)
             {
-                isMoveCamera = false;
+                // isMoveCamera = false;
                 return 2;
             }
             else return -1;

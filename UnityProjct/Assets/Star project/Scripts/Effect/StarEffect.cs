@@ -7,12 +7,18 @@ public class StarEffect : MonoBehaviour
     private RectTransform target = null;
     private float moveSpeed = 15;
     private float errorPosition = 5.0f;
-
+    /// <summary>
+    /// 初期化
+    /// </summary>
+    /// <param name="target"></param>
     public void Init(RectTransform target)
     {
         this.target = target;
     }
-
+    /// <summary>
+    /// ターゲットへのベクトルを生成します
+    /// </summary>
+    /// <returns></returns>
     private Vector3 Direction()
     {
         //自分の座標をプレイヤーの座標からベクトル作成
@@ -28,7 +34,6 @@ public class StarEffect : MonoBehaviour
 
     private void Update()
     {
-        //GetComponent<RectTransform>().LookAt(target);
         if (this.target != null)
         {
             gameObject.transform.localPosition += Direction();

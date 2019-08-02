@@ -6,18 +6,18 @@ using UnityEngine.UI;
 /// </summary>
 public class DamageEffect : MonoBehaviour
 {
-    //Damage用にテキストオブジェ
+    // Damage用にテキストオブジェ
     [SerializeField]private GameObject[] damageText = null;
-    //スコア表示画像
+    // スコア表示画像
     public Sprite[] scoreNumbreSprite = new Sprite[10];
-    //最大スコア
+    // 最大スコア
     private const int MaxScore = 99999999;
     /// <summary>
     /// 初期化
     /// </summary>
     public void Init()
     {
-        //ダメージ表示を全て非表示する
+        // ダメージ表示を全て非表示する
         ScoreUIDysplay(damageText.Length, false);
     }
     /// <summary>
@@ -26,23 +26,23 @@ public class DamageEffect : MonoBehaviour
     /// <param name="damage"></param>
     public void SetDamage(int damage)
     {
-        //テキストを設定する
+        // テキストを設定する
         if (damage > MaxScore) damage = MaxScore;
-        //1の桁
+        // 1の桁
         var score1 = damage % 10;
-        //10の桁
+        // 10の桁
         var score10 = damage / 10 % 10;
-        //100の桁
+        // 100の桁
         var score100 = damage / 100 % 10;
-        //1000の桁
+        // 1000の桁
         var score1000 = damage / 1000 % 10;
-        //10000の桁
+        // 10000の桁
         var score10000 = damage / 10000 % 10;
-        //100000の桁
+        // 100000の桁
         var score100000 = damage / 100000 % 10;
-        //1000000の桁
+        // 1000000の桁
         var score1000000 = damage / 1000000 % 10;
-        //10000000の桁
+        // 10000000の桁
         var score10000000 = damage / 10000000 % 10;
         damageText[0].GetComponent<Image>().sprite = scoreNumbreSprite[score1];
         damageText[1].GetComponent<Image>().sprite = scoreNumbreSprite[score10];
@@ -72,23 +72,23 @@ public class DamageEffect : MonoBehaviour
             damageText[i].SetActive(isDysPlay);
         }
     }
-    //ダメージ表示時間
+    // ダメージ表示時間
     float lifeTime = 2.0f;
     [SerializeField] private Animator damageEffectAnimator;
     private void Update()
     {
-        //アニメーターがplay中かどうか
+        // アニメーターがplay中かどうか
         AnimatorStateInfo animInfo = damageEffectAnimator.GetCurrentAnimatorStateInfo(0);
         if (animInfo.normalizedTime < 1.0f)
         {
-            //再生中の処理
+            // 再生中の処理
         }
         else
         {
-            //終了したときの処理
+            // 終了したときの処理
             gameObject.SetActive(false);
         }
             lifeTime -= Time.deltaTime;
-        //if (lifeTime <= 0) gameObject.SetActive(false);
+        // if (lifeTime <= 0) gameObject.SetActive(false);
     }
 }

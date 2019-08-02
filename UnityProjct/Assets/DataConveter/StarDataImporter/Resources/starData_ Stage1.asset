@@ -14,89 +14,131 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   starDatas:
   - star_id: 1
-    star_Position: {x: -2.7, y: 1.4, z: 0}
-    star_Point: 50
+    star_Position: {x: 16, y: 4, z: 0}
+    star_Point: 2
   - star_id: 2
-    star_Position: {x: 0, y: 1.4, z: 0}
+    star_Position: {x: 14.5, y: 3, z: 0}
     star_Point: 1
   - star_id: 3
-    star_Position: {x: 16.8, y: 1.4, z: 0}
-    star_Point: 2
+    star_Position: {x: 15.5, y: 3, z: 0}
+    star_Point: 1
   - star_id: 4
-    star_Position: {x: 18.3, y: 3.83, z: 0}
-    star_Point: 3
+    star_Position: {x: 16.5, y: 3, z: 0}
+    star_Point: 1
   - star_id: 5
-    star_Position: {x: 19.8, y: 1.4, z: 0}
+    star_Position: {x: 17.5, y: 3, z: 0}
     star_Point: 1
   - star_id: 6
-    star_Position: {x: 27.38, y: 4.5, z: 0}
-    star_Point: 2
+    star_Position: {x: 15.5, y: 2, z: 0}
+    star_Point: 1
   - star_id: 7
-    star_Position: {x: 45.2, y: 3, z: 0}
-    star_Point: 2
+    star_Position: {x: 16.5, y: 2, z: 0}
+    star_Point: 1
   - star_id: 8
-    star_Position: {x: 47, y: 4, z: 0}
-    star_Point: 3
+    star_Position: {x: 15, y: 1, z: 0}
+    star_Point: 1
   - star_id: 9
-    star_Position: {x: 52.58, y: 2, z: 0}
+    star_Position: {x: 17, y: 1, z: 0}
     star_Point: 1
   - star_id: 10
-    star_Position: {x: 56.2, y: 2, z: 0}
+    star_Position: {x: 27.5, y: 6.5, z: 0}
     star_Point: 1
   - star_id: 11
-    star_Position: {x: 66, y: 3.5, z: 0}
+    star_Position: {x: 26, y: 5.5, z: 0}
     star_Point: 1
   - star_id: 12
-    star_Position: {x: 66, y: 1.1, z: 0}
+    star_Position: {x: 27, y: 5.5, z: 0}
     star_Point: 1
   - star_id: 13
-    star_Position: {x: 67.5, y: 2.3, z: 0}
+    star_Position: {x: 28, y: 5.5, z: 0}
     star_Point: 1
   - star_id: 14
-    star_Position: {x: 70, y: 3.5, z: 0}
+    star_Position: {x: 29, y: 5.5, z: 0}
     star_Point: 1
   - star_id: 15
-    star_Position: {x: 70, y: 1.1, z: 0}
+    star_Position: {x: 27, y: 4.5, z: 0}
     star_Point: 1
   - star_id: 16
-    star_Position: {x: 71.5, y: 2.3, z: 0}
+    star_Position: {x: 28, y: 4.5, z: 0}
     star_Point: 1
   - star_id: 17
-    star_Position: {x: 74, y: 3.5, z: 0}
+    star_Position: {x: 26.5, y: 3.5, z: 0}
     star_Point: 1
   - star_id: 18
-    star_Position: {x: 74, y: 1.1, z: 0}
+    star_Position: {x: 28.5, y: 3.5, z: 0}
     star_Point: 1
   - star_id: 19
-    star_Position: {x: 75.5, y: 2.3, z: 0}
+    star_Position: {x: 60.5, y: 4.5, z: 0}
     star_Point: 1
   - star_id: 20
-    star_Position: {x: 81.15, y: 5.1, z: 0}
-    star_Point: 2
+    star_Position: {x: 61.5, y: 4.5, z: 0}
+    star_Point: 1
   - star_id: 21
-    star_Position: {x: 81.15, y: 6.6, z: 0}
-    star_Point: 3
+    star_Position: {x: 62.5, y: 4.5, z: 0}
+    star_Point: 1
   - star_id: 22
-    star_Position: {x: 86, y: 2.3, z: 0}
+    star_Position: {x: 61.5, y: 3.5, z: 0}
     star_Point: 1
   - star_id: 23
-    star_Position: {x: 87.5, y: 3.3, z: 0}
+    star_Position: {x: 60.5, y: 2.5, z: 0}
     star_Point: 1
   - star_id: 24
-    star_Position: {x: 89, y: 3.3, z: 0}
+    star_Position: {x: 61.5, y: 2.5, z: 0}
     star_Point: 1
   - star_id: 25
-    star_Position: {x: 90.5, y: 2.3, z: 0}
+    star_Position: {x: 62.5, y: 2.5, z: 0}
     star_Point: 1
   - star_id: 26
-    star_Position: {x: 105, y: 2.3, z: 0}
+    star_Position: {x: 61.5, y: 1.5, z: 0}
     star_Point: 1
   - star_id: 27
-    star_Position: {x: 106.5, y: 3.3, z: 0}
+    star_Position: {x: 61.5, y: 0.5, z: 0}
     star_Point: 1
   - star_id: 28
-    star_Position: {x: 107, y: 2, z: 0}
+    star_Position: {x: 62.5, y: 0.5, z: 0}
     star_Point: 1
   - star_id: 29
-    star_Position: {x: 108, y: 2.3, z: 0}
+    star_Position: {x: 65.5, y: 4.5, z: 0}
+    star_Point: 1
+  - star_id: 30
+    star_Position: {x: 66.5, y: 4.5, z: 0}
+    star_Point: 1
+  - star_id: 31
+    star_Position: {x: 67.5, y: 4.5, z: 0}
+    star_Point: 1
+  - star_id: 32
+    star_Position: {x: 68.5, y: 4.5, z: 0}
+    star_Point: 1
+  - star_id: 33
+    star_Position: {x: 67, y: 3.5, z: 0}
+    star_Point: 1
+  - star_id: 34
+    star_Position: {x: 68, y: 3.5, z: 0}
+    star_Point: 1
+  - star_id: 35
+    star_Position: {x: 67.5, y: 2.5, z: 0}
+    star_Point: 1
+  - star_id: 36
+    star_Position: {x: 67.5, y: 1.5, z: 0}
+    star_Point: 1
+  - star_id: 37
+    star_Position: {x: 66.5, y: 0.5, z: 0}
+    star_Point: 1
+  - star_id: 38
+    star_Position: {x: 71.5, y: 2.5, z: 0}
+    star_Point: 1
+  - star_id: 39
+    star_Position: {x: 72.5, y: 3.5, z: 0}
+    star_Point: 1
+  - star_id: 40
+    star_Position: {x: 73.5, y: 4.5, z: 0}
+    star_Point: 1
+  - star_id: 41
+    star_Position: {x: 72.5, y: 2.5, z: 0}
+    star_Point: 1
+  - star_id: 42
+    star_Position: {x: 72.5, y: 1.5, z: 0}
+    star_Point: 1
+  - star_id: 43
+    star_Position: {x: 72.5, y: 0.5, z: 0}
     star_Point: 1

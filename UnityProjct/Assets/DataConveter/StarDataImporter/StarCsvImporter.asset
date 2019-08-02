@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fe0b135ef57ffd45b0ab3ace263669c, type: 3}
   m_Name: StarCsvImporter
   m_EditorClassIdentifier: 
-  csvFile: {fileID: 4900000, guid: 59fb5f5f1008c924bb19a308e3bfacb5, type: 3}
-  StageName: Stage2
+  csvFile: {fileID: 4900000, guid: e196e5cb964e1f14894123f72abe7195, type: 3}
+  StageName: Stage1

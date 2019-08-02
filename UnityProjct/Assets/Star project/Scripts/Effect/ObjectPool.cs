@@ -9,7 +9,7 @@ public class ObjectPool : MonoBehaviour
     private List<GameObject> poolObjList;
     private GameObject poolObj;
 
-    //オブジェクトプールを作成
+    // オブジェクトプールを作成
     public void CreatePool(GameObject obj,int maxCount)
     {
         poolObj = obj;
@@ -28,7 +28,7 @@ public class ObjectPool : MonoBehaviour
     /// <returns>生成されたオブジェクトを返します</returns>
     public GameObject GetObject()
     {
-        //使用中でないモノを探して返す
+        // 使用中でないモノを探して返す
         foreach(var obj in poolObjList)
         {
             if (!obj.activeSelf)
@@ -37,15 +37,17 @@ public class ObjectPool : MonoBehaviour
                 return obj;
             }
         }
-        //全て使用中だったら新たに生成して返す
+        // 全て使用中だったら新たに生成して返す
         var newObj = CreatNewObject();
         newObj.SetActive(true);
         poolObjList.Add(newObj);
         newObj.transform.SetParent(transform);
         return newObj;
     }
-
-
+    /// <summary>
+    /// オブジェクトを生成します
+    /// </summary>
+    /// <returns></returns>
     public GameObject CreatNewObject()
     {
         var newObj = Instantiate(poolObj);

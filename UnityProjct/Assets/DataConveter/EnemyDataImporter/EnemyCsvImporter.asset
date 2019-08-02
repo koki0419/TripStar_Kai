@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a68a0a74eee45544982255ec8a9cc1ec, type: 3}
   m_Name: EnemyCsvImporter
   m_EditorClassIdentifier: 
-  csvFile: {fileID: 4900000, guid: dc0c248555532d34884b33b322c97252, type: 3}
+  csvFile: {fileID: 4900000, guid: 58ad0f7c94535cd4aa4431d164aabcea, type: 3}
   StageName: Stage1
