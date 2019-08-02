@@ -5,40 +5,42 @@ using UnityEngine.UI;
 
 public class StarChargeController : MonoBehaviour
 {
-    //大きい☆使用状態
+    // 大きい☆使用状態
     public enum Star
     {
-        None = 0, //☆取得していないとき
-        Normal = 1010,//☆獲得状態
-        Chage = 1100,//チャージ中（大きい☆用）
+        None = 0,       // ☆取得していないとき
+        Normal = 1010,  // ☆獲得状態
+        Chage = 1100,   // チャージ中（大きい☆用）
     }
     public Star star = Star.None;
     [Header("チャージ用☆UI")]
-    //大きい☆UIを取得します →5個
+    // 大きい☆UIを取得します →5個
     [SerializeField] private StarState[] starChargeUI = null;
-    //☆獲得ポイント
+    // ☆獲得ポイント
     [SerializeField] private Image chargeFill = null;
-    //小さい☆UIが10個溜まったフラグ
+    // 小さい☆UIが10個溜まったフラグ
     private bool starChargeMaxFlag = false;
-    //現在の大きい☆の数
+    // 現在の大きい☆の数
     [SerializeField] private int bigStarCount = 0;
     public int StarCount
     {
         set { bigStarCount = value; }
         get { return bigStarCount; }
     }
-    //小さい☆獲得表示UI(1/10)
+    // 小さい☆獲得表示UI(1/10)
     [SerializeField] private GameObject AcquisitionSpriteStarCount0 = null;
-    //小さい☆獲得表示UI(10/10)
+    // 小さい☆獲得表示UI(10/10)
     [SerializeField] private GameObject AcquisitionSpriteStarCount1 = null;
-    //小さい☆の獲得数画像
+    // 小さい☆の獲得数画像
     [SerializeField] private Sprite[] smallStarAcquisitionSprite = null;
-    //小さい☆獲得UI1/10のアニメーション
+    // 小さい☆獲得UI1/10のアニメーション
     [SerializeField] private Animator AcquisitionStarCount_1_10Animator = null;
-    //小さい☆獲得UI10/10のアニメーション
+    // 小さい☆獲得UI10/10のアニメーション
     [SerializeField] private Animator AcquisitionStarCount_10_10Animator = null;
     [SerializeField] private Animator chargeStarUIAnimator = null;
-
+    /// <summary>
+    /// 初期化
+    /// </summary>
     public void Init()
     {
         starChargeMaxFlag = false;
@@ -47,12 +49,14 @@ public class StarChargeController : MonoBehaviour
         {
             starChargeUI[i].UpdateStarSprite((int)Star.None);
         }
-        //小さい☆獲得UIの画像を0に設定します（1/10、10/10両方とも）
+        // 小さい☆獲得UIの画像を0に設定します（1/10、10/10両方とも）
         AcquisitionSpriteStarCount0.GetComponent<Image>().sprite = smallStarAcquisitionSprite[0];
         AcquisitionSpriteStarCount1.GetComponent<Image>().sprite = smallStarAcquisitionSprite[0];
     }
-
-    //大きい☆UIの更新
+    /// <summary>
+    /// 大きい☆UIの更新
+    /// </summary>
+    /// <param name="starNum">大きい☆の表示個数</param>
     public void UpdateBigStarUI(int starNum)
     {
         for (int i = 0; i < starNum; i++)
@@ -60,8 +64,10 @@ public class StarChargeController : MonoBehaviour
             starChargeUI[i].UpdateStarSprite((int)Star.Normal);
         }
     }
-
-    //チャージ時
+    /// <summary>
+    /// チャージ時の大き☆のUpdate
+    /// </summary>
+    /// <param name="starNum">チャージ回数</param>
     public void ChargeBigStar(int starNum)
     {
         for (int i = 0; i < starNum; i++)
@@ -69,8 +75,10 @@ public class StarChargeController : MonoBehaviour
             starChargeUI[i].UpdateStarSprite((int)Star.Chage);
         }
     }
-
-    //チャージポイントのupdete
+    /// <summary>
+    /// チャージポイントのupdete
+    /// </summary>
+    /// <param name="percentage">チャージ時の帯Update量</param>
     public void UpdateChargePoint(float percentage)
     {
         chargeFill.fillAmount = percentage;
@@ -84,16 +92,16 @@ public class StarChargeController : MonoBehaviour
     {
         if (smollSratCount < 10)
         {
-            //1/10の桁
+            // 1/10の桁
             var starCount0 = smollSratCount % 10;
             AcquisitionSpriteStarCount0.GetComponent<Image>().sprite = smallStarAcquisitionSprite[starCount0];
             AcquisitionSpriteStarCount1.GetComponent<Image>().sprite = smallStarAcquisitionSprite[0];
         }
         else
         {
-            //1/10の桁
+            // 1/10の桁
             var starCount0 = smollSratCount % 10;
-            //10/10の桁
+            // 10/10の桁
             var starCount1 = smollSratCount / 10 % 10;
             AcquisitionSpriteStarCount0.GetComponent<Image>().sprite = smallStarAcquisitionSprite[starCount0];
             AcquisitionSpriteStarCount1.GetComponent<Image>().sprite = smallStarAcquisitionSprite[starCount1];

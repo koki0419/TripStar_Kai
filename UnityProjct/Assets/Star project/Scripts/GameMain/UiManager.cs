@@ -5,27 +5,27 @@ using UnityEngine.SceneManagement;
 
 public class UiManager : MonoBehaviour
 {
-    //ゲームオーバー時のタイプ
+    // ゲームオーバー時のタイプ
     private enum GameOverTyp
     {
         None,
-        Normal,//一回目のセレクト
-        Retry,//リトライボタンを押したときのタイプ
-        Exit,//Exitボタンを押したときのタイプ
+        Normal, // 一回目のセレクト
+        Retry,  // リトライボタンを押したときのタイプ
+        Exit,   // Exitボタンを押したときのタイプ
     }
     private GameOverTyp gameOverTyp = GameOverTyp.None;
-    //ポーズ時のタイプ
+    // ポーズ時のタイプ
     private enum PauseTyp
     {
         None,
-        Normal,//一回目のセレクト
-        Retry,//リトライボタンを押したときのタイプ
-        Exit,//Exitボタンを押したときのタイプ
+        Normal, // 一回目のセレクト
+        Retry,  // リトライボタンを押したときのタイプ
+        Exit,   // Exitボタンを押したときのタイプ
     }
     private PauseTyp pauseTyp = PauseTyp.None;
 
-    //フェード関係
-    //FadeLayerクラスを取得
+    // フェード関係
+    // FadeLayerクラスを取得
     [SerializeField] private FadeLayer fadeLayer = null;
     [Header("フェード関係")]
     [SerializeField] private GameObject fadeText = null;
@@ -35,23 +35,23 @@ public class UiManager : MonoBehaviour
     [SerializeField] private float fadeOutTime;
     [SerializeField] private Color fadeInColor;
     [SerializeField] private float fadeInTime;
-    //ゲームオーバー時表示UI
+    // ゲームオーバー時表示UI
     [SerializeField] private GameObject gameOvreUI = null;
-    //ゲームクリア時表示用UI
+    // ゲームクリア時表示用UI
     [SerializeField] private GameObject gameClearUI = null;
-    //ポーズ時ボタン
-    //ポーズ時表示用UI
+    // ポーズ時ボタン
+    // ポーズ時表示用UI
     [SerializeField] private GameObject pauseDiaLog = null;
     [SerializeField] private Image pauseRetryButton = null;
     [SerializeField] private Image pauseTitleButton = null;
-    //ポーズボタン
+    // ポーズボタン
     [Header("ポーズ時のダイアログ画像")]
     [SerializeField] private Sprite pauseNormalRetrySprite = null;
     [SerializeField] private Sprite pauseSelectRetrySprite = null;
     [SerializeField] private Sprite pauseNormalTitleSprite = null;
     [SerializeField] private Sprite pauseSelectTitleSprite = null;
     private int countNum;
-    //star関係canvas
+    // star関係canvas
     [SerializeField] private GameObject starUICanvas = null;
     private int pauseButtonSelectNum = 0;
     private int pauseButtonSelectNumMax = 2;
@@ -61,7 +61,7 @@ public class UiManager : MonoBehaviour
     private int exitButtonSelectNumMax = 2;
     private int retryButtonSelectNum = 0;
     private int retryButtonSelectNumMax = 2;
-    //ゲームオーバーダイアログ
+    // ゲームオーバーダイアログ
     [SerializeField] private GameObject gameOverDiaLog = null;
     [SerializeField] private Image gameOverRetryButton = null;
     [SerializeField] private Image gameOverExitTitleButton = null;
@@ -70,7 +70,7 @@ public class UiManager : MonoBehaviour
     [SerializeField] private Sprite gameOverRetrySelectSprite = null;
     [SerializeField] private Sprite gameOverExitNormalSprite = null;
     [SerializeField] private Sprite gameOverExitSelectSprite = null;
-    //2重確認ダイアログ用画像
+    // 2重確認ダイアログ用画像
     [SerializeField] private GameObject exitDoubleCheckDialog = null;
     [SerializeField] private GameObject retryDoubleCheckDialog = null;
     [Header("2重確認用ボタン")]
@@ -84,7 +84,7 @@ public class UiManager : MonoBehaviour
     [SerializeField] private Sprite doubleCheckDialogNoNormalSprite = null;
     [SerializeField] private Sprite doubleCheckDialogNoSelectSprite = null;
 
-    //チュートリアル
+    // チュートリアル
     [SerializeField] private GameObject tutorialUI = null;
     private Image uiImage = null;
     private Animator tutorialAnimator = null;
@@ -96,10 +96,25 @@ public class UiManager : MonoBehaviour
     {
         tutorialUI.SetActive(isView);
     }
-
+    /// <summary>
+    /// チュートリアルUIを表示させます
+    /// </summary>
+    public void TutorialStartAnimation()
+    {
+        tutorialAnimator.SetBool("SetViewUI", true);
+    }
+    /// <summary>
+    /// チュートリアルUIを非表示させます
+    /// </summary>
+    public void TutorialComeBackAnimation()
+    {
+        tutorialAnimator.SetBool("SetViewUI", false);
+    }
+    /// <summary>
+    /// 初期化
+    /// </summary>
     public void Init()
     {
-        //初期化
         ForceColor(Color.black);
         StarUICanvasDisplay(false);
         GameOvreUIDisplay(false);
@@ -118,18 +133,23 @@ public class UiManager : MonoBehaviour
         RetryButtonSelect(retryButtonSelectNum);
         pauseTyp = PauseTyp.Normal;
         gameOverTyp = GameOverTyp.Normal;
-
         uiImage = tutorialUI.GetComponent<Image>();
         tutorialAnimator = tutorialUI.GetComponent<Animator>();
         ViewTutorialUI(false);
     }
-    //スタート
+    /// <summary>
+    /// フェードアウト後タイトルに遷移します
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator OnTitle()
     {
         yield return FadeOutEnumerator();
         SceneManager.LoadScene("TitleScene");
     }
-    //リトライ
+    /// <summary>
+    /// フェードアウト後リトライします
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator OnRetry()
     {
         yield return FadeOutEnumerator();
@@ -184,13 +204,13 @@ public class UiManager : MonoBehaviour
         switch (pauseTyp)
         {
             case PauseTyp.Normal:
-                //右
+                // 右
                 if (dx > 0 && countNum == 0)
                 {
                     countNum++;
                     if (pauseButtonSelectNum < pauseButtonSelectNumMax) pauseButtonSelectNum++;
                     PauseButtonSelect(pauseButtonSelectNum);
-                }//左
+                }// 左
                 else if (dx < 0 && countNum == 0)
                 {
                     countNum++;
@@ -265,18 +285,16 @@ public class UiManager : MonoBehaviour
     {
         switch (buttonSelectNum)
         {
-            case 0://リトライボタン
+            case 0:// リトライボタン
                 pauseRetryButton.sprite = pauseSelectRetrySprite;
                 pauseTitleButton.sprite = pauseNormalTitleSprite;
                 return;
-            case 1://終了ボタン
+            case 1:// 終了ボタン
                 pauseRetryButton.sprite = pauseNormalRetrySprite;
                 pauseTitleButton.sprite = pauseSelectTitleSprite;
                 return;
         }
     }
-
-
     /// <summary>
     /// ゲームオーバー時に操作できる
     /// ゲームオーバーボタンの選択を行います
@@ -287,15 +305,15 @@ public class UiManager : MonoBehaviour
         float dy = Input.GetAxis("Vertical");
         switch (gameOverTyp)
         {
-            //ゲームオーバー時最初にいじれる
+            // ゲームオーバー時最初にいじれる
             case GameOverTyp.Normal:
-                //右
+                // 右
                 if (dx > 0 && countNum == 0)
                 {
                     countNum++;
                     if (gameOverButtonSelectNum < gameOverButtonSelectNumMax) gameOverButtonSelectNum++;
                     GemaOverButtonSelect(gameOverButtonSelectNum);
-                }//左
+                }// 左
                 else if (dx < 0 && countNum == 0)
                 {
                     countNum++;
@@ -326,7 +344,7 @@ public class UiManager : MonoBehaviour
                     }
                 }
                 break;
-            //リトライボタンを押したときの操作
+            // リトライボタンを押したときの操作
             case GameOverTyp.Retry:
                 RetrySelect(dx);
                 if (Input.GetKeyDown(KeyCode.Return) || Input.GetButtonDown("SelectOk"))
@@ -391,13 +409,13 @@ public class UiManager : MonoBehaviour
     /// <param name="dx">左右選択</param>
     private void RetrySelect(float dx)
     {
-        //右
+        // 右
         if (dx > 0 && countNum == 0)
         {
             countNum++;
             if (retryButtonSelectNum < retryButtonSelectNumMax) retryButtonSelectNum++;
             RetryButtonSelect(retryButtonSelectNum);
-        }//左
+        }// 左
         else if (dx < 0 && countNum == 0)
         {
             countNum++;
@@ -415,13 +433,13 @@ public class UiManager : MonoBehaviour
     /// <param name="dx"></param>
     private void ExitSelect(float dx)
     {
-        //右
+        // 右
         if (dx > 0 && countNum == 0)
         {
             countNum++;
             if (exitButtonSelectNum < exitButtonSelectNumMax) exitButtonSelectNum++;
             ExitButtonSelect(exitButtonSelectNum);
-        }//左
+        }// 左
         else if (dx < 0 && countNum == 0)
         {
             countNum++;
@@ -528,13 +546,13 @@ public class UiManager : MonoBehaviour
         pauseDiaLog.SetActive(isDisplay);
         if (isDisplay)
         {
-            //Time.timeScale = 0.0f;
+            // Time.timeScale = 0.0f;
             pauseButtonSelectNum = 0;
             PauseButtonSelect(pauseButtonSelectNum);
         }
         else
         {
-            //Time.timeScale = 1.0f;
+            // Time.timeScale = 1.0f;
             ExitDiaLogDisplay(false);
             RetryDiaLogDisplay(false);
             pauseTyp = PauseTyp.Normal;

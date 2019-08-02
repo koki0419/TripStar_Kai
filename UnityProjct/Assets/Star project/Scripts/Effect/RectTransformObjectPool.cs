@@ -6,8 +6,11 @@ public class RectTransformObjectPool : MonoBehaviour
 {
     private List<GameObject> poolObjList;
     private GameObject poolObj;
-
-    //オブジェクトプールを作成
+    /// <summary>
+    /// オブジェクトプールを作成
+    /// </summary>
+    /// <param name="obj">生成する対象オブジェクト</param>
+    /// <param name="maxCount">生成する数</param>
     public void CreatePool(GameObject obj,int maxCount)
     {
         poolObj = obj;
@@ -20,10 +23,14 @@ public class RectTransformObjectPool : MonoBehaviour
             poolObjList.Add(newObj);
         }
     }
-
+    /// <summary>
+    /// 対象のオブジェクトが使用されていなければ渡す
+    /// 使用されていないモノがなければ生成する
+    /// </summary>
+    /// <returns></returns>
     public GameObject GetObject()
     {
-        //使用中でないモノを探して返す
+        // 使用中でないモノを探して返す
         foreach(var obj in poolObjList)
         {
             if (!obj.activeSelf)
@@ -33,7 +40,7 @@ public class RectTransformObjectPool : MonoBehaviour
                 return obj;
             }
         }
-        //全て使用中だったら新たに生成して返す
+        // 全て使用中だったら新たに生成して返す
         var newObj = CreatNewObject();
         newObj.SetActive(true);
         poolObjList.Add(newObj);
@@ -42,7 +49,10 @@ public class RectTransformObjectPool : MonoBehaviour
         return newObj;
     }
 
-
+    /// <summary>
+    /// 対象オブジェクトを生成します
+    /// </summary>
+    /// <returns></returns>
     public GameObject CreatNewObject()
     {
         var newObj = Instantiate(poolObj);

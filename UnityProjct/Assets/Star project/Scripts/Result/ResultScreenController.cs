@@ -12,22 +12,22 @@ namespace StarProject.Result
         private enum ResultState
         {
             None,
-            ResultAnimation,//リザルトアニメーション
-            ResultSerect,//リザルトボタンセレクト
-            GameEnd,//すべてのゲームが終了したとき
+            ResultAnimation,// リザルトアニメーション
+            ResultSerect,   // リザルトボタンセレクト
+            GameEnd,        // すべてのゲームが終了したとき
         }
         private ResultState resultState = ResultState.None;
-        //ボタン選択のステータス
+        // ボタン選択のステータス
         private enum ResultRetryState
         {
             None,
-            ResultSelect,//リザルト初期選択時
-            Retry,//リトライダブルチェック選択時
-            Exit,//終了ダブルチェック選択時
+            ResultSelect,// リザルト初期選択時
+            Retry,  // リトライダブルチェック選択時
+            Exit,   // 終了ダブルチェック選択時
         }
         private ResultRetryState resultRetryState = ResultRetryState.None;
         [SerializeField] private Animator resultAnimator = null;
-        //フェード関係
+        // フェード関係
         [Header("フェード関係")]
         [SerializeField] private GameObject fadeImageObj = null;
         [SerializeField] private GameObject fadeText = null;
@@ -35,7 +35,7 @@ namespace StarProject.Result
         private Image fadeImage = null;
         [SerializeField] private Color fadeOutColor;
         [SerializeField] private float fadeOutTime;
-        //ネクストステージダイアログ
+        // ネクストステージダイアログ
         [SerializeField] private GameObject nextStageDiaLog = null;
         [SerializeField] private Image nextStageButton = null;
         [SerializeField] private Image exitTitleButton = null;
@@ -47,7 +47,7 @@ namespace StarProject.Result
         [SerializeField] private Sprite exitTitleSelectSprite = null;
         [SerializeField] private Sprite retryNormalSprite = null;
         [SerializeField] private Sprite retrySelectSprite = null;
-        //2重確認ダイアログ用画像
+        // 2重確認ダイアログ用画像
         [SerializeField] private GameObject exitDoubleCheckDialog = null;
         [SerializeField] private GameObject retryDoubleCheckDialog = null;
         [Header("2重確認用ボタン")]
@@ -60,46 +60,46 @@ namespace StarProject.Result
         [SerializeField] private Sprite doubleCheckDialogYesSelectSprite = null;
         [SerializeField] private Sprite doubleCheckDialogNoNormalSprite = null;
         [SerializeField] private Sprite doubleCheckDialogNoSelectSprite = null;
-        //ボタン選択時にGetAxisを使用するので回数制限に使用します
+        // ボタン選択時にGetAxisを使用するので回数制限に使用します
         private int countNum = 0;
-        //ボタン選択番号
+        // ボタン選択番号
         private int nextStageButtonSelectNum = 0;
         private int nextStageButtonSelectNumMax = 3;
         private int retryButtonSelectNum = 0;
         private int retryButtonSelectNumMax = 2;
         private int exitButtonSelectNum = 0;
         private int exitButtonSelectNumMax = 2;
-        //選択ステージ番号を格納
+        // 選択ステージ番号を格納
         private int stageNum;
         private float resultAnimationTime;
         private float resultAnimationTimeMax = 10.0f;
-        //総ダメージの表示
+        // 総ダメージの表示
         static public int all_damage = 0;
         static public int allStar = 0;
-        //ダメージ表記スコアUIを取得
+        // ダメージ表記スコアUIを取得
         [SerializeField] private GameObject[] scoreObj = null;
-        //ダメージ表記スコアUIを取得
+        // ダメージ表記スコアUIを取得
         [SerializeField] private Image[] scoreUI = null;
-        //ダメージ表示用の数値画像0～9
+        // ダメージ表示用の数値画像0～9
         [SerializeField] private Sprite[] numSprite = null;
-        //ステージ数の表記UI
+        // ステージ数の表記UI
         [SerializeField] private Image stageNumUI = null;
-        //ステージ数表示画像
+        // ステージ数表示画像
         [SerializeField] private Sprite[] stageNumSprite = null;
-        //クリアランク表示用UI
+        // クリアランク表示用UI
         [SerializeField] private Image rankUI = null;
-        //クリアランク表示画像
+        // クリアランク表示画像
         [SerializeField] Sprite[] rankSprite = null;
         private const int MaxScore = 99999999;
         [Header("ランク振り分けスコア")]
         [SerializeField] private int rankAScore;
         [SerializeField] private int rankBScore;
         [SerializeField] private int rankCScore;
-        //全ステージ数
+        // 全ステージ数
         private const int ollStageNum = 4;
         [SerializeField] private bool debug;
         [SerializeField] private int debugStage = 3;
-        // Start is called before the first frame update
+
         IEnumerator Start()
         {
             fadeImage = fadeImageObj.GetComponent<Image>();
@@ -128,7 +128,6 @@ namespace StarProject.Result
             Singleton.Instance.soundManager.PlayBgm("NormalBGM");
         }
 
-        // Update is called once per frame
         void Update()
         {
             switch (resultState)
@@ -152,7 +151,7 @@ namespace StarProject.Result
             AnimatorStateInfo animInfo = resultAnimator.GetCurrentAnimatorStateInfo(0);
             if (animInfo.normalizedTime < 1.0f)
             {
-                //アニメーション早送り
+                // アニメーション早送り
                 if (Input.GetKey(KeyCode.Return) || Input.GetButton("SelectOk"))
                 {
                     Time.timeScale = 2.5f;
@@ -163,7 +162,7 @@ namespace StarProject.Result
                 }
             }
             else
-            {   //アニメーション終了後クリックしてダイアログ表示
+            {   // アニメーション終了後クリックしてダイアログ表示
                 if (Input.GetKey(KeyCode.Return) || Input.GetButtonDown("SelectOk"))
                 {
                     Time.timeScale = 1.0f;
@@ -190,13 +189,13 @@ namespace StarProject.Result
             switch (resultRetryState)
             {
                 case ResultRetryState.ResultSelect:
-                    //左
+                    // 左
                     if (dx < 0 && countNum == 0)
                     {
                         countNum++;
                         if (nextStageButtonSelectNum > 0) nextStageButtonSelectNum--;
                         NextStageButtonSelect(nextStageButtonSelectNum);
-                    }//右
+                    }// 右
                     else if (dx > 0 && countNum == 0)
                     {
                         countNum++;
@@ -212,19 +211,19 @@ namespace StarProject.Result
                     {
                         switch (nextStageButtonSelectNum)
                         {
-                            case 0://次のステージ
+                            case 0:// 次のステージ
                                 GameSceneController.stageNum++;
                                 stageNum = GameSceneController.stageNum;
                                 SceneManager.LoadScene(string.Format("Main0{0}", stageNum));
                                 resultRetryState = ResultRetryState.None;
                                 break;
-                            case 1://リトライ
+                            case 1:// リトライ
                                 retryButtonSelectNum = 0;
                                 RetryButtonSelect(retryButtonSelectNum);
                                 RetryDiaLogDysplay(true);
                                 resultRetryState = ResultRetryState.Retry;
                                 break;
-                            case 2://やめる
+                            case 2:// やめる
                                 exitButtonSelectNum = 0;
                                 ExitButtonSelect(exitButtonSelectNum);
                                 ExitDiaLogDysplay(true);
@@ -239,11 +238,11 @@ namespace StarProject.Result
                     {
                         switch (retryButtonSelectNum)
                         {
-                            case 0://いいえ
+                            case 0:// いいえ
                                 RetryDiaLogDysplay(false);
                                 resultRetryState = ResultRetryState.ResultSelect;
                                 break;
-                            case 1://はい
+                            case 1:// はい
                                 SceneManager.LoadScene(string.Format("Main0{0}", stageNum));
                                 resultRetryState = ResultRetryState.None;
                                 break;
@@ -256,11 +255,11 @@ namespace StarProject.Result
                     {
                         switch (exitButtonSelectNum)
                         {
-                            case 0://いいえ
+                            case 0:// いいえ
                                 ExitDiaLogDysplay(false);
                                 resultRetryState = ResultRetryState.ResultSelect;
                                 break;
-                            case 1://はい
+                            case 1:// はい
                                 SceneManager.LoadScene("TitleScene");
                                 resultRetryState = ResultRetryState.None;
                                 break;
@@ -279,17 +278,17 @@ namespace StarProject.Result
         {
             switch (buttonSelectNum)
             {
-                case 0://次のステージ
+                case 0:// 次のステージ
                     nextStageButton.sprite = nextStageSelectSprite;
                     exitTitleButton.sprite = exitTitleNormalSprite;
                     retryButton.sprite = retryNormalSprite;
                     return;
-                case 1://リトライ
+                case 1:// リトライ
                     nextStageButton.sprite = nextStageNormalSprite;
                     exitTitleButton.sprite = exitTitleNormalSprite;
                     retryButton.sprite = retrySelectSprite;
                     return;
-                case 2://やめる
+                case 2:// やめる
                     nextStageButton.sprite = nextStageNormalSprite;
                     exitTitleButton.sprite = exitTitleSelectSprite;
                     retryButton.sprite = retryNormalSprite;
@@ -302,13 +301,13 @@ namespace StarProject.Result
         /// <param name="dx">左右選択</param>
         private void RetrySelect(float dx)
         {
-            //右
+            // 右
             if (dx > 0 && countNum == 0)
             {
                 countNum++;
                 if (retryButtonSelectNum < retryButtonSelectNumMax) retryButtonSelectNum++;
                 RetryButtonSelect(retryButtonSelectNum);
-            }//左
+            }// 左
             else if (dx < 0 && countNum == 0)
             {
                 countNum++;
@@ -326,13 +325,13 @@ namespace StarProject.Result
         /// <param name="dx"></param>
         private void ExitSelect(float dx)
         {
-            //右
+            // 右
             if (dx > 0 && countNum == 0)
             {
                 countNum++;
                 if (exitButtonSelectNum < exitButtonSelectNumMax) exitButtonSelectNum++;
                 ExitButtonSelect(exitButtonSelectNum);
-            }//左
+            }// 左
             else if (dx < 0 && countNum == 0)
             {
                 countNum++;
@@ -501,21 +500,21 @@ namespace StarProject.Result
         {
             var damage = allDamage;
             if (damage > MaxScore) damage = MaxScore;
-            //1の桁
+            // 1の桁
             var score1 = damage % 10;
-            //10の桁
+            // 10の桁
             var score10 = damage / 10 % 10;
-            //100の桁
+            // 100の桁
             var score100 = damage / 100 % 10;
-            //1000の桁
+            // 1000の桁
             var score1000 = damage / 1000 % 10;
-            //10000の桁
+            // 10000の桁
             var score10000 = damage / 10000 % 10;
-            //100000の桁
+            // 100000の桁
             var score100000 = damage / 100000 % 10;
-            //1000000の桁
+            // 1000000の桁
             var score1000000 = damage / 1000000 % 10;
-            //10000000の桁
+            // 10000000の桁
             var score10000000 = damage / 10000000 % 10;
             scoreUI[0].sprite = numSprite[score1];
             scoreUI[1].sprite = numSprite[score10];
@@ -550,11 +549,11 @@ namespace StarProject.Result
         /// <param name="allDamage">総ダメージ値</param>
         private void ClearRankDisplay(int allDamage)
         {
-            //Aランク
+            // Aランク
             if (allDamage > rankAScore) rankUI.sprite = rankSprite[0];
-            //Bランク
+            // Bランク
             else if (allDamage > rankBScore) rankUI.sprite = rankSprite[1];
-            //Cランク
+            // Cランク
             else
                 rankUI.sprite = rankSprite[2];
         }

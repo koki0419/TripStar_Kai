@@ -5,7 +5,7 @@ using UnityEngine;
 public class Attack
 {
 
-    //Attack消費ポイント
+    // Attack消費ポイント
     public enum PlayerAttackIndex
     {
         None,
@@ -34,7 +34,7 @@ public class Attack
         Vector3 objPos = obj.transform.position;
         // キャラクタの向いている方向ベクトル計算
         x = Mathf.Sin(objRot.y * Mathf.Deg2Rad);
-        //単位ベクトル計算
+        // 単位ベクトル計算
         Vector2 firing = direction.normalized;
         // ラジアン
         float radian = Mathf.Atan2(firing.y, firing.x);
@@ -46,22 +46,22 @@ public class Attack
         }
         else
         {
-            //右
+            // 右
             if (degree < 30 && degree > -30)
             {
                 animationName = (int)PlayerAttackIndex.AttackNormal;
             }
-            //左
+            // 左
             else if (degree > 150 && degree <= 180 || degree < -150 && degree >= -180)
             {
                 animationName = (int)PlayerAttackIndex.AttackNormal;
             }
-            //上
+            // 上
             else if (degree > 30 && degree < 150)
             {
                 animationName = (int)PlayerAttackIndex.AttackUp;
             }
-            //下
+            // 下
             else if (degree < -30 && degree > -150)
             {
                 animationName = (int)PlayerAttackIndex.AttackDown;

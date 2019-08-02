@@ -5,19 +5,19 @@ using UnityEngine.UI;
 
 public class StarState : MonoBehaviour
 {
-    //大きい☆使用状態
+    // 大きい☆使用状態
     public enum Star
     {
-        None = 0, //☆取得していないとき
-        Normal = 1010,//☆獲得状態
-        Chage = 1100,//チャージ中（大きい☆用）
+        None = 0, // ☆取得していないとき
+        Normal = 1010,// ☆獲得状態
+        Chage = 1100,// チャージ中（大きい☆用）
     }
     public Star star = Star.None;
 
     [Header("☆の状態画像")]
-    [SerializeField] private Sprite notAcquiredSprite = null;//使っていない
-    [SerializeField] private Sprite normalSprite = null;//使っていない
-    [SerializeField] private Sprite chageStarSprite = null;//チャージ中（大きい☆用）
+    [SerializeField] private Sprite notAcquiredSprite = null;   // 使っていない
+    [SerializeField] private Sprite normalSprite = null;        // 使っていない
+    [SerializeField] private Sprite chageStarSprite = null;     // チャージ中（大きい☆用）
     [SerializeField] private GameObject starImage = null;
     [SerializeField] private bool isBigStatUI;
 

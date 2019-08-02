@@ -4,45 +4,42 @@ using UnityEngine;
 [RequireComponent(typeof(ObjectPool))]
 public class ObstacleSpawn : MonoBehaviour
 {
-    //プレイヤースクリプト
     [SerializeField] private PlayerMove playerMove = null;
     [SerializeField] private GameObject playerObj = null;
     [SerializeField] private Camera tragetCamera = null;
-
     [Header("障害物プール生成数")]
     [SerializeField] private int spawnMax;
     public int SpawnMax
     {
         get { return spawnMax; }
     }
-
     [Header("画面内に最大何個障害物を表示するか")]
     [SerializeField] private int obstaclesDysplayCount;
     [Header("障害物プレハブ")]
     [SerializeField] private GameObject obstaclesPrefab = null;
     private ObjectPool pool;
-    //攻撃時のスピード
+    // 攻撃時のスピード
     private readonly float normalAttackMoveSpeed = 5000;
-    //戻るスピード
+    // 戻るスピード
     private readonly float airAttackMoveSpeed = 1000;
 
-    //☆現在の表示数
+    // ☆現在の表示数
     [HideInInspector]
     public int ActiveCount
     {
         set; get;
     }
-    //☆生成数（経過）→次生成する☆のインデックス
+    // ☆生成数（経過）→次生成する☆のインデックス
     private int spawnIndex = 0;
     [SerializeField] private EnemyData enemyData = null;
-    //エネミーobjectPoolの初期化
+    // エネミーobjectPoolの初期化
     public void Init()
     {
         pool = GetComponent<ObjectPool>();
         pool.CreatePool(obstaclesPrefab, spawnMax);
         CreatObstacle();
     }
-    //エネミーを生成する
+    // エネミーを生成する
     public void CreatObstacle()
     {
         if (spawnIndex < enemyData.enemyDatas.Count)
@@ -54,9 +51,9 @@ public class ObstacleSpawn : MonoBehaviour
                 {
                     break;
                 }
-                //生成するときに「Rigidbody」がなければAddする
+                // 生成するときに「Rigidbody」がなければAddする
                 if (obstacle.GetComponent<Rigidbody>() == null) { obstacle.AddComponent<Rigidbody>(); }
-                //初期化
+                // 初期化
                 var setEnemyDatas = enemyData.enemyDatas[spawnIndex];
                 var newObj_O = obstacle.GetComponent<ObstacleManager>();
                 obstacle.transform.localPosition = setEnemyDatas.enemy_Position;
@@ -72,7 +69,9 @@ public class ObstacleSpawn : MonoBehaviour
         }
         else return;
     }
-
+    /// <summary>
+    /// オブジェクトを生成します
+    /// </summary>
     public void ObstaclesSponUpdate()
     {
         CreatObstacle();

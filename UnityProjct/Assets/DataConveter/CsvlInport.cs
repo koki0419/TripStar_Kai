@@ -13,7 +13,7 @@ using System.IO;
 public class CsvlInport
 {    public List<string[]> csvDatas = new List<string[]>();
 
-    //ファイル読み込み処理//ファイル名を記述
+    // ファイル読み込み処理//ファイル名を記述
     public bool DateRead(string fileName)
     {
         // csvをロード

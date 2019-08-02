@@ -4,27 +4,27 @@ using UnityEngine;
 
 public class StarController : MonoBehaviour
 {
-    //---------Unityコンポーネント宣言--------------
+    // ---------Unityコンポーネント宣言--------------
     GameObject playerObj;
-    [SerializeField] private Material goldStarMaterial = null;//黄金マテリアル   ☆獲得ポイント3
-    [SerializeField] private Material silverStarMaterial = null;//銀色マテリアル   ☆獲得ポイント2
-    [SerializeField] private Material bronzeStarMaterial = null;//銅色マテリアル   ☆獲得ポイント1
+    [SerializeField] private Material goldStarMaterial = null;  // 黄金マテリアル   ☆獲得ポイント3
+    [SerializeField] private Material silverStarMaterial = null;// 銀色マテリアル   ☆獲得ポイント2
+    [SerializeField] private Material bronzeStarMaterial = null;// 銅色マテリアル   ☆獲得ポイント1
 
     [SerializeField] private Renderer starRenderer = null;
-    //------------クラスの宣言----------------------
-    PlayerMove playerMove;
-    StarGenerator starGenerator;
-    //------------数値変数の宣言--------------------
-    private int starPoint;
+    // ------------クラスの宣言----------------------
+    [SerializeField] private PlayerMove playerMove;
+    [SerializeField] private StarGenerator starGenerator;
+    // ------------数値変数の宣言--------------------
+    [SerializeField]private int starPoint;
     [SerializeField] private int goldStarPoint;
     [SerializeField] private int silverStarPoint;
     [SerializeField] private int bronzeStarPoint;
-    //------------フラグ変数の宣言------------------
+    // ------------フラグ変数の宣言------------------
     private enum StarSponType
     {
         None,
-        ObstacleSpawn,//モアイから生成
-        SpecifiedSpawn,//スクリプトから生成
+        ObstacleSpawn,  // モアイから生成
+        SpecifiedSpawn, // スクリプトから生成
     }
     private StarSponType starSponType = StarSponType.None;
     private const string gameOverLineLayerName = "GameOverObj";
@@ -52,15 +52,15 @@ public class StarController : MonoBehaviour
     }
     public void Init()
     {
-        if (starPoint == goldStarPoint)//黄金の☆マテリアル
+        if (starPoint == goldStarPoint)// 黄金の☆マテリアル
         {
             starRenderer.material = goldStarMaterial;
         }
-        else if (starPoint == silverStarPoint)//銀色の☆マテリアル
+        else if (starPoint == silverStarPoint)// 銀色の☆マテリアル
         {
             starRenderer.material = silverStarMaterial;
         }
-        else if (starPoint == bronzeStarPoint)//銅色の☆マテリアル
+        else if (starPoint == bronzeStarPoint)// 銅色の☆マテリアル
         {
             starRenderer.material = bronzeStarMaterial;
         }
@@ -75,17 +75,20 @@ public class StarController : MonoBehaviour
     /// </summary>
     void CheckDeleteStar()
     {
-        if (transform.localPosition.x < (Camera.main.transform.position.x - 10.0f))
+        if (Camera.main != null)
         {
-            switch (starSponType)
+            if (transform.localPosition.x < (Camera.main.transform.position.x - 10.0f))
             {
-                case StarSponType.ObstacleSpawn:
-                    gameObject.SetActive(false);
-                    break;
-                case StarSponType.SpecifiedSpawn:
-                    starGenerator.ActiveCount--;
-                    gameObject.SetActive(false);
-                    break;
+                switch (starSponType)
+                {
+                    case StarSponType.ObstacleSpawn:
+                        gameObject.SetActive(false);
+                        break;
+                    case StarSponType.SpecifiedSpawn:
+                        starGenerator.ActiveCount--;
+                        gameObject.SetActive(false);
+                        break;
+                }
             }
         }
     }
@@ -106,7 +109,7 @@ public class StarController : MonoBehaviour
                 Singleton.Instance.gameSceneController.ChargePointManager.StarChildCountSkip += starPoint;
                 Singleton.Instance.gameSceneController.ChargePointManager.IsSkipStar = true;
             }
-            //「SpecifiedSpawn」タイプのみ「activeCount--」を行っている
+            // 「SpecifiedSpawn」タイプのみ「activeCount--」を行っている
             switch (starSponType)
             {
                 case StarSponType.ObstacleSpawn:
@@ -116,10 +119,17 @@ public class StarController : MonoBehaviour
                     starGenerator.ActiveCount--;
                     gameObject.SetActive(false);
                     break;
+                default:
+                    gameObject.SetActive(false);
+                    break;
             }
         }
     }
-
+    /// <summary>
+    /// 対象と接触したかどうか
+    /// </summary>
+    /// <param name="other">対象</param>
+    /// <returns></returns>
     private bool CheckPlayerHit(Collider other)
     {
         if (LayerMask.LayerToName(other.gameObject.layer) == "Player")

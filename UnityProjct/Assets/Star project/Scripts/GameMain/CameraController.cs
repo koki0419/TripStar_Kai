@@ -5,19 +5,19 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
 
-    //プレイヤーのTransformを取得
+    // プレイヤーのTransformを取得
     [SerializeField] private Transform player = null;
-    private float camaraPos = 6;
-    private float camaraMove = 1.5f;
-
+    private float cameraPos = 6;
+    private float cameraMove = 2.0f;
     [SerializeField] private float zoomSpeed;
-    //初期位置
+    // 初期位置
     private Vector3 initialPosition;
-
+    // 移動するかどうか
     public bool IsMove
     {
         get; set;
     }
+    // 初期化
     public void Init()
     {
         var position = transform.position;
@@ -25,13 +25,14 @@ public class CameraController : MonoBehaviour
         //初期位置を取得します。
         initialPosition = transform.position;
     }
-    public void MoveUpdate(float deltaTime, bool cameraMove)
+    // カメラの移動
+    public void MoveUpdate(float deltaTime, bool isCameraMove)
     {
-        if (cameraMove)
+        if (isCameraMove)
         {
             var position = transform.position;
-            position.x += camaraMove * deltaTime;
-            position.y = camaraPos;
+            position.x += cameraMove * deltaTime;
+            position.y = cameraPos;
             transform.position = position;
         }
         else
@@ -46,6 +47,7 @@ public class CameraController : MonoBehaviour
     {
         StartCoroutine(DoShake(duration, magnitude));
     }
+    // カメラをShake
     private IEnumerator DoShake(float duration, float magnitude)
     {
         var pos = transform.localPosition;
