@@ -93,11 +93,6 @@ namespace StarProject.Gamemain
         {
             set; get;
         }
-        // ☆獲得したかどうか
-        public bool isGetStar
-        {
-            get; set;
-        }
         // カメラを振動出せるかどうか
         private bool canCameraShake;
         // カメラを動かすかどうか
@@ -141,13 +136,16 @@ namespace StarProject.Gamemain
             fastTargetObj = enemysObj.transform.GetChild(0).gameObject;
             gameOverLineController = gameOverLineObj.GetComponent<GameOverLineController>();
             gameOverLineObj.SetActive(false);
-            isGetStar = false;
             isGameClear = false;
             isGameOver = false;
             isOperation = false;
             canCameraShake = false;
             gameClearMovie = false;
             isPlaying = false;
+            if(!newSystem && !oldSystem)
+            {
+                oldSystem = true;
+            }
             ResultScreenController.all_damage = 0;
         }
         // Start()より早く処理する
@@ -219,11 +217,7 @@ namespace StarProject.Gamemain
         {
             if (gameMainState == GameMainState.Play)// ゲームスタート
             {
-                if (isGetStar)
-                {
-                    isGetStar = false;
-                    chargePointManager.OnUpdate();
-                }
+                chargePointManager.OnUpdate();
             }
         }
         /// <summary>

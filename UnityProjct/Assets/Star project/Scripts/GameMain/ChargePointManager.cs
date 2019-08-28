@@ -6,14 +6,18 @@ using UnityEngine;
 [Serializable]
 public class ChargePointManager
 {
+    public int temporaryStorage
+    {
+        get; set;
+    }
     // 小さい☆の獲得状況
     public int StarChildCount
     {
-        get;set;
+        get; set;
     }
     public float StarChildCountMax
     {
-        get;private set;
+        get; private set;
     }
     // 小さい☆の獲得状況スキップ
     public int StarChildCountSkip
@@ -24,12 +28,13 @@ public class ChargePointManager
     // 一気に沢山の星を獲得したかどうか
     public bool IsSkipStar
     {
-        set;get;
+        set; get;
     }
 
     public void Init()
     {
         //チャージポイント
+        temporaryStorage = 0;
         StarChildCount = 0;
         StarChildCountSkip = 0;
         StarChildCountMax = 50;
@@ -42,26 +47,33 @@ public class ChargePointManager
         //越えなければ、現在の獲得数にプラスする
         if (StarChildCount < StarChildCountMax)
         {
-            if (IsSkipStar)
+            if(temporaryStorage != 0)
             {
-                IsSkipStar = false;
-                for (int i = StarChildCountSkip; i > 0; i--)
-                {
-                    StarChildCount++;
-                    StarChildCountSkip--;
-                    Singleton.Instance.gameSceneController.StarChargeController.UpdateDisplayAcquisitionSpriteStar(StarChildCount);
-                    if (StarChildCount >= StarChildCountMax)
-                    {
-                        StarChildCountSkip = 0;
-                        break;
-                    }
-                }
-            }
-            else
-            {
-                Singleton.Instance.gameSceneController.StarChargeController.UpdateDisplayAcquisitionSpriteStar(StarChildCount);
+                GetStarCountUp();
             }
         }
     }
+    // 星獲得アニメーションカウントアップ用
+    // 1カウントずつ行うのでtrue→次のアニメーションOK
+    //                      false→待機中
+    private bool GetStarCountUpAnimation()
+    {
 
+        return false;
+    }
+
+    private float checkTime = 0.0f;
+    private void GetStarCountUp()
+    {
+        checkTime += Time.deltaTime;
+        if (checkTime >= 0.5f)
+        {
+            StarChildCount++;
+            temporaryStorage--;
+            checkTime = 0.0f;
+            Singleton.Instance.gameSceneController.StarChargeController.UpdateDisplayAcquisitionSpriteStar(StarChildCount);
+            Debug.Log("実行 : " + StarChildCount + "回目");
+            return;
+        }
+    }
 }
