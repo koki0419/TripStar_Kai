@@ -74,8 +74,6 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private float airDownMoveSpeed = 0;
     // 空気抵抗
     [SerializeField] private float dragPower = 0;
-    // キー入力制御
-    [SerializeField] private float inputMoveKey = 0;
     // ジャンプ力
     [SerializeField] private float jumpPower = 0;
     [Header("プレイヤー攻撃初期情報")]
@@ -107,8 +105,6 @@ public class PlayerMove : MonoBehaviour
     {
         get; private set;
     }
-    [Header("追加攻撃するときの残スピード量")]
-    [SerializeField] private float addAttackCheck = 0;
     [Header("スタン時ステータス")]
     // スタン状態からの復活時間
     [SerializeField] private float stunTime;
@@ -234,6 +230,10 @@ public class PlayerMove : MonoBehaviour
         canAttack = true;
         isStun = false;
         IsSpecialProduction = false;
+        if (!newSystem && !oldSystem)
+        {
+            oldSystem = true;
+        }
     }
     public void OnUpdate(float deltaTime)
     {

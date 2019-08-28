@@ -15,7 +15,7 @@ public class StarController : MonoBehaviour
     [SerializeField] private PlayerMove playerMove;
     [SerializeField] private StarGenerator starGenerator;
     // ------------数値変数の宣言--------------------
-    [SerializeField]private int starPoint;
+    [SerializeField] private int starPoint;
     [SerializeField] private int goldStarPoint;
     [SerializeField] private int silverStarPoint;
     [SerializeField] private int bronzeStarPoint;
@@ -96,19 +96,11 @@ public class StarController : MonoBehaviour
     {
         if (CheckPlayerHit(other))
         {
-            Singleton.Instance.gameSceneController.isGetStar = true;
             Singleton.Instance.starSpawn.CreatStarEffect(transform.localPosition);
-            if (starPoint == 0 && starPoint == 1)
-            {
-                playerMove.IsAcquisitionStar = true;
-                Singleton.Instance.gameSceneController.ChargePointManager.StarChildCount += starPoint;
-            }
-            else
-            {
-                playerMove.IsAcquisitionStar = true;
-                Singleton.Instance.gameSceneController.ChargePointManager.StarChildCountSkip += starPoint;
-                Singleton.Instance.gameSceneController.ChargePointManager.IsSkipStar = true;
-            }
+
+            playerMove.IsAcquisitionStar = true;
+            Singleton.Instance.gameSceneController.ChargePointManager.temporaryStorage += starPoint;
+
             // 「SpecifiedSpawn」タイプのみ「activeCount--」を行っている
             switch (starSponType)
             {
