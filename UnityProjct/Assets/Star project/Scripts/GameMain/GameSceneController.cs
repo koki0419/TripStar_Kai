@@ -118,6 +118,11 @@ namespace StarProject.Gamemain
         bool isBigMoaiAttack = false;
         [SerializeField] private bool oldSystem;
         [SerializeField] private bool newSystem;
+        // 複数個☆を獲得した
+        public bool isMultipleAcquisition
+        {
+            get; set;
+        }
         /// <summary>
         /// 初期化
         /// </summary>
@@ -141,6 +146,7 @@ namespace StarProject.Gamemain
             isOperation = false;
             canCameraShake = false;
             gameClearMovie = false;
+            isMultipleAcquisition = false;
             isPlaying = false;
             if(!newSystem && !oldSystem)
             {
@@ -558,6 +564,7 @@ namespace StarProject.Gamemain
         /// </summary>
         void GameClear()
         {
+            playerMove.GameClear();
             if (gameClearMovie)
             {
                 gameClearMovie = false;

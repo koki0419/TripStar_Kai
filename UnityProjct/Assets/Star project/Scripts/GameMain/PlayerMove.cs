@@ -892,7 +892,13 @@ public class PlayerMove : MonoBehaviour
             CharacterAnimation("jump");
             SandEffectPlay(false);
         }
-
+        if (dx < 0)
+        {
+            dx = -1.0f;
+        }else if(dx > 0)
+        {
+            dx = 1.0f;
+        }
         // 移動
         CharacterMove(dx, deltaTime);
 
@@ -1521,5 +1527,10 @@ public class PlayerMove : MonoBehaviour
             inKeyCount++;
         }
         return inKeyCount;
+    }
+    // ゲームクリア
+    public void GameClear()
+    {
+        Attack_Idol();
     }
 }

@@ -20,13 +20,6 @@ public class StarChargeController : MonoBehaviour
     [SerializeField] private Image chargeFill = null;
     // 小さい☆UIが10個溜まったフラグ
     private bool starChargeMaxFlag = false;
-    // 現在の大きい☆の数
-    [SerializeField] private int bigStarCount = 0;
-    public int StarCount
-    {
-        set { bigStarCount = value; }
-        get { return bigStarCount; }
-    }
     // 小さい☆獲得表示UI(1/10)
     [SerializeField] private GameObject AcquisitionSpriteStarCount0 = null;
     // 小さい☆獲得表示UI(10/10)
@@ -44,7 +37,6 @@ public class StarChargeController : MonoBehaviour
     public void Init()
     {
         starChargeMaxFlag = false;
-        bigStarCount = 0;
         for (int i = 0; i < starChargeUI.Length; i++)
         {
             starChargeUI[i].UpdateStarSprite((int)Star.None);
@@ -106,16 +98,42 @@ public class StarChargeController : MonoBehaviour
             AcquisitionSpriteStarCount0.GetComponent<Image>().sprite = smallStarAcquisitionSprite[starCount0];
             AcquisitionSpriteStarCount1.GetComponent<Image>().sprite = smallStarAcquisitionSprite[starCount1];
         }
-       if(smollSratCount % 10 == 0)
+        var isMultipleAcquisition = Singleton.Instance.gameSceneController.isMultipleAcquisition;
+       if (smollSratCount % 10 == 0)
         {
-            AcquisitionStarCount_1_10Animator.SetTrigger("isUpdate");
-            AcquisitionStarCount_10_10Animator.SetTrigger("isUpdate");
+            if (isMultipleAcquisition)
+            {
+                PlayStarCountUpAnimation_1_10(true);
+                PlayStarCountUpAnimation_10_10(true);
+            }
+            else
+            {
+                PlayStarCountUpAnimation_1_10(false);
+                PlayStarCountUpAnimation_10_10(false);
+            }
         }
         else
         {
-            AcquisitionStarCount_1_10Animator.SetTrigger("isUpdate");
+            if (isMultipleAcquisition)
+            {
+                PlayStarCountUpAnimation_1_10(true);
+            }
+            else
+            {
+                PlayStarCountUpAnimation_1_10(false);
+            }
         }
         UpdateBigStarUI(smollSratCount / 10);
+    }
+    private void PlayStarCountUpAnimation_1_10(bool multipleAcquisition)
+    {
+        AcquisitionStarCount_1_10Animator.SetTrigger("isUpdate");
+        AcquisitionStarCount_1_10Animator.SetBool("multipleAcquisition", multipleAcquisition);
+    }
+    private void PlayStarCountUpAnimation_10_10(bool multipleAcquisition)
+    {
+        AcquisitionStarCount_10_10Animator.SetTrigger("isUpdate");
+        AcquisitionStarCount_10_10Animator.SetBool("multipleAcquisition", multipleAcquisition);
     }
     /// <summary>
     /// チャージ時に星がたまった時のアニメーション

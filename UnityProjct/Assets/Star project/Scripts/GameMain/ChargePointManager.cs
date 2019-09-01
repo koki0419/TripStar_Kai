@@ -54,26 +54,32 @@ public class ChargePointManager
         }
     }
     // 星獲得アニメーションカウントアップ用
-    // 1カウントずつ行うのでtrue→次のアニメーションOK
-    //                      false→待機中
-    private bool GetStarCountUpAnimation()
-    {
-
-        return false;
-    }
-
     private float checkTime = 0.0f;
     private void GetStarCountUp()
     {
+        var isMultipleAcquisition = Singleton.Instance.gameSceneController.isMultipleAcquisition;
         checkTime += Time.deltaTime;
-        if (checkTime >= 0.5f)
+        if (isMultipleAcquisition)
         {
-            StarChildCount++;
-            temporaryStorage--;
-            checkTime = 0.0f;
-            Singleton.Instance.gameSceneController.StarChargeController.UpdateDisplayAcquisitionSpriteStar(StarChildCount);
-            Debug.Log("実行 : " + StarChildCount + "回目");
-            return;
+            if (checkTime >= 0.15f)
+            {
+                StarChildCount++;
+                temporaryStorage--;
+                checkTime = 0.0f;
+                Singleton.Instance.gameSceneController.StarChargeController.UpdateDisplayAcquisitionSpriteStar(StarChildCount);
+                return;
+            }
+        }
+        else
+        {
+            if (checkTime >= 0.5f)
+            {
+                StarChildCount++;
+                temporaryStorage--;
+                checkTime = 0.0f;
+                Singleton.Instance.gameSceneController.StarChargeController.UpdateDisplayAcquisitionSpriteStar(StarChildCount);
+                return;
+            }
         }
     }
 }

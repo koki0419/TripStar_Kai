@@ -99,8 +99,14 @@ public class StarController : MonoBehaviour
             Singleton.Instance.starSpawn.CreatStarEffect(transform.localPosition);
 
             playerMove.IsAcquisitionStar = true;
+            // 複数個の時とアニメーション変える
             Singleton.Instance.gameSceneController.ChargePointManager.temporaryStorage += starPoint;
-
+            var isMultipleAcquisition = false;
+            if(starPoint > 1)
+            {
+                isMultipleAcquisition = true;
+            }
+            Singleton.Instance.gameSceneController.isMultipleAcquisition = isMultipleAcquisition;
             // 「SpecifiedSpawn」タイプのみ「activeCount--」を行っている
             switch (starSponType)
             {
