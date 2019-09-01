@@ -5935,7 +5935,7 @@ PrefabInstance:
     - target: {fileID: 8201827453594380170, guid: fe97a53f4f193f44f8109d35f09a11cc,
         type: 3}
       propertyPath: starPoint
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8201827453594380170, guid: fe97a53f4f193f44f8109d35f09a11cc,
         type: 3}
@@ -6409,6 +6409,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: UICanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 1296933471904593278, guid: c99a95e7da73ddc47869eedda823d719,
+        type: 3}
+      propertyPath: mainCamera
+      value: 
+      objectReference: {fileID: 534669904}
+    - target: {fileID: 1296933472568775909, guid: c99a95e7da73ddc47869eedda823d719,
+        type: 3}
+      propertyPath: mainCamera
+      value: 
+      objectReference: {fileID: 534669904}
     - target: {fileID: 1296933471934464831, guid: c99a95e7da73ddc47869eedda823d719,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6464,16 +6474,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1296933471904593278, guid: c99a95e7da73ddc47869eedda823d719,
-        type: 3}
-      propertyPath: mainCamera
-      value: 
-      objectReference: {fileID: 534669904}
-    - target: {fileID: 1296933472568775909, guid: c99a95e7da73ddc47869eedda823d719,
-        type: 3}
-      propertyPath: mainCamera
-      value: 
-      objectReference: {fileID: 534669904}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c99a95e7da73ddc47869eedda823d719, type: 3}
 --- !u!4 &2708746674337277248 stripped
