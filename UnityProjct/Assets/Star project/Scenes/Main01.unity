@@ -4807,7 +4807,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!82 &1291805221
 AudioSource:
   m_ObjectHideFlags: 0
@@ -5875,7 +5875,7 @@ PrefabInstance:
     - target: {fileID: 301987961005163294, guid: fe97a53f4f193f44f8109d35f09a11cc,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5790972507732336171, guid: fe97a53f4f193f44f8109d35f09a11cc,
         type: 3}
@@ -5935,7 +5935,7 @@ PrefabInstance:
     - target: {fileID: 8201827453594380170, guid: fe97a53f4f193f44f8109d35f09a11cc,
         type: 3}
       propertyPath: starPoint
-      value: 1
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 8201827453594380170, guid: fe97a53f4f193f44f8109d35f09a11cc,
         type: 3}
@@ -6875,46 +6875,6 @@ PrefabInstance:
       propertyPath: starChargeController
       value: 
       objectReference: {fileID: 1231812595}
-    - target: {fileID: 7591038753852166544, guid: aaa686a59c6e88843abd9426202be9c6,
-        type: 3}
-      propertyPath: fifthChargeAmountOfIncrease
-      value: 0.005
-      objectReference: {fileID: 0}
-    - target: {fileID: 7591038753852166544, guid: aaa686a59c6e88843abd9426202be9c6,
-        type: 3}
-      propertyPath: chargePointAddition
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 7591038753852166544, guid: aaa686a59c6e88843abd9426202be9c6,
-        type: 3}
-      propertyPath: secondChargeAmountOfIncrease
-      value: 0.05
-      objectReference: {fileID: 0}
-    - target: {fileID: 7591038753852166544, guid: aaa686a59c6e88843abd9426202be9c6,
-        type: 3}
-      propertyPath: thirdChargeAmountOfIncrease
-      value: 0.025
-      objectReference: {fileID: 0}
-    - target: {fileID: 7591038753852166544, guid: aaa686a59c6e88843abd9426202be9c6,
-        type: 3}
-      propertyPath: fourthChargeAmountOfIncrease
-      value: 0.01
-      objectReference: {fileID: 0}
-    - target: {fileID: 7591038753852166544, guid: aaa686a59c6e88843abd9426202be9c6,
-        type: 3}
-      propertyPath: oldSystem
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7591038753852166544, guid: aaa686a59c6e88843abd9426202be9c6,
-        type: 3}
-      propertyPath: newSystem
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7591038753852166544, guid: aaa686a59c6e88843abd9426202be9c6,
-        type: 3}
-      propertyPath: attackCancel
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7591038753852166573, guid: aaa686a59c6e88843abd9426202be9c6,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6968,26 +6928,6 @@ PrefabInstance:
     - target: {fileID: 7591038753852166573, guid: aaa686a59c6e88843abd9426202be9c6,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2097663046044024443, guid: aaa686a59c6e88843abd9426202be9c6,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 2097663046044024443, guid: aaa686a59c6e88843abd9426202be9c6,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 2097663046044024443, guid: aaa686a59c6e88843abd9426202be9c6,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: -90
-      objectReference: {fileID: 0}
-    - target: {fileID: 2097663046044024446, guid: aaa686a59c6e88843abd9426202be9c6,
-        type: 3}
-      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
