@@ -37,7 +37,7 @@ public class EnemyController : MonoBehaviour
     }
     private EnemyTyp enemyTyp;
     // エネミーの『ObstacleManager』参照
-    private ObstacleManager obstacleManager;
+    private ObstacleManager obstacleManager = null;
     // プレイヤーポジション
     private GameObject playerObj = null;
     // エネミー動きはじめの「startPos」
@@ -70,7 +70,7 @@ public class EnemyController : MonoBehaviour
     // スタンフラグ
     private bool stun;
     // エネミー用のanimator
-    [SerializeField] private Animator enemyAnimator;
+    [SerializeField] private Animator enemyAnimator = null;
     public Animator EnemyAnimator
     {
         get; private set;
@@ -492,7 +492,6 @@ public class EnemyController : MonoBehaviour
         var rot = -90;
         transform.localRotation = Quaternion.AngleAxis(rot, new Vector3(0, 1, 0));
     }
-
     /// <summary>
     /// 砂煙エフェクトのSetActiveを管理
     /// </summary>
