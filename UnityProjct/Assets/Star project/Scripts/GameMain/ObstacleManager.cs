@@ -28,15 +28,17 @@ public class ObstacleManager : MonoBehaviour
     [SerializeField] private GameObject obstaclesHeadObj = null;
     private const string normalLayer = "Obstacles";
     private const string breakLayer = "BreakObstacls";
+    private int breakCount = 0;
     // -------------フラグ用変数------------------------------
     private bool onRemoveObjFlag = false;
     private bool isDamage;
     private bool canDamage = true;
+    private bool isBreak = false;
     public bool IsDestroyed
     {
         get; private set;
     }
-    public void SetObstacleDatas(Camera targetCamera,PlayerMove playerMove,ObstacleSpawn obstacleSpawn, int hp,int spawnStarNum)
+    public void SetObstacleDatas(Camera targetCamera, PlayerMove playerMove, ObstacleSpawn obstacleSpawn, int hp, int spawnStarNum)
     {
         this.tragetCamera = targetCamera;
         this.playerMove = playerMove;
@@ -62,6 +64,7 @@ public class ObstacleManager : MonoBehaviour
         // レイヤーはやりすぎか？コライダー消去の方がよけれは修正要
         gameObject.layer = LayerMask.NameToLayer(normalLayer);
         moaiRenderer.enabled = true;
+        isBreak = false;
     }
     private void Update()
     {
@@ -75,12 +78,19 @@ public class ObstacleManager : MonoBehaviour
                 gameObject.SetActive(false);
             }
         }
-        if (tragetCamera != null)
+        if (tragetCamera != null && breakCount == 0)
         {
-            if (tragetCamera.transform.position.x - reMoveX > gameObject.transform.localPosition.x)
+            if (tragetCamera.transform.position.x - reMoveX > transform.localPosition.x)
             {
-                ObjectBreak();
+                breakCount++;
+                isBreak = true;
             }
+        }
+        if (isBreak)
+        {
+            isBreak = false;
+            Debug.Log("破壊されず破壊された");
+            ObjectBreak();
         }
         // ダメージを受けたと時の処理
         if (isDamage)
