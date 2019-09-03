@@ -14,6 +14,12 @@ public class StarEffect : MonoBehaviour
     public void Init(RectTransform target)
     {
         this.target = target;
+        var starScale = transform.localScale;
+        starScale.x =1.0f;
+        starScale.y =1.0f;
+        transform.localScale = starScale;
+        isMove = true;
+        isScale = false;
     }
     /// <summary>
     /// ターゲットへのベクトルを生成します
@@ -31,16 +37,33 @@ public class StarEffect : MonoBehaviour
 
         return moveForce;
     }
-
+    private bool isMove = true;
+    private bool isScale = false;
     private void Update()
     {
-        if (this.target != null)
+        if (this.target != null && isMove)
         {
             gameObject.transform.localPosition += Direction();
             if (target.position.x + errorPosition >= transform.position.x && target.position.y - errorPosition <= transform.position.y)
             {
-                gameObject.SetActive(false);
+                isMove = false;
+                isScale = true;
             }
+        }
+        if (isScale)
+        {
+            StarScale();
+        }
+    }
+    private void StarScale()
+    {
+        var starScale = transform.localScale;
+        starScale.x -= 0.1f;
+        starScale.y -= 0.1f;
+        transform.localScale = starScale;
+        if(starScale.x <= 0.0f)
+        {
+            gameObject.SetActive(false);
         }
     }
 }

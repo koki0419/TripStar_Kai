@@ -30,7 +30,6 @@ public class StarSpawn : MonoBehaviour
         if (starEffect != null)
         {
             starEffect.GetComponent<RectTransform>().position = screenPos;
-
             starEffect.GetComponent<StarEffect>().Init(this.target);
         }
     }

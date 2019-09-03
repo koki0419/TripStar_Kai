@@ -234,6 +234,7 @@ public class PlayerMove : MonoBehaviour
         {
             oldSystem = true;
         }
+        auraEfect.SetActive(false);
     }
     public void OnUpdate(float deltaTime)
     {
@@ -958,6 +959,7 @@ public class PlayerMove : MonoBehaviour
             CharacterAnimation("knockback");
             FreezePositionCancel();
             ChargeEffectPlay(false, false);
+            auraEfect.SetActive(false);
             // チャージゲージをリセットします
             Singleton.Instance.gameSceneController.StarChargeController.UpdateChargePoint(0);
             // チャージ中☆を戻します
@@ -1035,6 +1037,9 @@ public class PlayerMove : MonoBehaviour
                 else
                 {
                     ChargeEffectPlay(false, true);
+                    auraEfect.SetActive(true);
+                    Debug.Log("chargeCount : " + chargeCount);
+                    ChargeEfectScaleChange(chargeCount);
                 }
                 starChargeController.ChargeStarUIAnimationInt(chargeCount);
                 var chargeStarMax = Singleton.Instance.gameSceneController.ChargePointManager.StarChildCount / 10;
@@ -1088,6 +1093,7 @@ public class PlayerMove : MonoBehaviour
                     Singleton.Instance.soundManager.PlayPlayerSe(chargeAttackSeNum);
                 }
                 ChargeReset(false, false);
+                auraEfect.SetActive(false);
                 objState = ObjState.Attack;
             }
         }
@@ -1113,6 +1119,7 @@ public class PlayerMove : MonoBehaviour
                 if (chargeCount < 3)
                 {
                     ChargeEffectPlay(true, false);
+                    ChargeEfectScaleChange(chargeCount);
                 }
                 else
                 {
@@ -1136,6 +1143,7 @@ public class PlayerMove : MonoBehaviour
         {
             attackCancel = false;
             ChargeEffectPlay(false, false);
+            auraEfect.SetActive(false);
             chargeNow = 0.0f;
             isAttack = false;
             canDamage = false;
@@ -1213,6 +1221,7 @@ public class PlayerMove : MonoBehaviour
         // starChargeController.ChargeStarUIAnimationInt(0);
         starChargeController.ChargeStarUIAnimationBool(false);
         ChargeEffectPlay(chargeEfect1, chargeEfect2);
+        auraEfect.SetActive(false);
         PunchEffectPlay(true);
         chargeNow = 0.0f;
         canDamage = true;
@@ -1307,6 +1316,7 @@ public class PlayerMove : MonoBehaviour
     {
         yield return new WaitForSeconds(animationTime);
         ChargeEffectPlay(false, false);
+        auraEfect.SetActive(false);
         ReSetSpecal();
         canDamage = false;
         chargeNowHand = 0.0f;
@@ -1333,6 +1343,7 @@ public class PlayerMove : MonoBehaviour
     IEnumerator GameOverIEnumerator()
     {
         ChargeEffectPlay(false, false);
+        auraEfect.SetActive(false);
         CharacterAnimation("GameOver");
 
         yield return new WaitForSeconds(1.5f);
@@ -1532,5 +1543,32 @@ public class PlayerMove : MonoBehaviour
     public void GameClear()
     {
         Attack_Idol();
+    }
+    // チャージオーラのサイズ変更
+    private const float charge_3_EffectSize = 0.75f;
+    private const float charge_4_EffectSize = 1.0f;
+    private const float charge_5_EffectSize = 2.0f;
+    [SerializeField] private GameObject auraEfect = null;
+    private void ChargeEfectScaleChange(int chargeCount)
+    {
+        var targetScale = auraEfect.transform.lossyScale;
+        var efectScaleSize = 0.0f;
+        switch (chargeCount)
+        {
+            case 3:
+                Debug.Log("111");
+                efectScaleSize = charge_3_EffectSize;
+                break;
+            case 4:
+                Debug.Log("222");
+                efectScaleSize = charge_4_EffectSize;
+                break;
+            case 5:
+                Debug.Log("333");
+                efectScaleSize = charge_5_EffectSize;
+                break;
+        }
+        targetScale = new Vector3( efectScaleSize, efectScaleSize, efectScaleSize);
+        auraEfect.transform.localScale = targetScale;
     }
 }
