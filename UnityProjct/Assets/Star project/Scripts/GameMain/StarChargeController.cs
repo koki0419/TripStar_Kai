@@ -18,6 +18,7 @@ public class StarChargeController : MonoBehaviour
     [SerializeField] private StarState[] starChargeUI = null;
     // ☆獲得ポイント
     [SerializeField] private Image chargeFill = null;
+    [SerializeField] private Sprite[] chargeFillSprites;
     // 小さい☆UIが10個溜まったフラグ
     private bool starChargeMaxFlag = false;
     // 小さい☆獲得表示UI(1/10)
@@ -71,8 +72,16 @@ public class StarChargeController : MonoBehaviour
     /// チャージポイントのupdete
     /// </summary>
     /// <param name="percentage">チャージ時の帯Update量</param>
-    public void UpdateChargePoint(float percentage)
+    int nowChargeCount = 0;
+    public void UpdateChargePoint(float percentage, int chargeCount)
     {
+        Debug.Log("chargeCount : " + chargeCount);
+        if (chargeCount < 5)
+        {
+            chargeFill.sprite = chargeFillSprites[chargeCount];
+        }
+
+        Debug.Log("画像変更");
         chargeFill.fillAmount = percentage;
     }
     /// <summary>
@@ -99,7 +108,7 @@ public class StarChargeController : MonoBehaviour
             AcquisitionSpriteStarCount1.GetComponent<Image>().sprite = smallStarAcquisitionSprite[starCount1];
         }
         var isMultipleAcquisition = Singleton.Instance.gameSceneController.isMultipleAcquisition;
-       if (smollSratCount % 10 == 0)
+        if (smollSratCount % 10 == 0)
         {
             if (isMultipleAcquisition)
             {

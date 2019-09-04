@@ -215,7 +215,7 @@ public class PlayerMove : MonoBehaviour
         rigidbody = GetComponent<Rigidbody>();
         dragPower = rigidbody.drag;
         // チャージゲージをリセットします
-        Singleton.Instance.gameSceneController.StarChargeController.UpdateChargePoint(0);
+        Singleton.Instance.gameSceneController.StarChargeController.UpdateChargePoint(0,0);
         // ----初期化-----
         canDamage = false;
         isGround = false;
@@ -961,7 +961,7 @@ public class PlayerMove : MonoBehaviour
             ChargeEffectPlay(false, false);
             auraEfect.SetActive(false);
             // チャージゲージをリセットします
-            Singleton.Instance.gameSceneController.StarChargeController.UpdateChargePoint(0);
+            Singleton.Instance.gameSceneController.StarChargeController.UpdateChargePoint(0,0);
             // チャージ中☆を戻します
             Singleton.Instance.gameSceneController.StarChargeController.UpdateBigStarUI(chargeCount);
             chargeCount = 0;
@@ -1026,7 +1026,7 @@ public class PlayerMove : MonoBehaviour
 
                 var chargeUpGoodLuckValue = CheckAmountOfRotationPerSecond(inLoadKey);
                 // チャージ中
-                ChargeUp(starPointNormalization, inLoadKey, chargeUpGoodLuckValue);
+                ChargeUp(starPointNormalization, inLoadKey, chargeUpGoodLuckValue, chargeCount);
                 Singleton.Instance.gameSceneController.StarChargeController.ChargeBigStar(chargeCount);
                 ChargeAttackHand(Singleton.Instance.gameSceneController.ChargePointManager.StarChildCount);
                 // チャージエフェクト
@@ -1062,7 +1062,7 @@ public class PlayerMove : MonoBehaviour
                     AttackPower = chargeCount * secondOffensivePower + foundationoffensivePower;
                 }
                 // チャージゲージをリセットします
-                Singleton.Instance.gameSceneController.StarChargeController.UpdateChargePoint(0);
+                Singleton.Instance.gameSceneController.StarChargeController.UpdateChargePoint(0,0);
                 // チャージ中☆を戻します
                 Singleton.Instance.gameSceneController.StarChargeController.UpdateBigStarUI(chargeCount);
                 // 攻撃アニメーション
@@ -1112,7 +1112,7 @@ public class PlayerMove : MonoBehaviour
 
                 var chargeUpGoodLuckValue = CheckAmountOfRotationPerSecond(inLoadKey);
                 // チャージ中
-                ChargeUp(starPointNormalization, inLoadKey, chargeUpGoodLuckValue);
+                ChargeUp(starPointNormalization, inLoadKey, chargeUpGoodLuckValue, chargeCount);
                 Singleton.Instance.gameSceneController.StarChargeController.ChargeBigStar(chargeCount);
                 ChargeAttackHand(Singleton.Instance.gameSceneController.ChargePointManager.StarChildCount);
                 // チャージエフェクト
@@ -1174,7 +1174,7 @@ public class PlayerMove : MonoBehaviour
             AttackPower = chargeCount * secondOffensivePower + foundationoffensivePower;
         }
         // チャージゲージをリセットします
-        Singleton.Instance.gameSceneController.StarChargeController.UpdateChargePoint(0);
+        Singleton.Instance.gameSceneController.StarChargeController.UpdateChargePoint(0,0);
         // チャージ中☆を戻します
         Singleton.Instance.gameSceneController.StarChargeController.UpdateBigStarUI(chargeCount);
         // 攻撃アニメーション
@@ -1231,9 +1231,10 @@ public class PlayerMove : MonoBehaviour
     /// チャージポイントをUpする
     /// </summary>
     /// <param name="ChargeAmountOfIncrease"></param>
-    void ChargeUp(float ChargeAmountOfIncrease, bool checkChargeUp, int chargeUpGoodLuckValue)
+    void ChargeUp(float ChargeAmountOfIncrease, bool checkChargeUp, int chargeUpGoodLuckValue,int chargeCount)
     {
-        Singleton.Instance.gameSceneController.StarChargeController.UpdateChargePoint(OnCharge(Singleton.Instance.gameSceneController.ChargePointManager.StarChildCount / ChargeAmountOfIncrease, checkChargeUp, chargeUpGoodLuckValue));
+        var starChargeController = Singleton.Instance.gameSceneController.StarChargeController;
+        starChargeController.UpdateChargePoint(OnCharge(Singleton.Instance.gameSceneController.ChargePointManager.StarChildCount / ChargeAmountOfIncrease, checkChargeUp, chargeUpGoodLuckValue), chargeCount);
     }
     /// <summary>
     /// 攻撃時のキャラクター更新
@@ -1556,15 +1557,12 @@ public class PlayerMove : MonoBehaviour
         switch (chargeCount)
         {
             case 3:
-                Debug.Log("111");
                 efectScaleSize = charge_3_EffectSize;
                 break;
             case 4:
-                Debug.Log("222");
                 efectScaleSize = charge_4_EffectSize;
                 break;
             case 5:
-                Debug.Log("333");
                 efectScaleSize = charge_5_EffectSize;
                 break;
         }
