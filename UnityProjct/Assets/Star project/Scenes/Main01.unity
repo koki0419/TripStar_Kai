@@ -1069,6 +1069,11 @@ PrefabInstance:
       propertyPath: playerMove
       value: 
       objectReference: {fileID: 1774836255}
+    - target: {fileID: 8201827453594380170, guid: fe97a53f4f193f44f8109d35f09a11cc,
+        type: 3}
+      propertyPath: isSpecial
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fe97a53f4f193f44f8109d35f09a11cc, type: 3}
 --- !u!4 &217435553 stripped
@@ -4807,7 +4812,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!82 &1291805221
 AudioSource:
   m_ObjectHideFlags: 0
@@ -5947,6 +5952,11 @@ PrefabInstance:
       propertyPath: playerMove
       value: 
       objectReference: {fileID: 1774836255}
+    - target: {fileID: 8201827453594380170, guid: fe97a53f4f193f44f8109d35f09a11cc,
+        type: 3}
+      propertyPath: isSpecial
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fe97a53f4f193f44f8109d35f09a11cc, type: 3}
 --- !u!4 &2017910885 stripped
@@ -6409,6 +6419,51 @@ PrefabInstance:
       propertyPath: m_Name
       value: UICanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 1296933471904593273, guid: c99a95e7da73ddc47869eedda823d719,
+        type: 3}
+      propertyPath: chargeFillSprites.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1296933471904593273, guid: c99a95e7da73ddc47869eedda823d719,
+        type: 3}
+      propertyPath: chargeFillSprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 74188a407b3355b44994aa0e06ec8c48,
+        type: 3}
+    - target: {fileID: 1296933471904593273, guid: c99a95e7da73ddc47869eedda823d719,
+        type: 3}
+      propertyPath: chargeFillSprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300000, guid: c0dfafcf51d173f49a7c7e4a381c9462,
+        type: 3}
+    - target: {fileID: 1296933471904593273, guid: c99a95e7da73ddc47869eedda823d719,
+        type: 3}
+      propertyPath: chargeFillSprites.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300000, guid: 74188a407b3355b44994aa0e06ec8c48,
+        type: 3}
+    - target: {fileID: 1296933471904593273, guid: c99a95e7da73ddc47869eedda823d719,
+        type: 3}
+      propertyPath: chargeFillSprites.Array.data[3]
+      value: 
+      objectReference: {fileID: 21300000, guid: c0dfafcf51d173f49a7c7e4a381c9462,
+        type: 3}
+    - target: {fileID: 1296933471904593273, guid: c99a95e7da73ddc47869eedda823d719,
+        type: 3}
+      propertyPath: chargeFillSprites.Array.data[4]
+      value: 
+      objectReference: {fileID: 21300000, guid: 7efecd68266ddd74896c4056ef66c65a,
+        type: 3}
+    - target: {fileID: 1296933471904593278, guid: c99a95e7da73ddc47869eedda823d719,
+        type: 3}
+      propertyPath: mainCamera
+      value: 
+      objectReference: {fileID: 534669904}
+    - target: {fileID: 1296933472568775909, guid: c99a95e7da73ddc47869eedda823d719,
+        type: 3}
+      propertyPath: mainCamera
+      value: 
+      objectReference: {fileID: 534669904}
     - target: {fileID: 1296933471934464831, guid: c99a95e7da73ddc47869eedda823d719,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6464,51 +6519,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1296933471904593278, guid: c99a95e7da73ddc47869eedda823d719,
-        type: 3}
-      propertyPath: mainCamera
-      value: 
-      objectReference: {fileID: 534669904}
-    - target: {fileID: 1296933472568775909, guid: c99a95e7da73ddc47869eedda823d719,
-        type: 3}
-      propertyPath: mainCamera
-      value: 
-      objectReference: {fileID: 534669904}
-    - target: {fileID: 1296933471904593273, guid: c99a95e7da73ddc47869eedda823d719,
-        type: 3}
-      propertyPath: chargeFillSprites.Array.size
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1296933471904593273, guid: c99a95e7da73ddc47869eedda823d719,
-        type: 3}
-      propertyPath: chargeFillSprites.Array.data[0]
-      value: 
-      objectReference: {fileID: 21300000, guid: 74188a407b3355b44994aa0e06ec8c48,
-        type: 3}
-    - target: {fileID: 1296933471904593273, guid: c99a95e7da73ddc47869eedda823d719,
-        type: 3}
-      propertyPath: chargeFillSprites.Array.data[1]
-      value: 
-      objectReference: {fileID: 21300000, guid: c0dfafcf51d173f49a7c7e4a381c9462,
-        type: 3}
-    - target: {fileID: 1296933471904593273, guid: c99a95e7da73ddc47869eedda823d719,
-        type: 3}
-      propertyPath: chargeFillSprites.Array.data[2]
-      value: 
-      objectReference: {fileID: 21300000, guid: 74188a407b3355b44994aa0e06ec8c48,
-        type: 3}
-    - target: {fileID: 1296933471904593273, guid: c99a95e7da73ddc47869eedda823d719,
-        type: 3}
-      propertyPath: chargeFillSprites.Array.data[3]
-      value: 
-      objectReference: {fileID: 21300000, guid: c0dfafcf51d173f49a7c7e4a381c9462,
-        type: 3}
-    - target: {fileID: 1296933471904593273, guid: c99a95e7da73ddc47869eedda823d719,
-        type: 3}
-      propertyPath: chargeFillSprites.Array.data[4]
-      value: 
-      objectReference: {fileID: 21300000, guid: 7efecd68266ddd74896c4056ef66c65a,
-        type: 3}
     - target: {fileID: 1296933472242463483, guid: c99a95e7da73ddc47869eedda823d719,
         type: 3}
       propertyPath: m_FillAmount

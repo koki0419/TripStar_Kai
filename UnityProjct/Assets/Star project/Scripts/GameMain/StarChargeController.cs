@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using StarProject.Gamemain;
 public class StarChargeController : MonoBehaviour
 {
     // 大きい☆使用状態
@@ -45,6 +45,7 @@ public class StarChargeController : MonoBehaviour
         // 小さい☆獲得UIの画像を0に設定します（1/10、10/10両方とも）
         AcquisitionSpriteStarCount0.GetComponent<Image>().sprite = smallStarAcquisitionSprite[0];
         AcquisitionSpriteStarCount1.GetComponent<Image>().sprite = smallStarAcquisitionSprite[0];
+        gameSceneController = Singleton.Instance.gameSceneController;
     }
     /// <summary>
     /// 大きい☆UIの更新
@@ -75,15 +76,13 @@ public class StarChargeController : MonoBehaviour
     int nowChargeCount = 0;
     public void UpdateChargePoint(float percentage, int chargeCount)
     {
-        Debug.Log("chargeCount : " + chargeCount);
         if (chargeCount < 5)
         {
             chargeFill.sprite = chargeFillSprites[chargeCount];
+            chargeFill.fillAmount = percentage;
         }
-
-        Debug.Log("画像変更");
-        chargeFill.fillAmount = percentage;
     }
+    private GameSceneController gameSceneController = null;
     /// <summary>
     /// 小さい☆の獲得状況を表示します
     /// ☆に合わせて0～9の画像を切り替えて表示します
@@ -107,7 +106,7 @@ public class StarChargeController : MonoBehaviour
             AcquisitionSpriteStarCount0.GetComponent<Image>().sprite = smallStarAcquisitionSprite[starCount0];
             AcquisitionSpriteStarCount1.GetComponent<Image>().sprite = smallStarAcquisitionSprite[starCount1];
         }
-        var isMultipleAcquisition = Singleton.Instance.gameSceneController.isMultipleAcquisition;
+        var isMultipleAcquisition = gameSceneController.isMultipleAcquisition;
         if (smollSratCount % 10 == 0)
         {
             if (isMultipleAcquisition)
