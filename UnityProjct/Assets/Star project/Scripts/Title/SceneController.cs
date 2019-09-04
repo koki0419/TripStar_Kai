@@ -57,6 +57,7 @@ namespace StarProject.Title
         // ゲームパッドjoyコン制御用
         private int countNum;
         private bool debugFlag = false;
+        private SoundManager soundManager = null;
         /// <summary>
         /// 初期化
         /// </summary>
@@ -68,6 +69,7 @@ namespace StarProject.Title
             exitDialogUI.SetActive(false);
             fadeImage = fadeImageObj.GetComponent<Image>();
             TitleSelectButton(buttonNum);
+            soundManager = Singleton.Instance.soundManager;
         }
 
         // スタート
@@ -75,9 +77,9 @@ namespace StarProject.Title
         {
             Init();
             yield return null;
-            if (SoundManager.audioVolume != 0) Singleton.Instance.soundManager.AudioVolume();
-            else Singleton.Instance.soundManager.AllAudioVolume();
-            Singleton.Instance.soundManager.PlayBgm("NormalBGM");
+            if (SoundManager.audioVolume != 0) soundManager.AudioVolume();
+            else soundManager.AllAudioVolume();
+            soundManager.PlayBgm("NormalBGM");
             titleTyp = TitleTyp.TitleSelect;
         }
         private void Awake()
@@ -223,8 +225,8 @@ namespace StarProject.Title
 
         private void DebugUpdate()
         {
-            if (SoundManager.audioVolume != 0) Singleton.Instance.soundManager.AudioVolume();
-            else Singleton.Instance.soundManager.AllAudioVolume();
+            if (SoundManager.audioVolume != 0) soundManager.AudioVolume();
+            else soundManager.AllAudioVolume();
             // debugupdateへ
             if (Input.GetKey(KeyCode.Q) && Input.GetKey(KeyCode.W))
             {

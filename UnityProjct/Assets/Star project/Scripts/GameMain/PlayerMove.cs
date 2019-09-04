@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
-
+using StarProject.Gamemain;
 public class PlayerMove : MonoBehaviour
 {
     // 攻撃時設定数値
@@ -202,6 +202,9 @@ public class PlayerMove : MonoBehaviour
     // 壁ずり対策
     private const string rightProgressionControlLayerName = "RightProgressionControlObject";// 右入力規制用
     private const string leftProgressionControlLayerName = "LeftProgressionControlObject";// 左入力規制用
+
+    private SoundManager soundManager = null;
+    private GameSceneController gameSceneController = null;
     /// <summary>
     /// 初期化
     /// </summary>
@@ -214,8 +217,11 @@ public class PlayerMove : MonoBehaviour
         // Rigidbodyを取得します
         rigidbody = GetComponent<Rigidbody>();
         dragPower = rigidbody.drag;
+        // サウンドManagerの取得
+        soundManager = Singleton.Instance.soundManager;
+        gameSceneController = Singleton.Instance.gameSceneController;
         // チャージゲージをリセットします
-        Singleton.Instance.gameSceneController.StarChargeController.UpdateChargePoint(0,0);
+        gameSceneController.StarChargeController.UpdateChargePoint(0, 0);
         // ----初期化-----
         canDamage = false;
         isGround = false;
@@ -374,9 +380,9 @@ public class PlayerMove : MonoBehaviour
                 isGround = false;
                 if (!canDamage)
                 {
-                    Singleton.Instance.soundManager.StopPlayerSe();
+                    soundManager.StopPlayerSe();
                     // ジャンプ音再生
-                    Singleton.Instance.soundManager.PlayPlayerSe(jumpSeNum);
+                    soundManager.PlayPlayerSe(jumpSeNum);
                 }
             }
         }// LRどちらかのフラグが入っているとき
@@ -399,9 +405,9 @@ public class PlayerMove : MonoBehaviour
                     rightNotKey = false;
                     if (!canDamage)
                     {
-                        Singleton.Instance.soundManager.StopPlayerSe();
+                        soundManager.StopPlayerSe();
                         // ジャンプ音再生
-                        Singleton.Instance.soundManager.PlayPlayerSe(jumpSeNum);
+                        soundManager.PlayPlayerSe(jumpSeNum);
                     }
                 }
             }
@@ -425,9 +431,9 @@ public class PlayerMove : MonoBehaviour
                     leftNotKey = false;
                     if (!canDamage)
                     {
-                        Singleton.Instance.soundManager.StopPlayerSe();
+                        soundManager.StopPlayerSe();
                         // ジャンプ音再生
-                        Singleton.Instance.soundManager.PlayPlayerSe(jumpSeNum);
+                        soundManager.PlayPlayerSe(jumpSeNum);
                     }
                 }
             }
@@ -554,7 +560,7 @@ public class PlayerMove : MonoBehaviour
     /// <returns></returns>
     void ChargeAttackHand(float charge)
     {
-        var chargeMax = Singleton.Instance.gameSceneController.ChargePointManager.StarChildCountMax;
+        var chargeMax = gameSceneController.ChargePointManager.StarChildCountMax;
         var charaHand = gameObject.GetComponentInChildren<SkinnedMeshRenderer>();
         // チャージ量の+-量
         float chargeProportion = fastChargeAmountOfIncrease * 10;
@@ -691,7 +697,7 @@ public class PlayerMove : MonoBehaviour
     private IEnumerator OnGetStar()
     {
         // Singleton.Instance.soundManager.StopPlayerSe();
-        Singleton.Instance.soundManager.PlayPlayerSe(getStarSeNum);
+        soundManager.PlayPlayerSe(getStarSeNum);
         IsAcquisitionStar = false;
         GetStarEffectPlay(true);
         yield return new WaitForSeconds(1.5f);
@@ -879,13 +885,13 @@ public class PlayerMove : MonoBehaviour
         if (dx != 0 && !isChargeFlag && isGround)
         {
             CharacterAnimation("dash");
-            Singleton.Instance.soundManager.PlayPlayerSe(dashSeNum);
+            soundManager.PlayPlayerSe(dashSeNum);
             SandEffectPlay(true);
         }
         else if (!isChargeFlag && isGround)
         {
             CharacterAnimation("idol");
-            Singleton.Instance.soundManager.StopPlayerSe();
+            soundManager.StopPlayerSe();
             SandEffectPlay(false);
         }
         else if (!isGround)
@@ -909,7 +915,7 @@ public class PlayerMove : MonoBehaviour
             FreezePositionOll();
             isChargeFlag = true;
             // チャージSE再生
-            Singleton.Instance.soundManager.StopPlayerSe();
+            soundManager.StopPlayerSe();
             objState = ObjState.OnCharge;
         }
 
@@ -931,13 +937,13 @@ public class PlayerMove : MonoBehaviour
         if (dx != 0 && !isChargeFlag && isGround)
         {
             CharacterAnimation("dash");
-            Singleton.Instance.soundManager.PlayPlayerSe(dashSeNum);
+            soundManager.PlayPlayerSe(dashSeNum);
             SandEffectPlay(true);
         }
         else if (!isChargeFlag && isGround)
         {
             CharacterAnimation("idol");
-            Singleton.Instance.soundManager.StopPlayerSe();
+            soundManager.StopPlayerSe();
             SandEffectPlay(false);
         }
         else if (!isGround)
@@ -961,9 +967,9 @@ public class PlayerMove : MonoBehaviour
             ChargeEffectPlay(false, false);
             auraEfect.SetActive(false);
             // チャージゲージをリセットします
-            Singleton.Instance.gameSceneController.StarChargeController.UpdateChargePoint(0,0);
+            gameSceneController.StarChargeController.UpdateChargePoint(0,0);
             // チャージ中☆を戻します
-            Singleton.Instance.gameSceneController.StarChargeController.UpdateBigStarUI(chargeCount);
+            gameSceneController.StarChargeController.UpdateBigStarUI(chargeCount);
             chargeCount = 0;
             chargeNow = 0.0f;
             var rig = rigidbody;
@@ -1019,7 +1025,7 @@ public class PlayerMove : MonoBehaviour
             // チャージ
             if (Input.GetKey(KeyCode.T) || Input.GetButton("Charge"))
             {
-                Singleton.Instance.soundManager.PlayPlayerLoopSe(chargeSeNum);
+                soundManager.PlayPlayerLoopSe(chargeSeNum);
 
                 // チャージ中ジョイスティックが回転（動か）していた時の処理
                 var inLoadKey = CheckLoadKey(dx, dy);
@@ -1027,8 +1033,8 @@ public class PlayerMove : MonoBehaviour
                 var chargeUpGoodLuckValue = CheckAmountOfRotationPerSecond(inLoadKey);
                 // チャージ中
                 ChargeUp(starPointNormalization, inLoadKey, chargeUpGoodLuckValue, chargeCount);
-                Singleton.Instance.gameSceneController.StarChargeController.ChargeBigStar(chargeCount);
-                ChargeAttackHand(Singleton.Instance.gameSceneController.ChargePointManager.StarChildCount);
+                gameSceneController.StarChargeController.ChargeBigStar(chargeCount);
+                ChargeAttackHand(gameSceneController.ChargePointManager.StarChildCount);
                 // チャージエフェクト
                 if (chargeCount < 3)
                 {
@@ -1038,11 +1044,10 @@ public class PlayerMove : MonoBehaviour
                 {
                     ChargeEffectPlay(false, true);
                     auraEfect.SetActive(true);
-                    Debug.Log("chargeCount : " + chargeCount);
                     ChargeEfectScaleChange(chargeCount);
                 }
                 starChargeController.ChargeStarUIAnimationInt(chargeCount);
-                var chargeStarMax = Singleton.Instance.gameSceneController.ChargePointManager.StarChildCount / 10;
+                var chargeStarMax = gameSceneController.ChargePointManager.StarChildCount / 10;
                 if (chargeCount == chargeStarMax)
                 {
                     starChargeController.ChargeStarUIAnimationBool(true);
@@ -1062,17 +1067,17 @@ public class PlayerMove : MonoBehaviour
                     AttackPower = chargeCount * secondOffensivePower + foundationoffensivePower;
                 }
                 // チャージゲージをリセットします
-                Singleton.Instance.gameSceneController.StarChargeController.UpdateChargePoint(0,0);
+                gameSceneController.StarChargeController.UpdateChargePoint(0,0);
                 // チャージ中☆を戻します
-                Singleton.Instance.gameSceneController.StarChargeController.UpdateBigStarUI(chargeCount);
+                gameSceneController.StarChargeController.UpdateBigStarUI(chargeCount);
                 // 攻撃アニメーション
                 // チャージ回数が1回までなら通常パンチ
                 // チャージしたなら入力角度を計算して上下左右を判断して攻撃
                 if (chargeCount <= 1)
                 {
                     OnAttackMotion(1000);
-                    Singleton.Instance.soundManager.StopPlayerSe();
-                    Singleton.Instance.soundManager.PlayPlayerSe(punchSeNum);
+                    soundManager.StopPlayerSe();
+                    soundManager.PlayPlayerSe(punchSeNum);
 
                 }
                 else if (chargeCount >= 5)
@@ -1089,8 +1094,8 @@ public class PlayerMove : MonoBehaviour
                 else
                 {
                     OnAttackMotion(attack.OnAttack(new Vector2(dx, dy), this.gameObject));
-                    Singleton.Instance.soundManager.StopPlayerSe();
-                    Singleton.Instance.soundManager.PlayPlayerSe(chargeAttackSeNum);
+                    soundManager.StopPlayerSe();
+                    soundManager.PlayPlayerSe(chargeAttackSeNum);
                 }
                 ChargeReset(false, false);
                 auraEfect.SetActive(false);
@@ -1105,7 +1110,7 @@ public class PlayerMove : MonoBehaviour
             // チャージ
             if (Input.GetKey(KeyCode.T) || Input.GetButton("Charge"))
             {
-                Singleton.Instance.soundManager.PlayPlayerLoopSe(chargeSeNum);
+                soundManager.PlayPlayerLoopSe(chargeSeNum);
 
                 // チャージ中ジョイスティックが回転（動か）していた時の処理
                 var inLoadKey = CheckLoadKey(dx, dy);
@@ -1113,8 +1118,8 @@ public class PlayerMove : MonoBehaviour
                 var chargeUpGoodLuckValue = CheckAmountOfRotationPerSecond(inLoadKey);
                 // チャージ中
                 ChargeUp(starPointNormalization, inLoadKey, chargeUpGoodLuckValue, chargeCount);
-                Singleton.Instance.gameSceneController.StarChargeController.ChargeBigStar(chargeCount);
-                ChargeAttackHand(Singleton.Instance.gameSceneController.ChargePointManager.StarChildCount);
+                gameSceneController.StarChargeController.ChargeBigStar(chargeCount);
+                ChargeAttackHand(gameSceneController.ChargePointManager.StarChildCount);
                 // チャージエフェクト
                 if (chargeCount < 3)
                 {
@@ -1126,7 +1131,7 @@ public class PlayerMove : MonoBehaviour
                     ChargeEffectPlay(false, true);
                 }
                 starChargeController.ChargeStarUIAnimationInt(chargeCount);
-                var chargeStarMax = Singleton.Instance.gameSceneController.ChargePointManager.StarChildCount / 10;
+                var chargeStarMax = gameSceneController.ChargePointManager.StarChildCount / 10;
                 if (chargeCount == chargeStarMax)
                 {
                     starChargeController.ChargeStarUIAnimationBool(true);
@@ -1174,17 +1179,17 @@ public class PlayerMove : MonoBehaviour
             AttackPower = chargeCount * secondOffensivePower + foundationoffensivePower;
         }
         // チャージゲージをリセットします
-        Singleton.Instance.gameSceneController.StarChargeController.UpdateChargePoint(0,0);
+        gameSceneController.StarChargeController.UpdateChargePoint(0,0);
         // チャージ中☆を戻します
-        Singleton.Instance.gameSceneController.StarChargeController.UpdateBigStarUI(chargeCount);
+        gameSceneController.StarChargeController.UpdateBigStarUI(chargeCount);
         // 攻撃アニメーション
         // チャージ回数が1回までなら通常パンチ
         // チャージしたなら入力角度を計算して上下左右を判断して攻撃
         if (chargeCount <= 1)
         {
             OnAttackMotion(1000);
-            Singleton.Instance.soundManager.StopPlayerSe();
-            Singleton.Instance.soundManager.PlayPlayerSe(punchSeNum);
+            soundManager.StopPlayerSe();
+            soundManager.PlayPlayerSe(punchSeNum);
 
         }
         else if (chargeCount >= 5)
@@ -1195,14 +1200,12 @@ public class PlayerMove : MonoBehaviour
             ChargeReset(false, true);
             objState = ObjState.ChargeSpecial;
             return;
-            // Singleton.Instance.soundManager.StopPlayerSe();
-            // Singleton.Instance.soundManager.PlayPlayerSe(punchSeNum);
         }
         else
         {
             OnAttackMotion(attack.OnAttack(new Vector2(dx, dy), this.gameObject));
-            Singleton.Instance.soundManager.StopPlayerSe();
-            Singleton.Instance.soundManager.PlayPlayerSe(chargeAttackSeNum);
+            soundManager.StopPlayerSe();
+            soundManager.PlayPlayerSe(chargeAttackSeNum);
         }
         ChargeReset(false, false);
         objState = ObjState.Attack;
@@ -1233,8 +1236,8 @@ public class PlayerMove : MonoBehaviour
     /// <param name="ChargeAmountOfIncrease"></param>
     void ChargeUp(float ChargeAmountOfIncrease, bool checkChargeUp, int chargeUpGoodLuckValue,int chargeCount)
     {
-        var starChargeController = Singleton.Instance.gameSceneController.StarChargeController;
-        starChargeController.UpdateChargePoint(OnCharge(Singleton.Instance.gameSceneController.ChargePointManager.StarChildCount / ChargeAmountOfIncrease, checkChargeUp, chargeUpGoodLuckValue), chargeCount);
+        var starChargeController = gameSceneController.StarChargeController;
+        starChargeController.UpdateChargePoint(OnCharge(gameSceneController.ChargePointManager.StarChildCount / ChargeAmountOfIncrease, checkChargeUp, chargeUpGoodLuckValue), chargeCount);
     }
     /// <summary>
     /// 攻撃時のキャラクター更新
@@ -1348,7 +1351,7 @@ public class PlayerMove : MonoBehaviour
         CharacterAnimation("GameOver");
 
         yield return new WaitForSeconds(1.5f);
-        Singleton.Instance.gameSceneController.isGameOver = true;
+        gameSceneController.isGameOver = true;
     }
     /// <summary>
     /// 攻撃時キャラクターを停止する
@@ -1430,8 +1433,8 @@ public class PlayerMove : MonoBehaviour
         SetSpecal();
         checkSpecial = false;
         OnAttackMotion(specialAttackNum);
-        Singleton.Instance.soundManager.StopPlayerSe();
-        Singleton.Instance.soundManager.PlayPlayerSe(chargeAttackSeNum);
+        soundManager.StopPlayerSe();
+        soundManager.PlayPlayerSe(chargeAttackSeNum);
         objState = ObjState.Attack;
     }
     /// <summary>

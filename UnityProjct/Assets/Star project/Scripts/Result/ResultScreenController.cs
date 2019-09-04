@@ -100,6 +100,7 @@ namespace StarProject.Result
         [SerializeField] private bool debug;
         [SerializeField] private int debugStage = 3;
 
+        private SoundManager soundManager = null;
         IEnumerator Start()
         {
             fadeImage = fadeImageObj.GetComponent<Image>();
@@ -123,9 +124,10 @@ namespace StarProject.Result
             {
                 GameSceneController.stageNum = debugStage;
             }
-            if (SoundManager.audioVolume != 0) Singleton.Instance.soundManager.AudioVolume();
-            else Singleton.Instance.soundManager.AllAudioVolume();
-            Singleton.Instance.soundManager.PlayBgm("NormalBGM");
+            soundManager = Singleton.Instance.soundManager;
+            if (SoundManager.audioVolume != 0) soundManager.AudioVolume();
+            else soundManager.AllAudioVolume();
+            soundManager.PlayBgm("NormalBGM");
         }
 
         void Update()

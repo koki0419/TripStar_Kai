@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using StarProject.Gamemain;
 
 public class StarController : MonoBehaviour
 {
@@ -11,6 +12,9 @@ public class StarController : MonoBehaviour
     [SerializeField] private Material bronzeStarMaterial = null;// 銅色マテリアル   ☆獲得ポイント1
 
     [SerializeField] private Renderer starRenderer = null;
+    private GameSceneController gameSceneController = null;
+    private ChargePointManager chargePointManager = null;
+    private StarSpawn starSpawn = null;
     // ------------クラスの宣言----------------------
     [SerializeField] private PlayerMove playerMove;
     [SerializeField] private StarGenerator starGenerator;
@@ -29,6 +33,8 @@ public class StarController : MonoBehaviour
     private StarSponType starSponType = StarSponType.None;
     private const string gameOverLineLayerName = "GameOverObj";
 
+    [SerializeField] private bool isSpecial = false;
+
     /// <summary>
     /// データをセットします
     /// </summary>
@@ -39,7 +45,7 @@ public class StarController : MonoBehaviour
     public void SetStarDatas(StarGenerator starGenerator, PlayerMove playermove, string type, int point)
     {
         this.starGenerator = starGenerator;
-        playerMove = playermove;
+        this.playerMove = playermove;
         starPoint = point;
         if (type == "ObstacleSpawn")
         {
@@ -64,10 +70,18 @@ public class StarController : MonoBehaviour
         {
             starRenderer.material = bronzeStarMaterial;
         }
+        gameSceneController = Singleton.Instance.gameSceneController;
+        chargePointManager = gameSceneController.ChargePointManager;
+        starSpawn = Singleton.Instance.starSpawn;
+        isSpecial = false;
     }
 
     private void Update()
     {
+        if (isSpecial)
+        {
+            Init();
+        }
         CheckDeleteStar();
     }
     /// <summary>
@@ -96,17 +110,17 @@ public class StarController : MonoBehaviour
     {
         if (CheckPlayerHit(other))
         {
-            Singleton.Instance.starSpawn.CreatStarEffect(transform.localPosition);
+            starSpawn.CreatStarEffect(transform.localPosition);
 
             playerMove.IsAcquisitionStar = true;
             // 複数個の時とアニメーション変える
-            Singleton.Instance.gameSceneController.ChargePointManager.temporaryStorage += starPoint;
+            chargePointManager.temporaryStorage += starPoint;
             var isMultipleAcquisition = false;
             if(starPoint > 1)
             {
                 isMultipleAcquisition = true;
             }
-            Singleton.Instance.gameSceneController.isMultipleAcquisition = isMultipleAcquisition;
+            gameSceneController.isMultipleAcquisition = isMultipleAcquisition;
             // 「SpecifiedSpawn」タイプのみ「activeCount--」を行っている
             switch (starSponType)
             {

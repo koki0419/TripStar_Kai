@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using StarProject.Gamemain;
 
 [Serializable]
 public class ChargePointManager
@@ -30,7 +31,7 @@ public class ChargePointManager
     {
         set; get;
     }
-
+    private GameSceneController gameSceneController = null;
     public void Init()
     {
         //チャージポイント
@@ -39,6 +40,7 @@ public class ChargePointManager
         StarChildCountSkip = 0;
         StarChildCountMax = 50;
         IsSkipStar = false;
+        gameSceneController = Singleton.Instance.gameSceneController;
     }
 
     public void OnUpdate()
@@ -57,7 +59,7 @@ public class ChargePointManager
     private float checkTime = 0.0f;
     private void GetStarCountUp()
     {
-        var isMultipleAcquisition = Singleton.Instance.gameSceneController.isMultipleAcquisition;
+        var isMultipleAcquisition = gameSceneController.isMultipleAcquisition;
         checkTime += Time.deltaTime;
         if (isMultipleAcquisition)
         {
@@ -66,7 +68,7 @@ public class ChargePointManager
                 StarChildCount++;
                 temporaryStorage--;
                 checkTime = 0.0f;
-                Singleton.Instance.gameSceneController.StarChargeController.UpdateDisplayAcquisitionSpriteStar(StarChildCount);
+                gameSceneController.StarChargeController.UpdateDisplayAcquisitionSpriteStar(StarChildCount);
                 return;
             }
         }
@@ -77,7 +79,7 @@ public class ChargePointManager
                 StarChildCount++;
                 temporaryStorage--;
                 checkTime = 0.0f;
-                Singleton.Instance.gameSceneController.StarChargeController.UpdateDisplayAcquisitionSpriteStar(StarChildCount);
+                gameSceneController.StarChargeController.UpdateDisplayAcquisitionSpriteStar(StarChildCount);
                 return;
             }
         }

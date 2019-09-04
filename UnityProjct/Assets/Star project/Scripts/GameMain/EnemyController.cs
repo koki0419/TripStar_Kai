@@ -36,6 +36,7 @@ public class EnemyController : MonoBehaviour
         AirMoveEnemy,// 空飛ぶエネミー
     }
     private EnemyTyp enemyTyp;
+    private GameSceneController gameSceneController = null;
     // エネミーの『ObstacleManager』参照
     private ObstacleManager obstacleManager = null;
     // プレイヤーポジション
@@ -151,6 +152,7 @@ public class EnemyController : MonoBehaviour
         attackTime = 0.0f;
         // Standbyコルーチンを発動
         StartCoroutine(standDelayTime());
+        gameSceneController = Singleton.Instance.gameSceneController;
     }
     /// <summary>
     /// Standbyコルーチン
@@ -414,7 +416,7 @@ public class EnemyController : MonoBehaviour
     /// </summary>
     bool CheckIsPlaying()
     {
-        if (Singleton.Instance.gameSceneController.gameMainState == StarProject.Gamemain.GameSceneController.GameMainState.Play)
+        if (gameSceneController.gameMainState == GameSceneController.GameMainState.Play)
             return true;
         else return false;
 

@@ -12,6 +12,7 @@ public class ObstacleManager : MonoBehaviour
     private PlayerMove playerMove;
     private ObstacleSpawn obstacleSpawn;
     [SerializeField] private EnemyController enemyController;
+    private SoundManager soundManager = null;
     // -------------数値用変数--------------------------------
     // 生成する星の数
     private int spawnStarNum = 0;
@@ -65,6 +66,7 @@ public class ObstacleManager : MonoBehaviour
         gameObject.layer = LayerMask.NameToLayer(normalLayer);
         moaiRenderer.enabled = true;
         isBreak = false;
+        soundManager = Singleton.Instance.soundManager;
     }
     private void Update()
     {
@@ -89,7 +91,6 @@ public class ObstacleManager : MonoBehaviour
         if (isBreak)
         {
             isBreak = false;
-            Debug.Log("破壊されず破壊された");
             ObjectBreak();
         }
         // ダメージを受けたと時の処理
@@ -147,8 +148,8 @@ public class ObstacleManager : MonoBehaviour
     {
         obstaclesHeadObj.SetActive(false);
         IsDestroyed = true;
-        Singleton.Instance.soundManager.StopObstaclesSe();
-        Singleton.Instance.soundManager.PlayObstaclesSe(breakSeNum);
+        soundManager.StopObstaclesSe();
+        soundManager.PlayObstaclesSe(breakSeNum);
         //壊れたときにキャラクターと当たり判定を持たなくします
         //レイヤーの変更
         //レイヤーはやりすぎか？コライダー消去の方がよけれは修正要

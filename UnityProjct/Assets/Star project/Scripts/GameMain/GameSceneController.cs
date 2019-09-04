@@ -41,6 +41,7 @@ namespace StarProject.Gamemain
         [SerializeField] private GameObject mainCamera = null;
         [SerializeField] private GameObject openingCamera = null;
         private GameObject fastTargetObj = null;
+        private SoundManager soundManager = null;
         // ------------クラスの宣言----------------------
         [SerializeField] private PlayerMove playerMove = null;
         public PlayerMove PlayerMove
@@ -152,6 +153,7 @@ namespace StarProject.Gamemain
             {
                 oldSystem = true;
             }
+            soundManager = Singleton.Instance.soundManager;
             ResultScreenController.all_damage = 0;
         }
         // Start()より早く処理する
@@ -178,9 +180,9 @@ namespace StarProject.Gamemain
             yield return null;
             yield return uiManager.FadeInEnumerator();
             gameMainState = GameMainState.Opening;
-            if (SoundManager.audioVolume != 0) Singleton.Instance.soundManager.AudioVolume();
-            else Singleton.Instance.soundManager.AllAudioVolume();
-            Singleton.Instance.soundManager.PlayBgm("NormalBGM");
+            if (SoundManager.audioVolume != 0) soundManager.AudioVolume();
+            else soundManager.AllAudioVolume();
+            soundManager.PlayBgm("NormalBGM");
         }
         // 本体のアップデート
         void Update()
@@ -456,13 +458,13 @@ namespace StarProject.Gamemain
             // ゲームオーバー
             if (isGameOver)
             {
-                Singleton.Instance.soundManager.PlayJingle("GameOver");
+                soundManager.PlayJingle("GameOver");
                 gameMainState = GameMainState.GameOver;
             }
             // ゲームクリア
             if (isGameClear)
             {
-                Singleton.Instance.soundManager.PlayJingle("GameClear");
+                soundManager.PlayJingle("GameClear");
                 gameClearMovie = true;
                 gameMainState = GameMainState.GameClear;
             }

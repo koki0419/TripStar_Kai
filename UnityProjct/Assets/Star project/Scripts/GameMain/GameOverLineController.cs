@@ -35,6 +35,7 @@ public class GameOverLineController : MonoBehaviour
     // 攻撃エリアオブジェクトを取得
     [SerializeField] private GameObject attackRange_1_2 = null;
     [SerializeField] private GameObject attackRange_1_4 = null;
+    private SoundManager soundManager = null;
     /// <summary>
     /// 初期化
     /// </summary>
@@ -45,6 +46,7 @@ public class GameOverLineController : MonoBehaviour
         SpotLightView(false);
         ViewObj(attackRange_1_2, false);
         ViewObj(attackRange_1_4, false);
+        soundManager = Singleton.Instance.soundManager;
 
     }
     /// <summary>
@@ -66,8 +68,8 @@ public class GameOverLineController : MonoBehaviour
     /// </summary>
     public void PlayMoaiAwakeningSE()
     {
-        Singleton.Instance.soundManager.StopPlayerSe();
-        Singleton.Instance.soundManager.PlayPlayerSe(awakeningSeNum);
+        soundManager.StopPlayerSe();
+        soundManager.PlayPlayerSe(awakeningSeNum);
     }
     /// <summary>
     /// 移動update
