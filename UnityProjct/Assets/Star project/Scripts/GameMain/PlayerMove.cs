@@ -902,7 +902,8 @@ public class PlayerMove : MonoBehaviour
         if (dx < 0)
         {
             dx = -1.0f;
-        }else if(dx > 0)
+        }
+        else if (dx > 0)
         {
             dx = 1.0f;
         }
@@ -967,7 +968,7 @@ public class PlayerMove : MonoBehaviour
             ChargeEffectPlay(false, false);
             auraEfect.SetActive(false);
             // チャージゲージをリセットします
-            gameSceneController.StarChargeController.UpdateChargePoint(0,0);
+            gameSceneController.StarChargeController.UpdateChargePoint(0, 0);
             // チャージ中☆を戻します
             gameSceneController.StarChargeController.UpdateBigStarUI(chargeCount);
             chargeCount = 0;
@@ -1018,8 +1019,6 @@ public class PlayerMove : MonoBehaviour
         float dx = Input.GetAxis("Horizontal");
         if (oldSystem)
         {
-            DirectionMove(dx);
-
             CharacterAnimation("charge");
             // 通常時
             // チャージ
@@ -1067,7 +1066,7 @@ public class PlayerMove : MonoBehaviour
                     AttackPower = chargeCount * secondOffensivePower + foundationoffensivePower;
                 }
                 // チャージゲージをリセットします
-                gameSceneController.StarChargeController.UpdateChargePoint(0,0);
+                gameSceneController.StarChargeController.UpdateChargePoint(0, 0);
                 // チャージ中☆を戻します
                 gameSceneController.StarChargeController.UpdateBigStarUI(chargeCount);
                 // 攻撃アニメーション
@@ -1088,8 +1087,6 @@ public class PlayerMove : MonoBehaviour
                     ChargeReset(false, true);
                     objState = ObjState.ChargeSpecial;
                     return;
-                    // Singleton.Instance.soundManager.StopPlayerSe();
-                    // Singleton.Instance.soundManager.PlayPlayerSe(punchSeNum);
                 }
                 else
                 {
@@ -1165,7 +1162,7 @@ public class PlayerMove : MonoBehaviour
             else objState = ObjState.NotAttackMode;
         }
     }
-    void NewAttack(float dx,float dy)
+    void NewAttack(float dx, float dy)
     {
         FreezePositionOll();
         if (chargeCount < 3)
@@ -1179,7 +1176,7 @@ public class PlayerMove : MonoBehaviour
             AttackPower = chargeCount * secondOffensivePower + foundationoffensivePower;
         }
         // チャージゲージをリセットします
-        gameSceneController.StarChargeController.UpdateChargePoint(0,0);
+        gameSceneController.StarChargeController.UpdateChargePoint(0, 0);
         // チャージ中☆を戻します
         gameSceneController.StarChargeController.UpdateBigStarUI(chargeCount);
         // 攻撃アニメーション
@@ -1234,7 +1231,7 @@ public class PlayerMove : MonoBehaviour
     /// チャージポイントをUpする
     /// </summary>
     /// <param name="ChargeAmountOfIncrease"></param>
-    void ChargeUp(float ChargeAmountOfIncrease, bool checkChargeUp, int chargeUpGoodLuckValue,int chargeCount)
+    void ChargeUp(float ChargeAmountOfIncrease, bool checkChargeUp, int chargeUpGoodLuckValue, int chargeCount)
     {
         var starChargeController = gameSceneController.StarChargeController;
         starChargeController.UpdateChargePoint(OnCharge(gameSceneController.ChargePointManager.StarChildCount / ChargeAmountOfIncrease, checkChargeUp, chargeUpGoodLuckValue), chargeCount);
@@ -1569,7 +1566,7 @@ public class PlayerMove : MonoBehaviour
                 efectScaleSize = charge_5_EffectSize;
                 break;
         }
-        targetScale = new Vector3( efectScaleSize, efectScaleSize, efectScaleSize);
+        targetScale = new Vector3(efectScaleSize, efectScaleSize, efectScaleSize);
         auraEfect.transform.localScale = targetScale;
     }
 }
